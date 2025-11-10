@@ -26,5 +26,21 @@
             }
             return false;
         }
+
+        public static void MoveZeroes(int[] nums)
+        {
+            var i = 0;
+            for (var j = 0; j < nums.Length; j++)
+            {
+                if (nums[j] != 0)
+                {
+                    // swap the numbers
+                    var temp = nums[i];
+                    nums[i] = nums[j];
+                    nums[j] = temp;
+                    i++;
+                }
+            }
+        }
     }
 }
