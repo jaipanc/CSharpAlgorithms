@@ -75,7 +75,7 @@
             var result = new List<IList<int>>();
             int n = nums.Length;
 
-            for (int i = 0; i < n - 2; i++)
+            for (int i = 0; i < n - 2; i++) // we need at least three indices for a triplet so n-2
             {
                 // Skip duplicate values for i
                 if (i > 0 && nums[i] == nums[i - 1])
@@ -90,7 +90,7 @@
 
                     if (sum == 0)
                     {
-                        result.Add(new List<int> { nums[i], nums[left], nums[right] });
+                        result.Add([nums[i], nums[left], nums[right]]);
 
                         // Move left pointer to next unique number
                         while (left < right && nums[left] == nums[left + 1]) left++;
