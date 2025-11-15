@@ -27,5 +27,34 @@ namespace Leetcode15Patterns
             }
             return prefixSums[b + 1] - prefixSums[a];
         }
+
+        // Subarray Sum Equals K
+        public static int SubarraySumEqualsK(int[] nums, int k)
+        {
+            int count = 0;
+            int n = nums.Length;
+            Dictionary<int, int> prefixSumCounts = new()
+            {
+                [0] = 1 // Base case: one way to have a prefix sum of 0
+            };
+            int currentPrefixSum = 0;
+            for (int i = 0; i < n; i++)
+            {
+                currentPrefixSum += nums[i];
+                if (prefixSumCounts.ContainsKey(currentPrefixSum - k))
+                {
+                    count += prefixSumCounts[currentPrefixSum - k];
+                }
+                if (prefixSumCounts.TryGetValue(currentPrefixSum, out int value))
+                {
+                    prefixSumCounts[currentPrefixSum] = ++value;
+                }
+                else
+                {
+                    prefixSumCounts[currentPrefixSum] = 1;
+                }
+            }
+            return count;
+        }
     }
 }
