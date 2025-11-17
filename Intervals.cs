@@ -2,11 +2,12 @@
 {
     static public class Intervals
     {
+
         public static bool CanAttendMeetings(int[][] intervals)
         {
             if (intervals is null || intervals.Length == 0)
             {
-                return true;
+                return false;
             }
 
             // Sort intervals based on start time
@@ -22,5 +23,85 @@
             return true;
         }
 
+        public static int[][] MergeIntervals(int[][] intervals)
+        {
+            if (intervals is null || intervals.Length == 0)
+            {
+                return [];
+            }
+            // Sort intervals based on start time
+            Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+            var merged = new List<int[]>
+            {
+                intervals[0]
+            };
+            for (int i = 1; i < intervals.Length; i++)
+            {
+                var lastMerged = merged[^1];
+                // If the current interval overlaps with the last merged interval, merge them
+                if (intervals[i][0] <= lastMerged[1])
+                {
+                    lastMerged[1] = Math.Max(lastMerged[1], intervals[i][1]);
+                }
+                else
+                {
+                    merged.Add(intervals[i]);
+                }
+            }
+            return [.. merged];
+        }
+
+        public static int[][] InsertInterval(int[][] intervals, int[] newInterval)
+        {
+            var result = new List<int[]>();
+            int i = 0;
+            // Add all intervals ending before newInterval starts
+            while (i < intervals.Length && intervals[i][1] < newInterval[0])
+            {
+                result.Add(intervals[i]);
+                i++;
+            }
+            // Merge overlapping intervals
+            while (i < intervals.Length && intervals[i][0] <= newInterval[1])
+            {
+                newInterval[0] = Math.Min(newInterval[0], intervals[i][0]);
+                newInterval[1] = Math.Max(newInterval[1], intervals[i][1]);
+                i++;
+            }
+            result.Add(newInterval);
+            // Add remaining intervals
+            while (i < intervals.Length)
+            {
+                result.Add(intervals[i]);
+                i++;
+            }
+            return [.. result];
+        }
+
+        public static int[][] IntervalIntersection(int[][] firstList, int[][] secondList)
+        {
+            var result = new List<int[]>();
+            int i = 0, j = 0;
+            while (i < firstList.Length && j < secondList.Length)
+            {
+                int startMax = Math.Max(firstList[i][0], secondList[j][0]);
+                int endMin = Math.Min(firstList[i][1], secondList[j][1]);
+                // Check if there is an intersection
+                if (startMax <= endMin)
+                {
+                    result.Add(new int[] { startMax, endMin });
+                }
+                // Move to the next interval in the list that ends first
+                if (firstList[i][1] < secondList[j][1])
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            return [.. result];
+        }
     }
 }
