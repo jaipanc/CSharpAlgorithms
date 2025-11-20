@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.VisualBasic.FileIO;
+
 namespace Leetcode15Patterns
 {
     public class LinkedList
@@ -19,6 +21,27 @@ namespace Leetcode15Patterns
                 current = current.next;
             }
             return length;
+        }
+
+        public ListNode DeleteNode(ListNode head, int n)
+        {
+            ListNode dummy = new(0, head);
+            ListNode first = dummy;
+            ListNode second = dummy;
+            // Move first n+1 steps ahead
+            for (int i = 0; i <= n; i++)
+            {
+                first = first.next;
+            }
+            // Move both pointers until first reaches the end
+            while (first != null)
+            {
+                first = first.next;
+                second = second.next;
+            }
+            // Delete the nth node from the end
+            second.next = second.next.next;
+            return dummy.next;
         }
     }
 }
