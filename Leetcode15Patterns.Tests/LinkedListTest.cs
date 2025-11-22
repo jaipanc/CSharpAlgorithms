@@ -26,5 +26,21 @@
             }
             Assert.Null(current); // Ensure the list ends correctly
         }
+
+        [Fact]
+        public void TestGetLength()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(1,
+                        new LinkedList.ListNode(2,
+                        new LinkedList.ListNode(3,
+                        new LinkedList.ListNode(4,
+                        new LinkedList.ListNode(5)))));
+            // Act
+            int length = linkedList.GetLength(head);
+            // Assert
+            Assert.Equal(5, length);
+        }
     }
 }
