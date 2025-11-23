@@ -42,5 +42,22 @@
             // Assert
             Assert.Equal(5, length);
         }
+
+        [Fact]
+        public void TestPrintList()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(1,
+                        new LinkedList.ListNode(2,
+                        new LinkedList.ListNode(3)));
+            using var sw = new StringWriter();
+            Console.SetOut(sw);
+            // Act
+            linkedList.PrintList(head);
+            // Assert
+            var expectedOutput = "1 -> 2 -> 3 -> null" + Environment.NewLine;
+            Assert.Equal(expectedOutput, sw.ToString());
+        }
     }
 }
