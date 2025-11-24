@@ -17,10 +17,10 @@
         }
 
         [Fact]
-        public void CanAttendMeetings_ReturnsTrue_ForNullOrEmpty()
+        public void CanAttendMeetings_ReturnsFalse_ForNullOrEmpty()
         {
-            Assert.True(Intervals.CanAttendMeetings(null));
-            Assert.True(Intervals.CanAttendMeetings([]));
+            Assert.False(Intervals.CanAttendMeetings(null));
+            Assert.False(Intervals.CanAttendMeetings([]));
         }
 
         [Fact]
