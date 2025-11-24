@@ -59,5 +59,25 @@
             var expectedOutput = "1 -> 2 -> 3 -> null" + Environment.NewLine;
             Assert.Equal(expectedOutput, sw.ToString());
         }
+
+        [Fact]
+        public void TestHasCycle()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(3)
+            {
+                next = new LinkedList.ListNode(2)
+            };
+            head.next.next = new LinkedList.ListNode(0)
+            {
+                next = new LinkedList.ListNode(-4)
+            };
+            head.next.next.next.next = head.next; // Create a cycle
+            // Act
+            bool hasCycle = linkedList.HasCycle(head);
+            // Assert
+            Assert.True(hasCycle);
+        }
     }
 }
