@@ -54,5 +54,30 @@ namespace Leetcode15Patterns
             }
             Console.WriteLine("null");
         }
+
+        public void PrintListRecursive(ListNode head)
+        {
+            if (head == null)
+            {
+                Console.WriteLine("null");
+                return;
+            }
+            Console.Write(head.val + " -> ");
+            PrintListRecursive(head.next);
+        }
+
+        public bool HasCycle(ListNode head)
+        {
+            if (head == null) return false;
+            ListNode slow = head;
+            ListNode fast = head;
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+                if (slow == fast) return true;
+            }
+            return false;
+        }
     }
 }
