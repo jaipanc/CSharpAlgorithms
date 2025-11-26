@@ -118,5 +118,22 @@
             }
             Assert.Null(current); // Ensure the list ends correctly
         }
+
+        [Fact]
+        public void TestPrintListRecursive()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(1,
+                        new LinkedList.ListNode(2,
+                        new LinkedList.ListNode(3)));
+            using var sw = new StringWriter();
+            Console.SetOut(sw);
+            // Act
+            linkedList.PrintListRecursive(head);
+            // Assert
+            var expectedOutput = "1 -> 2 -> 3 -> null" + Environment.NewLine;
+            Assert.Equal(expectedOutput, sw.ToString());
+        }
     }
 }
