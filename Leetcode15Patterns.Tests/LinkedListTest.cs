@@ -135,5 +135,29 @@
             var expectedOutput = "1 -> 2 -> 3 -> null" + Environment.NewLine;
             Assert.Equal(expectedOutput, sw.ToString());
         }
+
+        [Fact]
+        public void TestReverseList()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(1,
+                        new LinkedList.ListNode(2,
+                        new LinkedList.ListNode(3,
+                        new LinkedList.ListNode(4,
+                        new LinkedList.ListNode(5)))));
+            // Act
+            var reversedHead = linkedList.ReverseList(head);
+            // Assert
+            var expectedValues = new List<int> { 5, 4, 3, 2, 1 };
+            var current = reversedHead;
+            foreach (var expectedValue in expectedValues)
+            {
+                Assert.NotNull(current);
+                Assert.Equal(expectedValue, current.val);
+                current = current.next;
+            }
+            Assert.Null(current); // Ensure the list ends correctly
+        }
     }
 }
