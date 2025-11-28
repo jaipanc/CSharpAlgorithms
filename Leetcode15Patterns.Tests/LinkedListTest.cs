@@ -197,5 +197,18 @@
             // Assert
             Assert.Equal(0, length);
         }
+
+        [Fact]
+        public void TestDeleteNodeSingleElement()
+        {
+            // Arrange
+            var linkedList = new LinkedList();
+            var head = new LinkedList.ListNode(1);
+            int n = 1;
+            // Act
+            var newHead = linkedList.DeleteNode(head, n);
+            // Assert
+            Assert.Null(newHead); // The list should be empty after deletion
+        }
     }
 }
