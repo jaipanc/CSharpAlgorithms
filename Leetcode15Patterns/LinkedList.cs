@@ -129,5 +129,23 @@ namespace Leetcode15Patterns
             }
             return slow;
         }
+
+        public ListNode RemoveElements(ListNode head, int val)
+        {
+            ListNode dummy = new(0, head);
+            ListNode current = dummy;
+            while (current.next != null)
+            {
+                if (current.next.val == val)
+                {
+                    current.next = current.next.next;
+                }
+                else
+                {
+                    current = current.next;
+                }
+            }
+            return dummy.next;
+        }
     }
 }
