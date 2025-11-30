@@ -27,29 +27,6 @@
             return false;
         }
 
-        public static int[] TwoSum(int[] nums, int target)
-        {
-            var left = 0;
-            var right = nums.Length - 1;
-            while (left < right)
-            {
-                var currentSum = nums[left] + nums[right];
-                if (currentSum == target)
-                {
-                    return [left + 1, right + 1]; // 1-based indexing
-                }
-                if (currentSum < target)
-                {
-                    left++;
-                }
-                else
-                {
-                    right--;
-                }
-            }
-            return [-1, -1]; // If no solution is found
-        }
-
         public static void MoveZeroes(int[] nums)
         {
             var i = 0;
