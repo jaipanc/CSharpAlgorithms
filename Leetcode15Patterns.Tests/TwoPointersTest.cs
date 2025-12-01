@@ -10,6 +10,15 @@
             Assert.True(TwoPointers.HasPairWithSum(arr, targetSum));
         }
 
+        [Theory]
+        [InlineData(new int[] { 1, 8, 6, 2, 5, 4, 8, 3, 7 }, 49)]
+        [InlineData(new int[] { 1, 1 }, 1)]
+        public void MaxAreaTest(int[] heights, int expectedArea)
+        {
+            var actualArea = TwoPointers.maxArea(heights);
+            Assert.Equal(expectedArea, actualArea);
+        }
+
         [Fact]
         public void HasPairWithSum_ReturnsFalse_WhenPairDoesNotExist()
         {
