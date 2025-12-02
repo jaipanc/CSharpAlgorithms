@@ -145,9 +145,10 @@ namespace Leetcode15Patterns
         //LC#611 Valid Triangle Numbers 
         public static int ValidTraingleNumbers(int[] nums)
         {
+            Array.Sort(nums);
             int count = 0;
 
-            for (int j = nums.Length - 1; j >= 3; j--)
+            for (int j = nums.Length - 1; j >= 2; j--)
             {
                 var left = 0;
                 var right = j - 1;
