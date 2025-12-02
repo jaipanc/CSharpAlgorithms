@@ -43,5 +43,13 @@
             int[] sortedResult = TwoPointers.SortColors(colors);
             Assert.Equal(sortedColors, sortedResult);
         }
+
+        [Theory]
+        [InlineData(new int[] { 4, 2, 3, 4 }, 4)]
+        public void TestValidTriangleNumbers(int[] nums, int tripletCount)
+        {
+            var resultCount = TwoPointers.ValidTraingleNumbers(nums);
+            Assert.Equal(tripletCount, resultCount);
+        }
     }
 }
