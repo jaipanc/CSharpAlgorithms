@@ -2,12 +2,12 @@
 {
     public class TwoPointersTest
     {
-        [Fact]
-        public void HasPairWithSum_ReturnsTrue_WhenPairExists()
+        [Theory]
+        [InlineData(new int[] { 10, 15, 3, 7 }, 17, true)]
+        [InlineData(new int[] { 1, 2, 3, 4 }, 8, false)]
+        public void TestHasPairWithSum(int[] arr, int targetSum, bool hasPair)
         {
-            int[] arr = [10, 15, 3, 7];
-            int targetSum = 17;
-            Assert.True(TwoPointers.HasPairWithSum(arr, targetSum));
+            Assert.Equal(hasPair, TwoPointers.HasPairWithSum(arr, targetSum));
         }
 
         [Theory]
@@ -17,14 +17,6 @@
         {
             var actualArea = TwoPointers.maxArea(heights);
             Assert.Equal(expectedArea, actualArea);
-        }
-
-        [Fact]
-        public void HasPairWithSum_ReturnsFalse_WhenPairDoesNotExist()
-        {
-            int[] arr = [1, 2, 3, 4];
-            int targetSum = 8;
-            Assert.False(TwoPointers.HasPairWithSum(arr, targetSum));
         }
 
         [Fact]
