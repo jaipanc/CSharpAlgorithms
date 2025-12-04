@@ -215,29 +215,17 @@ namespace Leetcode15Patterns
 
             while (i < j)
             {
-                if (leftBar < rightBar)
+                while (i < j)
                 {
-                    i++;
-                    if (heights[i] >= leftBar)
+                    if (leftBar < rightBar)
                     {
-                        leftBar = heights[i];
+                        i++;
+                        _ = (heights[i] >= leftBar) ? (leftBar = heights[i]) : (count += leftBar - heights[i]);
                     }
                     else
                     {
-                        count += leftBar - heights[i];
-                    }
-
-                }
-                else
-                {
-                    j--;
-                    if (heights[j] >= rightBar)
-                    {
-                        rightBar = heights[j];
-                    }
-                    else
-                    {
-                        count += rightBar - heights[j];
+                        j--;
+                        _ = (heights[j] >= rightBar) ? (rightBar = heights[j]) : (count += rightBar - heights[j]);
                     }
                 }
             }
