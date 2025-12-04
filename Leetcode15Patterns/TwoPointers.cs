@@ -203,7 +203,7 @@ namespace Leetcode15Patterns
         // LC-42 Trapping Rain Water
         public static int TrappingRainWater(int[] heights)
         {
-            if (heights.Length == 0)
+            if (heights.Length < 2)
             {
                 return 0;
             }
