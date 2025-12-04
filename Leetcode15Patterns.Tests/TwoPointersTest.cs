@@ -61,17 +61,17 @@
         [InlineData(new int[] { 3, 0, 3 }, 3)]
         [InlineData(new int[] { 4, 1, 1, 4 }, 6)]
         [InlineData(new int[] { 5, 2, 1, 2, 1, 5 }, 14)]
-        [InlineData(new int[] { 1, 0, 2, 0, 1, 0, 3 }, 5)]
+        [InlineData(new int[] { 1, 0, 2, 0, 1, 0, 3 }, 6)]
         [InlineData(new int[] { 3, 0, 2, 0, 4 }, 7)]
-        [InlineData(new int[] { 2, 1, 0, 1, 3 }, 5)]
+        [InlineData(new int[] { 2, 1, 0, 1, 3 }, 4)]
         [InlineData(new int[] { 2, 2, 2, 2 }, 0)]
         [InlineData(new int[] { 0, 0, 0, 0 }, 0)]
         [InlineData(new int[] { 5, 0, 0, 0, 5 }, 15)]
-        [InlineData(new int[] { 6, 1, 0, 1, 6 }, 22)]
-        [InlineData(new int[] { 1, 3, 2, 1, 2, 3, 1 }, 5)]
+        [InlineData(new int[] { 6, 1, 0, 1, 6 }, 16)]
+        [InlineData(new int[] { 1, 3, 2, 1, 2, 3, 1 }, 4)]
         [InlineData(new int[] { 2, 1, 2, 1, 2, 1, 2 }, 3)]
-        [InlineData(new int[] { 4, 1, 3, 1, 4 }, 6)]
-        [InlineData(new int[] { 3, 1, 2, 1, 3 }, 4)]
+        [InlineData(new int[] { 4, 1, 3, 1, 4 }, 7)]
+        [InlineData(new int[] { 3, 1, 2, 1, 3 }, 5)]
         public void TestTrappingRainWater(int[] heights, int trappedWaterCount)
         {
             var resultCount = TwoPointers.TrappingRainWater(heights);
