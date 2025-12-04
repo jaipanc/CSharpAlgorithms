@@ -199,5 +199,46 @@ namespace Leetcode15Patterns
 
             return nums;
         }
+
+        // LC-42 Trapping Rain Water
+        public static int TrappingRainWater(int[] heights)
+        {
+            int i = 0;
+            int j = heights.Length - 1;
+            int leftBar = heights[i];
+            int rightBar = heights[j];
+            int count = 0;
+
+            while (i < j)
+            {
+                if (leftBar < rightBar)
+                {
+                    i++;
+                    if (heights[i] >= leftBar)
+                    {
+                        leftBar = heights[i];
+                    }
+                    else
+                    {
+                        count += leftBar - heights[i];
+                    }
+
+                }
+                else
+                {
+                    j--;
+                    if (heights[j] >= rightBar)
+                    {
+                        rightBar = heights[j];
+                    }
+                    else
+                    {
+                        count += rightBar - heights[j];
+                    }
+                }
+            }
+
+            return count;
+        }
     }
 }
