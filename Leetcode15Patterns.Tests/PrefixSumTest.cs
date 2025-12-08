@@ -11,5 +11,13 @@
             int actualSum = PrefixSum.CalculatePrefixSum(nums, a, b);
             Assert.Equal(expectedSum, actualSum);
         }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, -1, 2 }, 3, 2)]
+        public void TestSubArrayEqualsK(int[] nums, int k, int expectedCount)
+        {
+            int actualCount = PrefixSum.SubarraySumEqualsK(nums, k);
+            Assert.Equal(expectedCount, actualCount);
+        }
     }
 }
