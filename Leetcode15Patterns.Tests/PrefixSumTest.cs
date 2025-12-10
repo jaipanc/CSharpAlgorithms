@@ -33,12 +33,7 @@
         {
             yield return new object[]
             {
-            "prefixsum",
-            new int[][]
-            {
-                [1, 2]
-            },
-            new int[] { 1, 2, 1 }
+            "prefixsum", new int[][]{[0, 2], [1, 4], [3, 5]},new int[] { 1, 2, 1 }
             };
         }
     }
