@@ -76,7 +76,7 @@
         public static int[] VowelStrings(string[] words, int[][] queries)
         {
             char[] vowels = ['a', 'e', 'i', 'o', 'u'];
-            int[] prefixSum = [words.Length + 1];
+            var prefixSum = new int[words.Length + 1];
 
             for (int i = 0; i < words.Length; i++)
             {
@@ -84,7 +84,7 @@
                 prefixSum[i + 1] = prefixSum[i] + (isVowel ? 1 : 0);
             }
 
-            int[] result = [queries.Length + 1];
+            var result = new int[queries.Length];
 
             for (int i = 0; i < queries.Length; i++)
             {
