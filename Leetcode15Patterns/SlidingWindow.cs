@@ -15,11 +15,10 @@
 
                 while (Basket.Count > 2)
                 {
-                    var startFruit = Basket[fruits[start]];
-                    startFruit--;
-                    if (startFruit == 0)
+                    Basket[fruits[start]]--;
+                    if (Basket[fruits[start]] == 0)
                     {
-                        Basket.Remove(startFruit);
+                        Basket.Remove(fruits[start]);
                     }
                     start++;
                 }
