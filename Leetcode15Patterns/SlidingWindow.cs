@@ -27,5 +27,31 @@
 
             return maxFruitCount;
         }
+
+        // #3 : Longest Substring Without Repeating Characters
+        public static int LongestUniqueSubString(string s)
+        {
+            int start = 0;
+            Dictionary<char, int> KeyMap = [];
+            int maxCount = 0;
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                KeyMap.TryAdd(s[i], 0);
+                KeyMap[s[i]]++;
+
+                while (KeyMap[s[i]] > 1)
+                {
+                    KeyMap[s[start]]--;
+                    if (KeyMap[s[start]] == 0)
+                    {
+                        KeyMap.Remove(s[start]);
+                    }
+                    start++;
+                }
+                maxCount = Math.Max(maxCount, i - start + 1);
+            }
+            return maxCount;
+        }
     }
 }
