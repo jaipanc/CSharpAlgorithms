@@ -1,4 +1,6 @@
-﻿namespace Leetcode15Patterns.Tests
+﻿using System.Numerics;
+
+namespace Leetcode15Patterns.Tests
 {
     public class SlidingWindowTest
     {
@@ -16,6 +18,15 @@
         {
             var output = SlidingWindow.LongestUniqueSubString(s);
             Assert.Equal(expectedLength, output);
+        }
+
+        [Theory]
+        [InlineData("BBABCCDD", 2, 5)]
+        [InlineData("BCBABCCCCA", 2, 6)]
+        public void TestcharacterReplacement(string s, int k, int expected)
+        {
+            var output = SlidingWindow.CharacterReplacement(s, k);
+            Assert.Equal(expected, output);
         }
     }
 }
