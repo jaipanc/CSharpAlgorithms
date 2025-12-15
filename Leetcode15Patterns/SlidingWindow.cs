@@ -53,5 +53,34 @@
             }
             return maxCount;
         }
+
+        //424. Longest Repeating Character Replacement
+        public static int CharacterReplacement(string s, int k)
+        {
+            int maxFrequency = 0;
+            int maxLength = 0;
+            int start = 0;
+            Dictionary<char, int> CharCount = [];
+
+            for (int end = 0; end < s.Length; end++)
+            {
+                CharCount.TryAdd(s[end], 0);
+                CharCount[s[end]]++;
+                maxFrequency = Math.Max(maxFrequency, CharCount[s[end]]);
+
+                while ((end - start + 1) - maxFrequency > k)
+                {
+                    CharCount[s[start]]--;
+                    if (CharCount[s[start]] == 0)
+                    {
+                        CharCount.Remove(s[start]);
+                    }
+                    start++;
+                }
+
+                maxLength = Math.Max(maxLength, end - start + 1);
+            }
+            return maxLength;
+        }
     }
 }
