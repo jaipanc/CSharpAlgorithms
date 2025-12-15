@@ -9,5 +9,13 @@
             var output = SlidingWindow.FruitsIntoBasket(fruits);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        [InlineData("eghghhgg", 3)]
+        public void TestLongestUniqueSubString(string s, int expectedLength)
+        {
+            var output = SlidingWindow.LongestUniqueSubString(s);
+            Assert.Equal(expectedLength, output);
+        }
     }
 }
