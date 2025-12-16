@@ -82,5 +82,26 @@
             }
             return maxLength;
         }
+
+        // Maximum Sum of Subarrays of Size K
+        public static int MaxSumSubArray(int[] nums, int k)
+        {
+            int start = 0;
+            int windowSum = 0;
+            int maxSum = 0;
+
+            for (int end = 0; end < nums.Length; end++)
+            {
+                windowSum += nums[end];
+                int windowSize = end - start + 1;
+                if (windowSize == k)
+                {
+                    maxSum = Math.Max(maxSum, windowSum);
+                    windowSum -= nums[start];
+                    start++;
+                }
+            }
+            return maxSum;
+        }
     }
 }
