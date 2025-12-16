@@ -1,4 +1,6 @@
-﻿namespace Leetcode15Patterns
+﻿using System.Globalization;
+
+namespace Leetcode15Patterns
 {
     public class SlidingWindow
     {
@@ -101,6 +103,42 @@
                     start++;
                 }
             }
+            return maxSum;
+        }
+
+        // 2461. Maximum Sum of Distinct Subarrays With Length K
+        public static int MaximumSumOfDistinctSubArray(int[] nums, int k)
+        {
+            int start = 0;
+            int currentSum = 0;
+            int maxSum = 0;
+            Dictionary<int, int> NumMap = [];
+
+            for (int end = 0; end < nums.Length; end++)
+            {
+                currentSum += nums[end];
+                NumMap.TryAdd(nums[end],0);
+                NumMap[nums[end]]++;
+
+                int windowSize = end - start + 1;
+
+                if (windowSize == k)
+                {
+                    if (NumMap.Count == k)
+                    {
+                        maxSum = Math.Max(maxSum, currentSum);
+                    }
+
+                    currentSum -= nums[start];
+                    NumMap[nums[start]]--;
+                    if (NumMap[nums[start]] == 0)
+                    {
+                        NumMap.Remove(nums[start]);
+                    }
+                    start++;
+                }
+            }
+
             return maxSum;
         }
     }
