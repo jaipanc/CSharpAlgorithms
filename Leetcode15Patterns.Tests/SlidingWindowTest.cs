@@ -47,5 +47,13 @@ namespace Leetcode15Patterns.Tests
             var output = SlidingWindow.MaximumSumOfDistinctSubArray(nums, k);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        [InlineData(new int[] { 2, 11, 4, 5, 3, 9, 2 }, 3, 23)]
+        public void TestMaxScoreFromGivenCards(int[] cards , int k , int expected)
+        {
+            var output = SlidingWindow.MaxScoreFromGivenCards(cards, k);
+            Assert.Equal(expected, output);
+        }
     }
 }
