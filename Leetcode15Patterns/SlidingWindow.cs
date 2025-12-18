@@ -141,5 +141,46 @@ namespace Leetcode15Patterns
 
             return maxSum;
         }
+
+
+        /// <summary>
+        /// 1423. Maximum Points You Can Obtain from Cards
+        /// Given an array of integers representing the value of cards.
+        /// write a function to calculate the maximum score you can achieve by selecting exactly k cards from either the beginning or the end of the array.
+        /// </summary>
+        /// <param name="cards">int array</param>
+        /// <param name="k">number of cards to consider to find out the max score</param>
+        /// <returns>int value indicating the max score</returns>
+        public static int MaxScoreFromGivenCards(int[] cards, int k)
+        {
+            int arrayLength = cards.Length;            
+            int TotalArraySum = 0;
+            foreach (int item in cards)
+            {
+                TotalArraySum += item;
+            }
+
+            if (k > arrayLength)
+            {
+                return TotalArraySum;
+            }
+            int start = 0;
+            int currentSum = 0;
+            int cardsWindow = arrayLength - k;
+            int maxScore = 0;
+
+            for (int end = 0; end < arrayLength - 1; end++)
+            {
+                currentSum += cards[end];
+                int currentWindow = end - start + 1;
+                if (currentWindow == cardsWindow)
+                {
+                    maxScore = Math.Max(maxScore, currentSum);
+                    currentSum -= cards[start];
+                    start++;
+                }
+            }
+            return maxScore;
+        }
     }
 }
