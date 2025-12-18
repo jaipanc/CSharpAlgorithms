@@ -49,7 +49,11 @@ namespace Leetcode15Patterns.Tests
         }
 
         [Theory]
-        [InlineData(new int[] { 2, 11, 4, 5, 3, 9, 2 }, 3, 23)]
+        [InlineData(new int[] { 2, 11, 4, 5, 3, 9, 2 }, 3, 17)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 1 }, 3, 12)]
+        [InlineData(new int[] { 2, 2, 2 }, 2, 4)]
+        [InlineData(new int[] { 9, 7, 7, 9, 7, 7, 9 }, 7, 55)]
+
         public void TestMaxScoreFromGivenCards(int[] cards , int k , int expected)
         {
             var output = SlidingWindow.MaxScoreFromGivenCards(cards, k);

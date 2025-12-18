@@ -160,7 +160,7 @@ namespace Leetcode15Patterns
                 TotalArraySum += item;
             }
 
-            if (k > arrayLength)
+            if (k >= arrayLength)
             {
                 return TotalArraySum;
             }
@@ -169,13 +169,13 @@ namespace Leetcode15Patterns
             int cardsWindow = arrayLength - k;
             int maxScore = 0;
 
-            for (int end = 0; end < arrayLength - 1; end++)
+            for (int end = 0; end < arrayLength; end++)
             {
                 currentSum += cards[end];
                 int currentWindow = end - start + 1;
                 if (currentWindow == cardsWindow)
                 {
-                    maxScore = Math.Max(maxScore, currentSum);
+                    maxScore = Math.Max(maxScore, TotalArraySum - currentSum);
                     currentSum -= cards[start];
                     start++;
                 }
