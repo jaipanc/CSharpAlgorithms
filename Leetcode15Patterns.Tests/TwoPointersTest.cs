@@ -88,7 +88,7 @@
         public void Test3Sum()
         {
             int[] nums = [-1, 0, 1, 2, -1, -1];
-            var expectedTriplets = new List<IList<int>> { new List<int> { 1, 2, 3 }, new List<int> { 1, 1, 1 } };
+            var expectedTriplets = new List<IList<int>> { new List<int> { -1, -1, 2 }, new List<int> { -1, 0, 1 } };
             var result = TwoPointers.ThreeSum(nums);
             Assert.Equal(expectedTriplets, result);
         }
