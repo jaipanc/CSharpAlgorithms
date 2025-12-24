@@ -1,4 +1,6 @@
-﻿namespace Leetcode15Patterns
+﻿using System.Xml.Schema;
+
+namespace Leetcode15Patterns
 {
     static public class Intervals
     {
@@ -124,6 +126,42 @@
                 }
             }
             return [.. result];
+        }
+
+        //759. Employee Free Time
+        public static int[][] EmployeeFreeTime(int[][] schedules)
+        {
+            int len = schedules.Length;
+            if (len == 0)
+            {
+                return [];
+            }
+            Array.Sort(schedules, (a, b) => a[0].CompareTo(b[0]));
+            var merged = new List<int[]>
+            {
+                schedules[0]
+            };
+
+
+            for (int i = 1; i < len; i++)
+            {
+                if (schedules[i][0] <= merged[^1][1])
+                {
+                    merged[^1][1] = Math.Max(merged[^1][1], schedules[i][1]);
+                }
+                else
+                {
+                    merged.Add(schedules[i]);
+                }
+            }
+
+            var freeTime = new List<int[]>();
+            for (int i = 1; i < merged.Count; i++)
+            {
+                freeTime.Add([merged[i - 1][1], merged[i][0]]);
+            }
+
+            return [.. freeTime];
         }
     }
 }
