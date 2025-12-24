@@ -23,6 +23,28 @@
             return true;
         }
 
+        //435. Non-overlapping Intervals
+        public static int EraseOverlapIntervals(int[][] intervals)
+        {
+            var len = intervals.Length;
+            if (len == 0)
+            {
+                return 0;
+            }
+            int count = 0;
+            Array.Sort(intervals, (a, b) => a[0].CompareTo(b[0]));
+            var lastEnd = intervals[0][1];
+
+            for (int i = 1; i < len; i++)
+            {
+                if (intervals[i][0] < lastEnd)
+                    count++;
+                else
+                    lastEnd = intervals[i][1];
+            }
+            return count;
+        }
+
         public static int[][] MergeIntervals(int[][] intervals)
         {
             if (intervals is null || intervals.Length == 0)
