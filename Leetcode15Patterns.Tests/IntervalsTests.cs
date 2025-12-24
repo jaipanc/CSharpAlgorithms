@@ -40,20 +40,9 @@
 
         public static IEnumerable<object[]> EraseOverlapIntervalsTestData()
         {
-            yield return new object[]
-            {
-            new int[][]{[1,2],[2,3],[3,4],[1,3]},1
-            };
-
-            yield return new object[]
-           {
-               new int[][]{[1,2],[1,2],[1,2]},2
-           };
-
-            yield return new object[]
-           {
-               new int[][]{[1,2],[2,3]},0
-           };
+            yield return new object[] { new int[][]{[1,2],[2,3],[3,4],[1,3]},1};
+            yield return new object[] { new int[][]{[1,2],[1,2],[1,2]},2 };
+            yield return new object[] { new int[][]{[1,2],[2,3]},0};
         }
     }
 }
