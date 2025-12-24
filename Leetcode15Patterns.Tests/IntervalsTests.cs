@@ -2,32 +2,24 @@
 {
     public class IntervalsTests
     {
-        [Fact]
-        public void CanAttendMeetings_ReturnsTrue_ForNonOverlapping()
+        [Theory]
+        [MemberData(nameof(CanAttendMeetingsTestData))]
+        public void TestCanAttendMeetings(int[][] intervals, bool expected)
         {
-            int[][] intervals = [[2, 4], [9, 12], [6, 9], [13, 15]];
-            Assert.True(Intervals.CanAttendMeetings(intervals));
+            var output = Intervals.CanAttendMeetings(intervals);
+            Assert.Equal(expected, output);
         }
 
-        [Fact]
-        public void CanAttendMeetings_ReturnsFalse_ForOverlapping()
+        public static TheoryData<int[][], bool> CanAttendMeetingsTestData()
         {
-            int[][] intervals = [[0, 30], [5, 10], [15, 20]];
-            Assert.False(Intervals.CanAttendMeetings(intervals));
-        }
-
-        [Fact]
-        public void CanAttendMeetings_ReturnsFalse_ForNullOrEmpty()
-        {
-            Assert.False(Intervals.CanAttendMeetings(null));
-            Assert.False(Intervals.CanAttendMeetings([]));
-        }
-
-        [Fact]
-        public void CanAttendMeetings_TouchingEndpoints_NotOverlap()
-        {
-            int[][] intervals = [[1, 2], [2, 3]];
-            Assert.True(Intervals.CanAttendMeetings(intervals));
+            var data = new TheoryData<int[][], bool>
+            {
+                { new int[][] { [1, 2], [2, 3] }, true },
+                { new int[][] { [0, 30], [5, 10], [15, 20] }, false },
+                { null, false },
+                { new int[][] { [2, 4], [9, 12], [6, 9], [13, 15] }, true }
+            };
+            return data;
         }
 
         [Theory]
@@ -38,11 +30,15 @@
             Assert.Equal(output, actualOutput);
         }
 
-        public static IEnumerable<object[]> EraseOverlapIntervalsTestData()
+        public static TheoryData<int[][], int> EraseOverlapIntervalsTestData()
         {
-            yield return new object[] { new int[][]{[1,2],[2,3],[3,4],[1,3]},1};
-            yield return new object[] { new int[][]{[1,2],[1,2],[1,2]},2 };
-            yield return new object[] { new int[][]{[1,2],[2,3]},0};
+            var data = new TheoryData<int[][], int>
+            {
+                { new int[][]{[1,2],[2,3],[3,4],[1,3]}, 1 },
+                { new int[][]{[1,2],[1,2],[1,2]}, 2 },
+                { new int[][]{[1,2],[2,3]}, 0 }
+            };
+            return data;
         }
     }
 }
