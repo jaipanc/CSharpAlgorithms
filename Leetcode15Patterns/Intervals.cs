@@ -129,29 +129,34 @@ namespace Leetcode15Patterns
         }
 
         //759. Employee Free Time
-        public static int[][] EmployeeFreeTime(int[][] schedules)
+        public static int[][] EmployeeFreeTime(int[][][] schedules)
         {
-            int len = schedules.Length;
-            if (len == 0)
+            var flattened = new List<int[]>();
+
+            foreach (int[][] item in schedules)
             {
-                return [];
+                foreach (int[] subitem in item)
+                {
+                    flattened.Add(subitem);
+                }
             }
-            Array.Sort(schedules, (a, b) => a[0].CompareTo(b[0]));
+
+            flattened.Sort((a, b) => a[0].CompareTo(b[0]));
+
             var merged = new List<int[]>
             {
-                schedules[0]
+                flattened[0]
             };
 
-
-            for (int i = 1; i < len; i++)
+            for (int i = 1; i < flattened.Count; i++)
             {
-                if (schedules[i][0] <= merged[^1][1])
+                if (flattened[i][0] <= merged[^1][1])
                 {
-                    merged[^1][1] = Math.Max(merged[^1][1], schedules[i][1]);
+                    merged[^1][1] = Math.Max(merged[^1][1], flattened[i][1]);
                 }
                 else
                 {
-                    merged.Add(schedules[i]);
+                    merged.Add(flattened[i]);
                 }
             }
 
