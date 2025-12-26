@@ -29,5 +29,41 @@
             }
             return bag.Count == 0;
         }
+
+        //394. Decode String
+        public static string DecodeString(string s)
+        {
+            const char OpeningBracket = '[';
+            const char ClosingBracket = ']';
+            var strStack = new Stack<string>();
+            var numStack = new Stack<int>();
+            var currString = string.Empty;
+            var currNumber = 0;
+            foreach (char c in s)
+            {
+                if (c.Equals(OpeningBracket))
+                {
+                    strStack.Push(currString);
+                    numStack.Push(currNumber);
+                    currString = string.Empty;
+                    currNumber = 0;
+                }
+                else if (c.Equals(ClosingBracket))
+                {
+                    var num = numStack.Pop();
+                    var str = strStack.Pop();
+                    currString = str + Enumerable.Repeat(currString, num);
+                }
+                else if (Char.IsDigit(c))
+                {
+                    currNumber = currNumber * 10 + (c - '0');
+                }
+                else
+                {
+                    currString += c;
+                }
+            }
+            return currString;
+        }
     }
 }
