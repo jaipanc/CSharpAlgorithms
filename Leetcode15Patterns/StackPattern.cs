@@ -52,7 +52,7 @@
                 {
                     var num = numStack.Pop();
                     var str = strStack.Pop();
-                    currString = str + Enumerable.Repeat(currString, num);
+                    currString = str + string.Concat(Enumerable.Repeat(currString, num));
                 }
                 else if (Char.IsDigit(c))
                 {
