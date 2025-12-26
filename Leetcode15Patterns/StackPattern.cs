@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-namespace Leetcode15Patterns
+﻿namespace Leetcode15Patterns
 {
     public class StackPattern
     {
