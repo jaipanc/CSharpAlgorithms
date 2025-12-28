@@ -45,12 +45,13 @@
             Assert.Equal(expectedResult, actualOutput);
         }
 
-        public static IEnumerable<object[]> GetVowelStringsTestData()
+        public static TheoryData<string[], int[][], int[]> GetVowelStringsTestData()
         {
-            yield return new object[]
-            {
-            new string[] {"aba","bcb","ece","aa","e"}, new int[][]{[0,2],[1,4],[1,1]},new int[] { 2, 3, 0 }
-            };
+            var data = new TheoryData<string[], int[][], int[]>
+                 {
+                    { new string[] {"aba","bcb","ece","aa","e"}, new int[][]{[0,2],[1,4],[1,1]},new int[] { 2, 3, 0 }}
+                 };
+            return data;
         }
     }
 }
