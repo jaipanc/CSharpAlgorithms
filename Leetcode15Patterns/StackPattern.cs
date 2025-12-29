@@ -65,5 +65,24 @@
             }
             return currString;
         }
+
+        //Monotonic stack 
+        public static int[] NextGreaterNumber(int[] nums)
+        {
+            var result = new int[nums.Length];
+            Array.Fill(result, -1);
+            var stack = new Stack<int>();
+
+            for (int i = 0; i < nums.Length; i++)
+            {
+                while (stack.Count != 0 && nums[i] > nums[stack.Peek()])
+                {
+                    var index = stack.Pop();
+                    result[index] = nums[i];
+                }
+                stack.Push(i);
+            }
+            return result;
+        }
     }
 }
