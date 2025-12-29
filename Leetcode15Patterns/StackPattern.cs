@@ -84,5 +84,32 @@
             }
             return result;
         }
+
+        //Monotonic stack 
+        public static int[] NextGreaterNumber(int[] num1, int[] num2)
+        {
+            var result = new int[num1.Length];
+            Array.Fill(result, -1);
+            var stack = new Stack<int>();
+            var map = new Dictionary<int, int>();
+
+            foreach (var current in num2)
+            {
+                while (stack.Count > 0 && current > stack.Peek())
+                {
+                    map[stack.Pop()] = current;
+                }
+                stack.Push(current);
+            }
+
+            for (int i = 0; i < num1.Length; i++)
+            {
+                if (map.TryGetValue(num1[i], out int value))
+                {
+                    result[i] = value;
+                }
+            }
+            return result;
+        }
     }
 }
