@@ -38,5 +38,13 @@ namespace Leetcode15Patterns.Tests
             var result = StackPattern.NextGreaterNumber(num1, num2);
             Assert.Equal(output, result);
         }
+
+        [Theory]
+        [InlineData(new int[] { 65, 70, 68, 60, 55, 75, 80, 74 }, new int[] { 1, 4, 3, 2, 1, 1, 0, 0 })]
+        public void TestDailyTemperatures(int[] temperatures, int[] output)
+        {
+            var result = StackPattern.DailyTemperatures(temperatures);
+            Assert.Equal(output, result);
+        }
     }
 }
