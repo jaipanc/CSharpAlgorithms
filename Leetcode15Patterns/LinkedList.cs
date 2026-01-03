@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.VisualBasic.FileIO;
+using System.Security.AccessControl;
 
 namespace Leetcode15Patterns
 {
@@ -78,6 +79,32 @@ namespace Leetcode15Patterns
                 if (slow == fast) return true;
             }
             return false;
+        }
+
+        // 234. Palindrome Linked List
+        public static bool isPalindrome(ListNode head)
+        {
+            List<int> list = [];
+            var curr = head;
+            while (curr != null)
+            {
+                list.Add(curr.val);
+                curr = curr.next;
+            }
+
+            var left = 0;
+            var right = list.Count - 1;
+
+            while (left < right)
+            {
+                if (list[left] != list[right])
+                {
+                    return false;
+                }
+                left++;
+                right--;
+            }
+            return true;
         }
 
         public ListNode MergeTwoLists(ListNode l1, ListNode l2)
