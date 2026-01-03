@@ -1,4 +1,7 @@
-﻿namespace Leetcode15Patterns.Tests
+﻿using Microsoft.VisualBasic;
+using Node = Leetcode15Patterns.LinkedList.ListNode;
+
+namespace Leetcode15Patterns.Tests
 {
     public class LinkedListTest
     {
@@ -236,6 +239,24 @@
                 current = current.next;
             }
             Assert.Null(current); // Ensure the list ends correctly
+        }
+
+        [Theory]
+        [MemberData(nameof(IsPalindromeTestData))]
+        public void TestIsPalindrome(Node head, bool expected)
+        {
+            var result = LinkedList.isPalindrome(head);
+            Assert.Equal(expected, result);
+        }
+
+        public static TheoryData<Node, bool> IsPalindromeTestData()
+        {
+            return new TheoryData<Node, bool>()
+            {
+                {  new Node(1, new Node(2, new Node(2, new Node(1)))), true },
+                {  new Node(1, new Node(2, new Node(3, new Node(1)))), false },
+                {  new Node(1, new Node(2)), false }
+            };
         }
     }
 }
