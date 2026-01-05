@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using Node = Leetcode15Patterns.LinkedList.ListNode;
+﻿using Node = Leetcode15Patterns.LinkedList.ListNode;
 
 namespace Leetcode15Patterns.Tests
 {
@@ -10,11 +9,11 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3,
-                        new LinkedList.ListNode(4,
-                        new LinkedList.ListNode(5)))));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3,
+                        new Node(4,
+                        new Node(5)))));
             int n = 2;
             // Act
             var newHead = linkedList.DeleteNode(head, n);
@@ -35,11 +34,11 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3,
-                        new LinkedList.ListNode(4,
-                        new LinkedList.ListNode(5)))));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3,
+                        new Node(4,
+                        new Node(5)))));
             // Act
             int length = linkedList.GetLength(head);
             // Assert
@@ -51,9 +50,9 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3)));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3)));
             using var sw = new StringWriter();
             Console.SetOut(sw);
             // Act
@@ -68,13 +67,13 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(3)
+            var head = new Node(3)
             {
-                next = new LinkedList.ListNode(2)
+                next = new Node(2)
             };
-            head.next.next = new LinkedList.ListNode(0)
+            head.next.next = new Node(0)
             {
-                next = new LinkedList.ListNode(-4)
+                next = new Node(-4)
             };
             head.next.next.next.next = head.next; // Create a cycle
             // Act
@@ -88,9 +87,9 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3)));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3)));
             // Act
             bool hasCycle = linkedList.HasCycle(head);
             // Assert
@@ -102,12 +101,12 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var l1 = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(3,
-                        new LinkedList.ListNode(5)));
-            var l2 = new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(4,
-                        new LinkedList.ListNode(6)));
+            var l1 = new Node(1,
+                        new Node(3,
+                        new Node(5)));
+            var l2 = new Node(2,
+                        new Node(4,
+                        new Node(6)));
             // Act
             var mergedHead = linkedList.MergeTwoLists(l1, l2);
             // Assert
@@ -127,9 +126,9 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3)));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3)));
             using var sw = new StringWriter();
             Console.SetOut(sw);
             // Act
@@ -144,11 +143,11 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(3,
-                        new LinkedList.ListNode(4,
-                        new LinkedList.ListNode(5)))));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(3,
+                        new Node(4,
+                        new Node(5)))));
             // Act
             var reversedHead = linkedList.ReverseList(head);
             // Assert
@@ -168,7 +167,7 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            LinkedList.ListNode head = null;
+            Node head = null;
             // Act
             var reversedHead = linkedList.ReverseList(head);
             // Assert
@@ -180,7 +179,7 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1);
+            var head = new Node(1);
             // Act
             var reversedHead = linkedList.ReverseList(head);
             // Assert
@@ -194,7 +193,7 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            LinkedList.ListNode head = null;
+            Node head = null;
             // Act
             int length = linkedList.GetLength(head);
             // Assert
@@ -206,7 +205,7 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1);
+            var head = new Node(1);
             int n = 1;
             // Act
             var newHead = linkedList.DeleteNode(head, n);
@@ -219,13 +218,13 @@ namespace Leetcode15Patterns.Tests
         {
             // Arrange
             var linkedList = new LinkedList();
-            var head = new LinkedList.ListNode(1,
-                        new LinkedList.ListNode(2,
-                        new LinkedList.ListNode(6,
-                        new LinkedList.ListNode(3,
-                        new LinkedList.ListNode(4,
-                        new LinkedList.ListNode(5,
-                        new LinkedList.ListNode(6)))))));
+            var head = new Node(1,
+                        new Node(2,
+                        new Node(6,
+                        new Node(3,
+                        new Node(4,
+                        new Node(5,
+                        new Node(6)))))));
             int valToRemove = 6;
             // Act
             var newHead = linkedList.RemoveElements(head, valToRemove);
