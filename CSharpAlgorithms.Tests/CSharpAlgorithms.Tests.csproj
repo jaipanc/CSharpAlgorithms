@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Leetcode15Patterns\CSharpAlgorithms.csproj" />
+    <ProjectReference Include="..\CSharpAlgorithms\CSharpAlgorithms.csproj" />
   </ItemGroup>
 
   <ItemGroup>
