@@ -1,4 +1,4 @@
-﻿namespace Leetcode15Patterns.Tests
+﻿namespace CSharpAlgorithms.Tests
 {
     public class DictionaryAndHashingTest
     {

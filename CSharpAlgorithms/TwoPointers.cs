@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using System.IO.MemoryMappedFiles;
-
-namespace Leetcode15Patterns
+﻿namespace CSharpAlgorithms
 {
     static public class TwoPointers
     {

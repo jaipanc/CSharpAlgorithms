@@ -1,4 +1,4 @@
-﻿namespace Leetcode15Patterns
+﻿namespace CSharpAlgorithms
 {
     public static class DictionaryAndHashing
     {

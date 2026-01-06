@@ -1,4 +1,4 @@
-﻿namespace Leetcode15Patterns
+﻿namespace CSharpAlgorithms
 {
     static public class PrefixSum
     {

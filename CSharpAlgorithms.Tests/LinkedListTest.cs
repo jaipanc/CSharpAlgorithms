@@ -1,6 +1,6 @@
-﻿using Node = Leetcode15Patterns.LinkedList.ListNode;
+﻿using Node = CSharpAlgorithms.LinkedList.ListNode;
 
-namespace Leetcode15Patterns.Tests
+namespace CSharpAlgorithms.Tests
 {
     public class LinkedListTest
     {

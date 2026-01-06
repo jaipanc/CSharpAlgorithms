@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Leetcode15Patterns.Tests
+﻿namespace CSharpAlgorithms.Tests
 {
     public class SlidingWindowTest
     {

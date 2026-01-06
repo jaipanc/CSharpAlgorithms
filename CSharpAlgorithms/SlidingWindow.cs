@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Leetcode15Patterns
+﻿namespace CSharpAlgorithms
 {
     public class SlidingWindow
     {

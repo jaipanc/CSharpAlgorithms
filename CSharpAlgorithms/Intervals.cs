@@ -1,6 +1,4 @@
-﻿using System.Xml.Schema;
-
-namespace Leetcode15Patterns
+﻿namespace CSharpAlgorithms
 {
     static public class Intervals
     {

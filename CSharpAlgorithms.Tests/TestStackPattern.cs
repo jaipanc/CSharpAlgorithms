@@ -1,5 +1,4 @@
-﻿
-namespace Leetcode15Patterns.Tests
+﻿namespace CSharpAlgorithms.Tests
 {
     public class TestStackPattern
     {
