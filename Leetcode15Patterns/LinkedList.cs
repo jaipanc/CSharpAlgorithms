@@ -1,8 +1,4 @@
-﻿
-using Microsoft.VisualBasic.FileIO;
-using System.Security.AccessControl;
-
-namespace Leetcode15Patterns
+﻿namespace Leetcode15Patterns
 {
     public class LinkedList
     {
