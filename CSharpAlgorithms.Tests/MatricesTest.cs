@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace CSharpAlgorithms.Tests
+﻿namespace CSharpAlgorithms.Tests
 {
     public class MatricesTest
     {
