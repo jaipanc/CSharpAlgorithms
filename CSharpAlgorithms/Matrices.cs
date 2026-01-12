@@ -1,4 +1,7 @@
-﻿namespace CSharpAlgorithms
+﻿using System.Collections.Generic;
+using static System.Formats.Asn1.AsnWriter;
+
+namespace CSharpAlgorithms
 {
     public class Matrices
     {
@@ -48,6 +51,70 @@
                 }
             }
             return result;
+        }
+
+        /// <summary>
+        /// Given an m x n integer matrix matrix, if an element is 0, set its entire row and column to 0's.
+        /// This transformation should be done in place, without using any additional data structures for storage.
+        /// </summary>
+        /// <remarks>
+        /// Key trick: Use first row + first column as “marker storage”
+        /// Instead of extra memory arrays rows[] and cols[], we store markers inside:
+        /// matrix[r][0] → marks row r
+        /// matrix[0][c] → marks column c
+        /// But we must be careful: the first row and first column themselves can originally contain zeros, so we store two booleans:
+        /// firstRowZero
+        /// firstColZero
+        /// </remarks>
+        /// <param name="matrix"></param>
+        /// <returns>matrix with zeros set.</returns>
+        public static int[][] SetZeroes(int[][] matrix)
+        {
+            int m = matrix.Length;
+            int n = matrix[0].Length;
+
+            // Step 0: check if first row/col contain zero
+            bool firstRowZero = false;
+            for (int c = 0; c < n; c++)
+                if (matrix[0][c] == 0) { firstRowZero = true; break; }
+
+            bool firstColZero = false;
+            for (int r = 0; r < m; r++)
+                if (matrix[r][0] == 0) { firstColZero = true; break; }
+
+            // Step 1: mark rows and cols using first row/col
+            for (int r = 1; r < m; r++)
+            {
+                for (int c = 1; c < n; c++)
+                {
+                    if (matrix[r][c] == 0)
+                    {
+                        matrix[r][0] = 0;
+                        matrix[0][c] = 0;
+                    }
+                }
+            }
+
+            // Step 2: zero inner cells based on markers
+            for (int r = 1; r < m; r++)
+            {
+                for (int c = 1; c < n; c++)
+                {
+                    if (matrix[r][0] == 0 || matrix[0][c] == 0)
+                        matrix[r][c] = 0;
+                }
+            }
+
+            // Step 3: zero first row/col if needed
+            if (firstRowZero)
+                for (int c = 0; c < n; c++)
+                    matrix[0][c] = 0;
+
+            if (firstColZero)
+                for (int r = 0; r < m; r++)
+                    matrix[r][0] = 0;
+
+            return matrix;
         }
     }
 }
