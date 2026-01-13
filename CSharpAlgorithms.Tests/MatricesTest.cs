@@ -18,6 +18,26 @@
             Assert.Equal(expected, output);
         }
 
+        [Theory]
+        [MemberData(nameof(RotateImageTestData))]
+        public void TestRotateImage(int[][] matrix, int[][] expected)
+        {
+            Matrices.RotateImage(matrix);
+            Assert.Equal(expected, matrix);
+        }
+
+        public static TheoryData<int[][], int[][]> RotateImageTestData()
+        {
+            var data = new TheoryData<int[][], int[][]>
+            {
+                { new int[][] { [1,4,7],[2,5,8],[3,6,9] }, new int[][]{ [3,2,1],[6,5,4],[9,8,7]} },
+                { new int[][] { [1,2,3],[4,5,6],[7,8,9] }, new int[][]{ [7, 4, 1], [8, 5, 2], [9, 6, 3] } },
+                { new int[][] { [5,1,9,11],[2,4,8,10],[13,3,6,7],[15,14,12,16] }, new int[][]{ [15, 13, 2, 5], [14, 3, 4, 1], [12, 6, 8, 9], [16, 7, 10, 11] } }
+            };
+            return data;
+        }
+
+
         public static TheoryData<int[][], int[][]> SetZeroesTestData()
         {
             var data = new TheoryData<int[][], int[][]>
