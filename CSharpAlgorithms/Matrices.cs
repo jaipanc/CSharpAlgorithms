@@ -116,5 +116,36 @@ namespace CSharpAlgorithms
 
             return matrix;
         }
+        /// <summary>
+        /// Write a function to rotate an n x n 2D matrix representing an image by 90 degrees clockwise. 
+        /// The rotation must be done in-place, meaning you should modify the input matrix directly without using an additional matrix for the operation.
+        /// </summary>
+        /// <param name="matrix">2D array</param>
+        public static void RotateImage(int[][] matrix)
+        {
+            int l = matrix.Length;
+
+            // 1) Transpose (swap across diagonal)
+            for (int i = 0; i < l; i++)
+            {
+                for (int j = i + 1; j < l; j++)
+                {
+                    // Swap Using Tuple Deconstruction (Required C# 7.0+)
+                    (matrix[i][j], matrix[j][i]) = (matrix[j][i], matrix[i][j]);
+                }
+            }
+
+            // 2) Reverse each row
+            for (int i = 0; i < l; i++)
+            {
+                int left = 0, right = l - 1;
+                while (left < right)
+                {
+                    (matrix[i][left], matrix[i][right]) = (matrix[i][right], matrix[i][left]);
+                    left++;
+                    right--;
+                }
+            }
+        }
     }
 }
