@@ -49,5 +49,33 @@ namespace CSharpAlgorithms
             }
             return [.. pq.UnorderedItems.Select(static x => x.Element)];
         }
+
+        /// <summary>
+        /// Given a sorted integer array arr, two integers k and x, return the k closest integers to x in the array. The result should also be sorted in ascending order.
+        /// </summary>
+        /// <param name="arr"></param>
+        /// <param name="k"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        public static IList<int> FindClosestElements(int[] arr, int k, int x)
+        {
+            var pq = new PriorityQueue<int, (int dist, int val)>();
+
+            foreach (var val in arr)
+            {
+                int dist = Math.Abs(val - k);
+                pq.Enqueue(val, (dist, val));
+            }
+
+            var result = new List<int>(k);
+
+            for (int i = 0; i < k; i++)
+            {
+                result.Add(pq.Dequeue());
+            }
+
+            result.Sort();
+            return result;
+        }
     }
 }
