@@ -63,7 +63,7 @@ namespace CSharpAlgorithms
 
             foreach (var val in arr)
             {
-                int dist = Math.Abs(val - k);
+                int dist = Math.Abs(val - x);
                 pq.Enqueue(val, (dist, val));
             }
 
