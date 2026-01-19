@@ -27,5 +27,14 @@
                 {new int[][]{ [3, 4], [2, 2], [1, 1], [0, 0], [5, 5] } , 3 , new int[][]{ [2, 2], [1, 1], [0, 0] } }
             };
         }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 4, 3, new int[] { 1, 2, 3, 4 })]
+        [InlineData(new int[] { 1, 1, 2, 3, 4, 5 }, 4, -1, new int[] { 1, 1, 2, 3 })]
+        public void TestFindClosestElements(int[] arr, int k, int x, int[] expected)
+        {
+            var output = Heap.FindClosestElements(arr, k, x);
+            Assert.Equal(expected, output);
+        }
     }
 }
