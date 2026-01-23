@@ -1,6 +1,4 @@
-﻿using System.Security.AccessControl;
-
-namespace CSharpAlgorithms
+﻿namespace CSharpAlgorithms
 {
     public class DFS
     {
