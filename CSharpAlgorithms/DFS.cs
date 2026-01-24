@@ -58,5 +58,35 @@
             int right = MaxDepth(node.right);
             return Math.Max(left, right) + 1;
         }
+
+        /// <summary>
+        /// 1448. Count Good Nodes in Binary Tree
+        /// Given a binary tree root, a node X in the tree is named good if in the path from root to X there are no nodes with a value greater than X.
+        /// </summary>
+        /// <param name="root">Binary Tree</param>
+        /// <returns></returns>
+        public static int GoodNodes(Treenode root)
+        {
+            return DfsHelper(root, int.MinValue);
+            static int DfsHelper(Treenode node, int maxValue)
+            {
+                if (node is null)
+                {
+                    return 0;
+                }
+
+                var count = 0;
+                if (node.val >= maxValue)
+                {
+                    count++;
+                    maxValue = node.val;
+                }
+
+                int left = DfsHelper(node.left, maxValue);
+                int right = DfsHelper(node.right, maxValue);
+
+                return left + right + count;
+            }
+        }
     }
 }
