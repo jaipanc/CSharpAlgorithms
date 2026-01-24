@@ -41,5 +41,22 @@
 
             return HasPathSum(root.left, remaining) || HasPathSum(root.right, remaining);
         }
+
+        /// <summary>
+        /// Given the root of a binary tree, return its maximum depth.
+        /// </summary>
+        /// <param name="node">Binary Tree</param>
+        /// <returns></returns>
+        public static int MaxDepth(Treenode node)
+        {
+            if (node is null)
+            {
+                return 0;
+            }
+
+            int left = MaxDepth(node.left);
+            int right = MaxDepth(node.right);
+            return Math.Max(left, right) + 1;
+        }
     }
 }
