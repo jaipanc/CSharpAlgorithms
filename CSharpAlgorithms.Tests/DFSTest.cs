@@ -12,6 +12,38 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, output);
         }
 
+        [Theory]
+        [MemberData(nameof(MaxDepthTestData))]
+        public void TestMaxDepth(TreeNode root, int expected)
+        {
+            var output = DFS.MaxDepth(root);
+            Assert.Equal(expected, output);
+        }
+
+        public static TheoryData<TreeNode, int> MaxDepthTestData()
+        {
+            var data = new TheoryData<TreeNode, int>();
+
+            var tree1 =
+                new TreeNode(5,
+                    new TreeNode(4,
+                        new TreeNode(11, new TreeNode(7), new TreeNode(2)),
+                        null),
+                    new TreeNode(8,
+                        new TreeNode(13),
+                        new TreeNode(4, null, new TreeNode(1)))
+                );
+
+            var tree2 = new TreeNode(3, new TreeNode(9, new TreeNode(20, null)), new TreeNode(15, new TreeNode(7)));
+            var tree3 = new TreeNode(1, null, new TreeNode(2));
+
+            data.Add(tree1, 4);
+            data.Add(tree2, 3);
+            data.Add(tree3, 2);
+
+            return data;
+        }
+
         public static TheoryData<TreeNode, int, bool> HasPathSumTestData()
         {
             // Case 1: Example tree, target = 22 => true
