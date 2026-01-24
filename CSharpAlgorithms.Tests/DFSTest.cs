@@ -20,6 +20,51 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, output);
         }
 
+        [Theory]
+        [MemberData(nameof(GoodNodesTestData))]
+        public void TestGoodNodes(TreeNode root, int expected)
+        {
+            var output = DFS.GoodNodes(root);
+            Assert.Equal(expected, output);
+        }
+
+        public static TheoryData<TreeNode, int> GoodNodesTestData()
+        {
+            var data = new TheoryData<TreeNode, int>
+        {
+            // Input: [3,1,4,3,null,1,5]  Output: 4
+            { new TreeNode(3)
+                {
+                    left = new TreeNode(1)
+                    {
+                        left = new TreeNode(3)
+                    },
+                    right = new TreeNode(4)
+                    {
+                        left = new TreeNode(1),
+                        right = new TreeNode(5)
+                    }
+                }, 4
+            },
+
+            // Input: [3,3,null,4,2]  Output: 3
+            { new TreeNode(3)
+                {
+                    left = new TreeNode(3)
+                    {
+                        left = new TreeNode(4),
+                        right = new TreeNode(2)
+                    }
+                }, 3
+            },
+
+            // Input: [1]  Output: 1
+            { new TreeNode(1), 1 },
+        };
+
+            return data;
+        }
+
         public static TheoryData<TreeNode, int> MaxDepthTestData()
         {
             var data = new TheoryData<TreeNode, int>();
