@@ -88,5 +88,27 @@
                 return left + right + count;
             }
         }
+
+        /// <summary>
+        /// Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+        /// </summary>
+        /// <param name="node">Binary Search Tree</param>
+        /// <returns></returns>
+        public static bool ValidateBinarySearchTree(Treenode node) => ValidateHelper(node, long.MinValue, long.MaxValue);
+
+        static bool ValidateHelper(Treenode node, long min, long max)
+        {
+            if (node is null)
+            {
+                return false;
+            }
+
+            if (node.val <= min || node.val >= max)
+            {
+                return false;
+            }
+
+            return ValidateHelper(node.left, min, node.val) || ValidateHelper(node.right, node.val, max);
+        }
     }
 }
