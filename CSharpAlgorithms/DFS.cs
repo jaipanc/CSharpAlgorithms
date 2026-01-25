@@ -100,7 +100,7 @@
         {
             if (node is null)
             {
-                return false;
+                return true;
             }
 
             if (node.val <= min || node.val >= max)
@@ -108,7 +108,7 @@
                 return false;
             }
 
-            return ValidateHelper(node.left, min, node.val) || ValidateHelper(node.right, node.val, max);
+            return ValidateHelper(node.left, min, node.val) && ValidateHelper(node.right, node.val, max);
         }
     }
 }
