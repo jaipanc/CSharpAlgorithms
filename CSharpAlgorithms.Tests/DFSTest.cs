@@ -37,6 +37,70 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, output);
         }
 
+        [Theory]
+        [MemberData(nameof(TiltCases))]
+        public void TestFindTitl(TreeNode node, int expected)
+        {
+            var output = DFS.FindTitl(node);
+            Assert.Equal(expected, output);
+        }
+
+        public static TheoryData<TreeNode, int> TiltCases()
+        {
+            var data = new TheoryData<TreeNode, int>();
+
+            // Case 1: null tree -> tilt = 0
+            data.Add(null, 0);
+
+            // Case 2: single node -> tilt = 0
+            data.Add(new TreeNode(5), 0);
+
+            // Case 3:
+            //     1
+            //    / \
+            //   2   3
+            // tilt = |2-3| + 0 + 0 = 1
+            data.Add(
+                new TreeNode(1, new TreeNode(2), new TreeNode(3)),
+                1
+            );
+
+            // Case 4 (LeetCode common example):
+            //        4
+            //      /   \
+            //     2     9
+            //    / \     \
+            //   3   5     7
+            // tilts: 3:0,5:0,2:|3-5|=2,7:0,9:|0-7|=7,4:|10-16|=6 => total 15
+            data.Add(
+                new TreeNode(4,
+                    new TreeNode(2, new TreeNode(3), new TreeNode(5)),
+                    new TreeNode(9, null, new TreeNode(7))
+                ),
+                15
+            );
+
+            // Case 5: skewed left
+            //   1
+            //  /
+            // 2
+            /// 
+            //3
+            // Node3 tilt 0, Node2 tilt |3-0|=3, Node1 tilt |5-0|=5 => total 8
+            data.Add(
+                new TreeNode(1,
+                    new TreeNode(2,
+                        new TreeNode(3),
+                        null
+                    ),
+                    null
+                ),
+                8
+            );
+
+            return data;
+        }
+
         public static TheoryData<Treenode, bool> ValidateBSTTestData()
         {
             var data = new TheoryData<Treenode, bool>
