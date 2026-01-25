@@ -1,4 +1,5 @@
-﻿using TreeNode = CSharpAlgorithms.DFS.Treenode;
+﻿using static CSharpAlgorithms.DFS;
+using TreeNode = CSharpAlgorithms.DFS.Treenode;
 
 namespace CSharpAlgorithms.Tests
 {
@@ -27,6 +28,107 @@ namespace CSharpAlgorithms.Tests
             var output = DFS.GoodNodes(root);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        [MemberData(nameof(ValidateBSTTestData))]
+        public void TestValidateBinarySearchTree(TreeNode node, bool expected)
+        {
+            var output = DFS.ValidateBinarySearchTree(node);
+            Assert.Equal(expected, output);
+        }
+
+        public static TheoryData<Treenode, bool> ValidateBSTTestData()
+        {
+            var data = new TheoryData<Treenode, bool>
+        {
+        // Standard convention: empty tree is a valid BST
+        { null, true },
+
+        // single node
+        { new Treenode(1), true },
+
+        // valid: [2,1,3]
+        { new Treenode(2) { left = new Treenode(1), right = new Treenode(3) }, true },
+
+        // invalid: [5,1,4,null,null,3,6]
+        { new Treenode(5)
+            {
+                left = new Treenode(1),
+                right = new Treenode(4)
+                {
+                    left = new Treenode(3),
+                    right = new Treenode(6)
+                }
+            }, false
+        },
+
+        // invalid deep violation: [10,5,15,null,null,6,20]
+        { new Treenode(10)
+            {
+                left = new Treenode(5),
+                right = new Treenode(15)
+                {
+                    left = new Treenode(6),
+                    right = new Treenode(20)
+                }
+            }, false
+        },
+
+        // duplicates invalid under strict BST
+        { new Treenode(2) { left = new Treenode(2) }, false },
+        { new Treenode(2) { right = new Treenode(2) }, false },
+
+        // valid with negatives
+        { new Treenode(0) { left = new Treenode(-1), right = new Treenode(1) }, true },
+
+        // valid skew increasing
+        { new Treenode(1)
+            {
+                right = new Treenode(2)
+                {
+                    right = new Treenode(3)
+                    {
+                        right = new Treenode(4)
+                    }
+                }
+            }, true
+        },
+
+        // valid skew decreasing
+        { new Treenode(4)
+            {
+                left = new Treenode(3)
+                {
+                    left = new Treenode(2)
+                    {
+                        left = new Treenode(1)
+                    }
+                }
+            }, true
+        },
+
+        // boundary values valid
+        { new Treenode(int.MinValue)
+            {
+                right = new Treenode(int.MaxValue)
+            }, true
+        },
+
+        // invalid deep boundary (violates ancestor constraint)
+        { new Treenode(8)
+            {
+                left = new Treenode(3)
+                {
+                    right = new Treenode(9) // 9 is in left subtree of 8, should be < 8
+                },
+                right = new Treenode(10)
+            }, false
+        },
+        };
+
+            return data;
+        }
+
 
         public static TheoryData<TreeNode, int> GoodNodesTestData()
         {
