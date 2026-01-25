@@ -110,5 +110,32 @@
 
             return ValidateHelper(node.left, min, node.val) && ValidateHelper(node.right, node.val, max);
         }
+
+        /// <summary>
+        /// Given the root of a binary tree, return the sum of every tree node's tilt.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public static int FindTitl(Treenode node)
+        {
+            int totalTilt = 0;
+            TiltHelper(node);
+            return totalTilt;
+
+            int TiltHelper(Treenode root)
+            {
+                if (root is null)
+                {
+                    return 0;
+                }
+
+                int leftSum = TiltHelper(root.left);
+                int rightSum = TiltHelper(root.right);
+
+                totalTilt += Math.Abs(leftSum - rightSum);
+
+                return leftSum + rightSum + root.val;
+            }
+        }
     }
 }
