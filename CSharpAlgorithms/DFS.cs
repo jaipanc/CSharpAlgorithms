@@ -137,5 +137,37 @@
                 return leftSum + rightSum + root.val;
             }
         }
+
+        /// <summary>
+        /// 543. Diameter of Binary Tree
+        /// </summary>
+        /// <param name="root">Binary Tree</param>
+        /// <returns>Diameter value</returns>
+        public static int DiameterOfBinaryTree(Treenode root)
+        {
+            int maxDiameter = 0;
+            HelperDFS(root);
+            return maxDiameter;
+
+            // Two different approaches here 
+            // 1. Heights as Edges ( leaf node itself height considered as 0 )
+                // Return -1 if node is null
+                // Diameter = l + r + 2
+            // 2. Heights as Nodes ( leaf node itself height considered as 1 )
+                // Return 0 if node is null
+                // Diameter = l + r
+            int HelperDFS(Treenode node)
+            {
+                if (node is null)
+                    return -1;
+
+                int left = HelperDFS(node.left);
+                int right = HelperDFS(node.right);
+
+                maxDiameter = Math.Max(maxDiameter, left + right + 2);
+
+                return Math.Max(left, right) + 1;
+            }
+        }
     }
 }
