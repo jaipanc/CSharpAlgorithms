@@ -45,6 +45,77 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, output);
         }
 
+        [Theory]
+        [MemberData(nameof(DiameterCases))]
+        public void TestDiameterOfBinaryTree(TreeNode node, int expected)
+        {
+            var output = DFS.DiameterOfBinaryTree(node);
+            Assert.Equal(expected, output);
+        }
+
+        // Expected values are DIAMETER IN EDGES.
+        // These cases are correct for Approach B:
+        // - dfs(null) = -1
+        // - update: maxDiameter = max(maxDiameter, L + R + 2)
+        // - return: 1 + max(L, R)
+        public static TheoryData<TreeNode, int> DiameterCases()
+        {
+            var data = new TheoryData<TreeNode, int>();
+
+            // 1) [1,2,3,4,5] => 3
+            var t1 = new TreeNode(1,
+                new TreeNode(2, new TreeNode(4), new TreeNode(5)),
+                new TreeNode(3));
+            data.Add(t1, 3);
+
+            // 2) Single node [1] => 0
+            var t2 = new TreeNode(1);
+            data.Add(t2, 0);
+
+            // 3) Two nodes [1,2] => 1
+            var t3 = new TreeNode(1, new TreeNode(2), null);
+            data.Add(t3, 1);
+
+            // 4) Skewed chain (4 nodes) => 3
+            // 1 -> 2 -> 3 -> 4
+            var t4 = new TreeNode(1,
+                new TreeNode(2,
+                    new TreeNode(3,
+                        new TreeNode(4), null),
+                    null),
+                null);
+            data.Add(t4, 3);
+
+            // 5) Perfect balanced tree height 2 => 4
+            // [1,2,3,4,5,6,7] => path 4-2-1-3-7
+            var t5 = new TreeNode(1,
+                new TreeNode(2, new TreeNode(4), new TreeNode(5)),
+                new TreeNode(3, new TreeNode(6), new TreeNode(7)));
+            data.Add(t5, 4);
+
+            // 6) Diameter entirely in left subtree (doesn't need root) => 4
+            //        1
+            //       /
+            //      2
+            //     / \
+            //    3   4
+            //   /     \
+            //  5       6
+            // Diameter = 4 (5-3-2-4-6)
+            var t6 = new TreeNode(1,
+                new TreeNode(2,
+                    new TreeNode(3, new TreeNode(5), null),
+                    new TreeNode(4, null, new TreeNode(6))),
+                null);
+            data.Add(t6, 4);
+
+            // 7) Null tree => 0 (your wrapper method should handle this)
+            TreeNode t7 = null;
+            data.Add(t7, 0);
+
+            return data;
+        }
+
         public static TheoryData<TreeNode, int> TiltCases()
         {
             var data = new TheoryData<TreeNode, int>();
