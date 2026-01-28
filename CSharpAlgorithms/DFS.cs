@@ -1,4 +1,6 @@
-﻿namespace CSharpAlgorithms
+﻿using static CSharpAlgorithms.DFS;
+
+namespace CSharpAlgorithms
 {
     public class DFS
     {
@@ -167,6 +169,41 @@
                 maxDiameter = Math.Max(maxDiameter, left + right + 2);
 
                 return Math.Max(left, right) + 1;
+            }
+        }
+
+        /// <summary>
+        /// Given the root of a binary tree and an integer targetSum, 
+        /// return all root-to-leaf paths where the sum of the node values in the path equals targetSum. 
+        /// Each path should be returned as a list of the node values, not node references.
+        /// </summary>
+        /// <param name="root">Binary Tree</param>
+        /// <param name="targetSum">Expected Sum</param>
+        /// <returns>List of Paths</returns>
+        public static IList<IList<int>> PathSumII(Treenode root, int targetSum)
+        {
+            var path = new List<int>();
+            var result = new List<IList<int>>();
+            HelperPathSum(root, targetSum, path, result);
+            return result;
+
+            void HelperPathSum(Treenode node, int remainingSum, List<int> path, List<IList<int>> result)
+            {
+                if (node == null)
+                    return;
+
+                path.Add(node.val);
+                remainingSum -= node.val;
+
+                if (node.left == null && node.right == null && remainingSum == 0)
+                {
+                    result.Add([.. path]);
+                }
+
+                HelperPathSum(node.left, remainingSum, path, result);
+                HelperPathSum(node.right, remainingSum, path, result);
+
+                path.RemoveAt(path.Count - 1);
             }
         }
     }
