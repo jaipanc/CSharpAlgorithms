@@ -53,6 +53,104 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, output);
         }
 
+
+        [Theory]
+        [MemberData(nameof(GetPathSumIIData))]
+        public void TestPathSumII(TreeNode root, int targetSum, int[][] expectedPaths)
+        {
+            var actual = DFS.PathSumII(root, targetSum);
+
+            // Convert actual -> int[][] for easy comparison
+            var actualPaths = actual.Select(p => p.ToArray()).ToArray();
+
+            AssertPathsEqual(expectedPaths, actualPaths);
+        }
+
+        public static TheoryData<TreeNode, int, int[][]> GetPathSumIIData()
+        {
+            var data = new TheoryData<TreeNode, int, int[][]>
+            {
+                // 1) null tree
+                { null, 0, Array.Empty<int[]>() },
+
+                // 2) single node matches
+                { new TreeNode(5), 5, new[] { new[] { 5 } } },
+
+                // 3) single node no match
+                { new TreeNode(5), 10, Array.Empty<int[]>() }
+            };
+
+            // 4) classic example
+            //         5
+            //        / \
+            //       4   8
+            //      /   / \
+            //     11  13  4
+            //    / \      / \
+            //   7   2    5   1
+            //
+            // target = 22 => [5,4,11,2] and [5,8,4,5]
+            var ex =
+                new TreeNode(5,
+                    new TreeNode(4,
+                        new TreeNode(11,
+                            new TreeNode(7),
+                            new TreeNode(2)),
+                        null),
+                    new TreeNode(8,
+                        new TreeNode(13),
+                        new TreeNode(4,
+                            new TreeNode(5),
+                            new TreeNode(1)))
+                );
+
+            data.Add(ex, 22,
+            [
+                [5, 4, 11, 2],
+                [5, 8, 4, 5]
+            ]);
+
+            // 5) negative values example
+            //   -2
+            //     \
+            //     -3
+            // target = -5 => [-2,-3]
+            var neg = new TreeNode(-2, null, new TreeNode(-3));
+            data.Add(neg, -5, [[-2, -3]]);
+
+            // 6) multiple valid paths, ensure left-to-right DFS order
+            //      1
+            //     / \
+            //    2   2
+            //   /     \
+            //  3       3
+            // target = 6 => [1,2,3] and [1,2,3]
+            // (two distinct paths with same values)
+            var dup =
+                new TreeNode(1,
+                    new TreeNode(2, new TreeNode(3), null),
+                    new TreeNode(2, null, new TreeNode(3)));
+
+            data.Add(dup, 6, new[]
+            {
+                [1, 2, 3],
+                new[] { 1, 2, 3 }
+            });
+
+            return data;
+        }
+
+        // ---------- Helpers ----------
+        private static void AssertPathsEqual(int[][] expected, int[][] actual)
+        {
+            Assert.Equal(expected.Length, actual.Length);
+
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i]);
+            }
+        }
+
         // Expected values are DIAMETER IN EDGES.
         // These cases are correct for Approach B:
         // - dfs(null) = -1
