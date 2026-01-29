@@ -229,18 +229,18 @@ namespace CSharpAlgorithms
                 // At each node we will calculate following 
                 // 1. Maximum path length from left and right which satisfies the condition of value equal to its parent i.e. Math.Max(leftPath,rightPath)
                 // 2. Path value through this node i.e. leftPath + rightPath
-                int leftDown = HelperLongestUnivaluePath(root.left);
-                int rightDown = HelperLongestUnivaluePath(root.right);
+                int leftDown = HelperLongestUnivaluePath(node.left);
+                int rightDown = HelperLongestUnivaluePath(node.right);
 
                 int leftPath = 0;
                 int rightPath = 0;
 
-                if (root.left != null && node.left.val == node.val)
+                if (node.left != null && node.left.val == node.val)
                 {
                     leftPath = leftDown + 1;
                 }
 
-                if (root.right != null && node.right.val == node?.val)
+                if (node.right != null && node.right.val == node.val)
                 {
                     rightPath = rightDown + 1;
                 }
