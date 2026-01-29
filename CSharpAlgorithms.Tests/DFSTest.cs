@@ -1,4 +1,5 @@
 ﻿using static CSharpAlgorithms.DFS;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using TreeNode = CSharpAlgorithms.DFS.Treenode;
 
 namespace CSharpAlgorithms.Tests
@@ -64,6 +65,118 @@ namespace CSharpAlgorithms.Tests
             var actualPaths = actual.Select(p => p.ToArray()).ToArray();
 
             AssertPathsEqual(expectedPaths, actualPaths);
+        }
+
+        [Theory]
+        [MemberData(nameof(LongestUnivaluePathTests))]
+        public void LongestUnivaluePath_Works(TreeNode root, int expected)
+        {
+            var actual = DFS.LongestUnivaluePath(root);
+            Assert.Equal(expected, actual);
+        }
+
+        public static TheoryData<TreeNode, int> LongestUnivaluePathTests()
+        {
+            var data = new TheoryData<TreeNode, int>();
+
+            // 1) null
+            data.Add(null, 0);
+
+            // 2) single node
+            data.Add(new TreeNode(1), 0);
+
+            // 3) example:
+            //        5
+            //       / \
+            //      4   5
+            //     / \   \
+            //    1   1   5
+            // longest univalue path: 5-5-5 => 2 edges
+            data.Add(
+                new TreeNode(5,
+                    new TreeNode(4,
+                        new TreeNode(1),
+                        new TreeNode(1)),
+                    new TreeNode(5,
+                        null,
+                        new TreeNode(5))),
+                2
+            );
+
+            // 4) all same values, perfect-ish:
+            //        1
+            //       / \
+            //      1   1
+            //     / \ / \
+            //    1  1 1  1
+            // longest path goes leaf->root->leaf: depth 2 + depth 2 = 4 edges
+            data.Add(
+                new TreeNode(1,
+                    new TreeNode(1, new TreeNode(1), new TreeNode(1)),
+                    new TreeNode(1, new TreeNode(1), new TreeNode(1))),
+                4
+            );
+
+            // 5) only one side chain:
+            //    2
+            //     \
+            //      2
+            //       \
+            //        2
+            //         \
+            //          2
+            // => 3 edges
+            data.Add(
+                new TreeNode(2,
+                    null,
+                    new TreeNode(2,
+                        null,
+                        new TreeNode(2,
+                            null,
+                            new TreeNode(2)))),
+                3
+            );
+
+            // 6) best path occurs in a subtree (not through root):
+            //        9
+            //       / \
+            //      1   1
+            //     /     \
+            //    1       1
+            // longest univalue: left-subtree 1-1 => 1 edge, right-subtree 1-1 => 1 edge
+            // but through root 9 doesn't connect; best is 1 edge (either side)
+            data.Add(
+                new TreeNode(9,
+                    new TreeNode(1, new TreeNode(1), null),
+                    new TreeNode(1, null, new TreeNode(1))),
+                1
+            );
+
+            // 7) mixed values where a node connects both sides:
+            //        3
+            //       / \
+            //      3   3
+            //     /     \
+            //    3       3
+            // longest through root: left chain 2 edges + right chain 2 edges = 4
+            data.Add(
+                new TreeNode(3,
+                    new TreeNode(3, new TreeNode(3), null),
+                    new TreeNode(3, null, new TreeNode(3))),
+                4
+            );
+
+            // 8) no equal adjacent values anywhere => 0
+            data.Add(
+                new TreeNode(1,
+                    new TreeNode(2,
+                        new TreeNode(3),
+                        new TreeNode(4)),
+                    new TreeNode(5)),
+                0
+            );
+
+            return data;
         }
 
         public static TheoryData<TreeNode, int, int[][]> GetPathSumIIData()
