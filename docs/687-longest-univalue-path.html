@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-01-28T23:16:41.0814486"><title>687: Longest Univalue Path | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"what-the-problem-is-asking-in-simple-words","level":0,"title":"What the problem is asking (in simple words)","anchor":"#what-the-problem-is-asking-in-simple-words"},{"id":"key-dfs-idea","level":0,"title":"Key DFS idea","anchor":"#key-dfs-idea"},{"id":"visual-example-step-by-step","level":0,"title":"Visual Example (step-by-step)","anchor":"#visual-example-step-by-step"},{"id":"step-by-step-dfs-postorder","level":0,"title":"Step-by-step DFS (postorder)","anchor":"#step-by-step-dfs-postorder"},{"id":"why-leftarm-rightarm-matters","level":0,"title":"Why “leftArm + rightArm” matters","anchor":"#why-leftarm-rightarm-matters"},{"id":"c-dfs-template-core-logic","level":0,"title":"C# DFS template (core logic)","anchor":"#c-dfs-template-core-logic"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="687: Longest Univalue Path | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/687-longest-univalue-path.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="687: Longest Univalue Path | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/687-longest-univalue-path.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/687-longest-univalue-path.html",
+    "name": "687: Longest Univalue Path | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="687-Longest-Univalue-Path" data-main-title="687: Longest Univalue Path" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🌳-Depth-First-Search-DFS.md|🌳 Depth-First Search (DFS)"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="687-Longest-Univalue-Path" id="687-Longest-Univalue-Path.md">687: Longest Univalue Path</h1><section class="chapter"><h2 id="what-the-problem-is-asking-in-simple-words" data-toc="what-the-problem-is-asking-in-simple-words">What the problem is asking (in simple words)</h2><p id="-mvibc9_9">You need the <span class="control" id="-mvibc9_12">longest path (number of edges)</span> in the tree where <span class="control" id="-mvibc9_13">every node on that path has the same value</span>.</p><ul class="list _bullet" id="-mvibc9_10"><li class="list__item" id="-mvibc9_14"><p id="-mvibc9_16">The path can go <span class="control" id="-mvibc9_17">left &harr; node &harr; right</span> (it doesn&rsquo;t have to start at root).</p></li><li class="list__item" id="-mvibc9_15"><p id="-mvibc9_18">Count <span class="control" id="-mvibc9_19">edges</span>, not nodes.</p></li></ul></section><section class="chapter"><h2 id="key-dfs-idea" data-toc="key-dfs-idea">Key DFS idea</h2><p id="-mvibc9_20">At every node, compute:</p><ul class="list _bullet" id="-mvibc9_21"><li class="list__item" id="-mvibc9_25"><p id="-mvibc9_27"><code class="code" id="-mvibc9_28">leftArm</code> = longest same-value chain going <span class="control" id="-mvibc9_29">down</span> into the left child</p></li><li class="list__item" id="-mvibc9_26"><p id="-mvibc9_30"><code class="code" id="-mvibc9_31">rightArm</code> = longest same-value chain going <span class="control" id="-mvibc9_32">down</span> into the right child</p></li></ul><p id="-mvibc9_22">Then:</p><ul class="list _bullet" id="-mvibc9_23"><li class="list__item" id="-mvibc9_33"><p id="-mvibc9_36">A path that <span class="control" id="-mvibc9_37">passes through</span> this node can be <code class="code" id="-mvibc9_38">leftArm + rightArm</code></p></li><li class="list__item" id="-mvibc9_34"><p id="-mvibc9_39">Update a global answer with that</p></li><li class="list__item" id="-mvibc9_35"><p id="-mvibc9_40">Return to parent: only <span class="control" id="-mvibc9_41">one arm</span> can be extended upward &rArr; <code class="code" id="-mvibc9_42">max(leftArm, rightArm)</code></p></li></ul></section><section class="chapter"><h2 id="visual-example-step-by-step" data-toc="visual-example-step-by-step">Visual Example (step-by-step)</h2><div class="code-block" data-lang="none">
+  ------     ------
+        5
+       / \
+      4   5
+     / \   \
+    1   1   5
+    
+</div><section class="chapter"><h3 id="goal" data-toc="goal">Goal</h3><p id="-mvibc9_45">Find the longest path where all values are the same.</p><p id="-mvibc9_46">The best univalue path here is: <code class="code" id="-mvibc9_48">5 - 5 - 5</code> on the right side That has <span class="control" id="-mvibc9_49">2 edges</span>.</p></section></section><section class="chapter"><h2 id="step-by-step-dfs-postorder" data-toc="step-by-step-dfs-postorder">Step-by-step DFS (postorder)</h2><p id="-mvibc9_50">We compute from bottom to top.</p><section class="chapter"><h3 id="leaf-nodes" data-toc="leaf-nodes">Leaf nodes</h3><ul class="list _bullet" id="-mvibc9_55"><li class="list__item" id="-mvibc9_58"><p id="-mvibc9_61">Node <code class="code" id="-mvibc9_62">1</code> (left-left): no children &rarr; returns 0</p></li><li class="list__item" id="-mvibc9_59"><p id="-mvibc9_63">Node <code class="code" id="-mvibc9_64">1</code> (left-right): no children &rarr; returns 0</p></li><li class="list__item" id="-mvibc9_60"><p id="-mvibc9_65">Node <code class="code" id="-mvibc9_66">5</code> (right-right): no children &rarr; returns 0</p></li></ul><p id="-mvibc9_56">(Leaves return <span class="control" id="-mvibc9_67">0 edges</span> extending downward.)</p></section><section class="chapter"><h3 id="node-4-left-subtree-root" data-toc="node-4-left-subtree-root">Node <code class="code" id="-mvibc9_77">4</code> (left subtree root)</h3><div class="code-block" data-lang="none">
+-------------
+      4
+     / \
+    1   1
+</div><ul class="list _bullet" id="-mvibc9_70"><li class="list__item" id="-mvibc9_78"><p id="-mvibc9_80">Left child value = 1 &ne; 4 &rarr; <code class="code" id="-mvibc9_81">leftArm = 0</code></p></li><li class="list__item" id="-mvibc9_79"><p id="-mvibc9_82">Right child value = 1 &ne; 4 &rarr; <code class="code" id="-mvibc9_83">rightArm = 0</code></p></li></ul><p id="-mvibc9_71">Update global:</p><ul class="list _bullet" id="-mvibc9_72"><li class="list__item" id="-mvibc9_84"><p id="-mvibc9_85"><code class="code" id="-mvibc9_86">best = max(best, leftArm + rightArm) = max(best, 0)</code></p></li></ul><p id="-mvibc9_73">Return upward:</p><ul class="list _bullet" id="-mvibc9_74"><li class="list__item" id="-mvibc9_87"><p id="-mvibc9_88">returns <code class="code" id="-mvibc9_89">max(0,0)=0</code></p></li></ul><p id="-mvibc9_75">✅ Meaning: from node 4, there is <span class="control" id="-mvibc9_90">no same-value chain</span> you can extend upward.</p></section><section class="chapter"><h3 id="node-5-right-child-of-root" data-toc="node-5-right-child-of-root">Node <code class="code" id="-mvibc9_100">5</code> (right child of root)</h3><div class="code-block" data-lang="none">
+    5
+     \
+      5
+</div><ul class="list _bullet" id="-mvibc9_93"><li class="list__item" id="-mvibc9_101"><p id="-mvibc9_103">Left child is null &rarr; <code class="code" id="-mvibc9_104">leftArm = 0</code></p></li><li class="list__item" id="-mvibc9_102"><p id="-mvibc9_105">Right child value = 5 == 5 &rarr; <code class="code" id="-mvibc9_107">rightArm = 1 + dfs(rightChild)</code></p><ul class="list _bullet" id="-mvibc9_106"><li class="list__item" id="-mvibc9_108"><p id="-mvibc9_109">dfs(rightChild) returned 0, so <code class="code" id="-mvibc9_110">rightArm = 1</code></p></li></ul></li></ul><p id="-mvibc9_94">Update global:</p><ul class="list _bullet" id="-mvibc9_95"><li class="list__item" id="-mvibc9_111"><p id="-mvibc9_112"><code class="code" id="-mvibc9_113">best = max(best, 0 + 1) = 1</code></p></li></ul><p id="-mvibc9_96">Return upward:</p><ul class="list _bullet" id="-mvibc9_97"><li class="list__item" id="-mvibc9_114"><p id="-mvibc9_115">returns <code class="code" id="-mvibc9_116">max(0,1)=1</code></p></li></ul><p id="-mvibc9_98">✅ Meaning: from this node 5, you can extend a chain of <span class="control" id="-mvibc9_117">length 1 edge</span> upward.</p></section><section class="chapter"><h3 id="root-node-5" data-toc="root-node-5">Root node <code class="code" id="-mvibc9_130">5</code></h3><div class="code-block" data-lang="none">
+----------------
+        5
+       / \
+      4   5
+           \
+            5
+</div><p id="-mvibc9_120">We already know:</p><ul class="list _bullet" id="-mvibc9_121"><li class="list__item" id="-mvibc9_131"><p id="-mvibc9_133">dfs(left child 4) returned 0</p></li><li class="list__item" id="-mvibc9_132"><p id="-mvibc9_134">dfs(right child 5) returned 1</p></li></ul><p id="-mvibc9_122">Now compute arms at root:</p><ul class="list _bullet" id="-mvibc9_123"><li class="list__item" id="-mvibc9_135"><p id="-mvibc9_137">Left child value = 4 &ne; 5 &rarr; <code class="code" id="-mvibc9_138">leftArm = 0</code></p></li><li class="list__item" id="-mvibc9_136"><p id="-mvibc9_139">Right child value = 5 == 5 &rarr; <code class="code" id="-mvibc9_140">rightArm = 1 + dfs(rightChild) = 1 + 1 = 2</code></p></li></ul><p id="-mvibc9_124">Update global:</p><ul class="list _bullet" id="-mvibc9_125"><li class="list__item" id="-mvibc9_141"><p id="-mvibc9_142"><code class="code" id="-mvibc9_143">best = max(best, leftArm + rightArm) = max(1, 0 + 2) = 2</code></p></li></ul><p id="-mvibc9_126">Return upward (not needed further):</p><ul class="list _bullet" id="-mvibc9_127"><li class="list__item" id="-mvibc9_144"><p id="-mvibc9_145">returns <code class="code" id="-mvibc9_146">max(0,2)=2</code></p></li></ul><p id="-mvibc9_128">✅ Final answer = <span class="control" id="-mvibc9_147">2</span></p></section></section><section class="chapter"><h2 id="why-leftarm-rightarm-matters" data-toc="why-leftarm-rightarm-matters">Why &ldquo;leftArm + rightArm&rdquo; matters</h2><p id="-mvibc9_148">Because a path can go:</p><p id="-mvibc9_149"><code class="code" id="-mvibc9_152">(same-value chain down left) &rarr; node &rarr; (same-value chain down right)</code></p><p id="-mvibc9_150">But when returning to parent, you can only choose <span class="control" id="-mvibc9_153">one direction</span>, otherwise it would &ldquo;fork&rdquo;.</p></section><section class="chapter"><h2 id="c-dfs-template-core-logic" data-toc="c-dfs-template-core-logic">C# DFS template (core logic)</h2><div class="code-block" data-lang="csharp">
+public class Solution {
+    private int best = 0;
+
+    public int LongestUnivaluePath(TreeNode root) {
+        Dfs(root);
+        return best;
+    }
+
+    private int Dfs(TreeNode node) {
+        if (node == null) return 0;
+
+        int leftLen = Dfs(node.left);
+        int rightLen = Dfs(node.right);
+
+        int leftArm = 0;
+        int rightArm = 0;
+
+        if (node.left != null &amp;&amp; node.left.val == node.val)
+            leftArm = leftLen + 1;
+
+        if (node.right != null &amp;&amp; node.right.val == node.val)
+            rightArm = rightLen + 1;
+
+        best = Math.Max(best, leftArm + rightArm);
+
+        return Math.Max(leftArm, rightArm);
+    }
+}
+</div></section><div class="last-modified">29 January 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="depth-first-search-dfs.html" class="navigation-links__prev">🌳 Depth-First Search (DFS)</a><a href="breadth-first-search-bfs.html" class="navigation-links__next">🌐 Breadth-First Search (BFS)</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
