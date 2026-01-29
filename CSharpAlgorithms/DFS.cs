@@ -1,4 +1,5 @@
-﻿using static CSharpAlgorithms.DFS;
+﻿using System.Runtime.InteropServices;
+using static CSharpAlgorithms.DFS;
 
 namespace CSharpAlgorithms
 {
@@ -204,6 +205,49 @@ namespace CSharpAlgorithms
                 HelperPathSum(node.right, remainingSum, path, result);
 
                 path.RemoveAt(path.Count - 1);
+            }
+        }
+
+        /// <summary>
+        /// 687. Longest Univalue Path
+        /// Given the root of a binary tree, return the length of the longest path, where each node in the path has the same value. 
+        /// This path may or may not pass through the root.
+        /// </summary>
+        /// <param name="root">Binary Tree</param>
+        /// <returns></returns>
+        public static int LongestUnivaluePath(Treenode root)
+        {
+            int bestPath = 0;
+            HelperLongestUnivaluePath(root);
+            return bestPath;
+
+            int HelperLongestUnivaluePath(Treenode node)
+            {
+                if (node is null)
+                    return 0;
+
+                // At each node we will calculate following 
+                // 1. Maximum path length from left and right which satisfies the condition of value equal to its parent i.e. Math.Max(leftPath,rightPath)
+                // 2. Path value through this node i.e. leftPath + rightPath
+                int leftDown = HelperLongestUnivaluePath(root.left);
+                int rightDown = HelperLongestUnivaluePath(root.right);
+
+                int leftPath = 0;
+                int rightPath = 0;
+
+                if (root.left != null && node.left.val == node.val)
+                {
+                    leftPath = leftDown + 1;
+                }
+
+                if (root.right != null && node.right.val == node?.val)
+                {
+                    rightPath = rightDown + 1;
+                }
+
+                bestPath = Math.Max(bestPath, leftPath + rightPath);
+
+                return Math.Max(leftPath , rightPath);
             }
         }
     }
