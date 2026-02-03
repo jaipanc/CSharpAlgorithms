@@ -75,6 +75,75 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [MemberData(nameof(TestBuildAdjacencyListData))]
+        public void TestBuildAdjacencyList(int nodes, int[][] edges, Dictionary<int,List<int>> expected)
+        {
+            var actual = DFS.BuildAdjacencyList(nodes, edges);
+            Assert.Equal(expected, actual);
+        }
+
+        public static TheoryData<int, int[][], Dictionary<int, List<int>>> TestBuildAdjacencyListData()
+        {
+            return new TheoryData<int, int[][], Dictionary<int, List<int>>>
+        {
+            // Case 1: Simple connected graph
+            {
+                3,
+                new int[][]
+                {
+                    [0, 1],
+                    [1, 2]
+                },
+                new Dictionary<int, List<int>>
+                {
+                    { 0, new List<int> { 1 } },
+                    { 1, new List<int> { 0, 2 } },
+                    { 2, new List<int> { 1 } }
+                }
+            },
+
+            // Case 2: No edges
+            {
+                3,
+                Array.Empty<int[]>(),
+                new Dictionary<int, List<int>>
+                {
+                    { 0, new List<int>() },
+                    { 1, new List<int>() },
+                    { 2, new List<int>() }
+                }
+            },
+
+            // Case 3: Single node
+            {
+                1,
+                Array.Empty<int[]>(),
+                new Dictionary<int, List<int>>
+                {
+                    { 0, new List<int>() }
+                }
+            },
+
+            // Case 4: Disconnected graph
+            {
+                4,
+                new int[][]
+                {
+                    [0, 1],
+                    [2, 3]
+                },
+                new Dictionary<int, List<int>>
+                {
+                    { 0, new List<int> { 1 } },
+                    { 1, new List<int> { 0 } },
+                    { 2, new List<int> { 3 } },
+                    { 3, new List<int> { 2 } }
+                }
+            }
+        };
+        }
+
         public static TheoryData<TreeNode, int> LongestUnivaluePathTests()
         {
             var data = new TheoryData<TreeNode, int>();
