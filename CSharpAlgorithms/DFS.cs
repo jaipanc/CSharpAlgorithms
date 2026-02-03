@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using static CSharpAlgorithms.DFS;
 
 namespace CSharpAlgorithms
@@ -249,6 +250,32 @@ namespace CSharpAlgorithms
 
                 return Math.Max(leftPath , rightPath);
             }
+        }
+
+        /// <summary>
+        /// Given an integer n which represents the number of nodes in a graph, and a list of edges edges, where edges[i] = [ui, vi] represents a bidirectional edge between nodes ui and vi, 
+        /// write a function to return the adjacency list representation of the graph as a dictionary. 
+        /// The keys of the dictionary should be the nodes, and the values should be a list of the nodes each node is connected to
+        /// </summary>
+        /// <param name="nodes">number of nodes</param>
+        /// <param name="edges">edges between nodes</param>
+        /// <returns>adjacency list representation of the graph as a dictionary</returns>
+        public static Dictionary<int, List<int>> BuildAdjacencyList(int nodes, int[][] edges)
+        {
+            Dictionary<int, List<int>> adjList = [];
+            for (int i = 0; i < nodes; i++)
+            {
+                adjList[i] = [];
+            }
+
+            foreach (var edge in edges)
+            {
+                var u = edge[0];
+                var v = edge[1];
+                adjList[u].Add(v);
+                adjList[v].Add(u);
+            }
+            return adjList;
         }
     }
 }
