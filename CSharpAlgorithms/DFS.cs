@@ -23,6 +23,13 @@ namespace CSharpAlgorithms
             }
         }
 
+        public class GraphNode
+        {
+            public int Value;
+            public int Id;
+            public GraphNode[] Neighbors;
+        }
+
         /// <summary>
         /// Given the root of a binary tree and an integer targetSum return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
         /// </summary>
@@ -276,6 +283,41 @@ namespace CSharpAlgorithms
                 adjList[v].Add(u);
             }
             return adjList;
+        }
+
+        /// <summary>
+        /// Given a reference to a variable node which is part of an undirected, connected graph, write a function to return a copy of the graph as an adjacency list in dictionary form. 
+        /// The keys of the adjacency list are the values of the nodes, and the values are the neighbors of the nodes.
+        /// </summary>
+        /// <param name="node">Int Graph Node</param>
+        /// <returns>Adj List in Dictionary Form.</returns>
+        public static Dictionary<int, List<int>> CloneGraph(GraphNode node)
+        {
+            Dictionary<int, List<int>> adjList = [];
+            if (node != null)
+            {
+                DFSHelper(node, adjList);
+            }
+            return adjList;
+
+            void DFSHelper(GraphNode root, Dictionary<int, List<int>> list)
+            {
+                if (list.ContainsKey(root.Value)) return;
+
+                List<int> neighboursList = [];
+
+                foreach (var n in root.Neighbors)
+                {
+                    neighboursList.Add(n.Value);
+                }
+
+                list[root.Value] = neighboursList;
+
+                foreach (var n in root.Neighbors)
+                {
+                    DFSHelper(n, list);
+                }
+            }
         }
     }
 }
