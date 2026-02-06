@@ -1,6 +1,7 @@
 ﻿using static CSharpAlgorithms.DFS;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using TreeNode = CSharpAlgorithms.DFS.Treenode;
+using GraphNode = CSharpAlgorithms.DFS.GraphNode;
 
 namespace CSharpAlgorithms.Tests
 {
@@ -77,11 +78,63 @@ namespace CSharpAlgorithms.Tests
 
         [Theory]
         [MemberData(nameof(TestBuildAdjacencyListData))]
-        public void TestBuildAdjacencyList(int nodes, int[][] edges, Dictionary<int,List<int>> expected)
+        public void TestBuildAdjacencyList(int nodes, int[][] edges, Dictionary<int, List<int>> expected)
         {
             var actual = DFS.BuildAdjacencyList(nodes, edges);
             Assert.Equal(expected, actual);
         }
+
+        [Theory]
+        [MemberData(nameof(TestCloneGraphData))]
+        public void TestCloneGraph(GraphNode node, Dictionary<int, List<int>> expected)
+        {
+            var actual = DFS.CloneGraph(node);
+            Assert.Equal(expected, actual);
+        }
+
+        public static TheoryData<GraphNode, Dictionary<int, List<int>>> TestCloneGraphData()
+        {
+            var data = new TheoryData<GraphNode, Dictionary<int, List<int>>>
+            {
+                // Case 1: null input -> empty adjacency list
+                { null, [] }
+            };
+
+            // Case 2: single node with no neighbors
+            var single = new GraphNode { Value = 1, Neighbors = Array.Empty<GraphNode>() };
+            data.Add(single, new Dictionary<int, List<int>>
+            {
+                { 1, new List<int>() }
+            });
+
+            // Case 3: two-node undirected edge 1 <-> 2
+            var n1 = new GraphNode { Value = 1 };
+            var n2 = new GraphNode { Value = 2 };
+            n1.Neighbors = [n2];
+            n2.Neighbors = [n1];
+            data.Add(n1, new Dictionary<int, List<int>>
+                {
+                    { 1, new List<int> { 2 } },
+                    { 2, new List<int> { 1 } }
+                });
+
+            // Case 4: triangle 1 <-> 2 <-> 3 <-> 1
+            var a = new GraphNode { Value = 1 };
+            var b = new GraphNode { Value = 2 };
+            var c = new GraphNode { Value = 3 };
+            a.Neighbors = [b, c];
+            b.Neighbors = [a, c];
+            c.Neighbors = [a, b];
+            data.Add(a, new Dictionary<int, List<int>>
+            {
+                { 1, new List<int> { 2, 3 } },
+                { 2, new List<int> { 1, 3 } },
+                { 3, new List<int> { 1, 2 } }
+            });
+
+            return data;
+        }
+
 
         public static TheoryData<int, int[][], Dictionary<int, List<int>>> TestBuildAdjacencyListData()
         {
