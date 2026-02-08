@@ -92,6 +92,52 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [MemberData(nameof(TestValidTreeData))]
+        public void TestValidTree(int n, int[][] edges, bool expected)
+        {
+            var actual = DFS.ValidTree(n, edges);
+            Assert.Equal(expected, actual);
+        }
+
+        public static TheoryData<int, int[][], bool> TestValidTreeData()
+         {
+            var data = new TheoryData<int, int[][], bool>
+            {
+            // --- Basic / Edge cases ---
+            { 1, Array.Empty<int[]>(), true },                              // single node is a tree
+            { 2, new int[][] { [0, 1] }, true },                 // one edge connects 2 nodes
+
+            // --- Valid trees ---
+            { 5, new int[][] { [0,1], [0,2], [0,3], [1,4] }, true },  // classic tree
+            { 4, new int[][] { [0,1], [1,2], [2,3] }, true },               // chain
+
+            // --- Wrong edge count (fast-fail) ---
+            { 3, Array.Empty<int[]>(), false },                             // too few edges (disconnected)
+            { 3, new int[][] { [0,1] }, false },                 // too few edges
+            { 3, new int[][] { [0,1], [1,2], [2,0] }, false }, // too many edges (cycle)
+
+            // --- Cycle present (may also pass edge count check in other configs) ---
+            { 4, new int[][] { [0,1], [1, 2], [2, 0] }, false }, // edges=3, n-1=3 but node 3 disconnected + cycle
+
+            // --- Disconnected (but edge count equals n-1) ---
+            { 4, new int[][] { [0,1], [2, 3], [0, 1] }, false }, // duplicate keeps edges count at 3 but still disconnected
+
+            // Another disconnected example (no duplicates), but still edges = n-1:
+            // component A: 0-1-2 forms a chain (2 edges), component B: 3 alone -> need 3 edges total so add a self-loop/dup; not typical input
+            // We'll instead test a clean disconnected with too few edges (already above).
+
+            // --- Self-loop (not a tree) ---
+            { 2, new int[][] { [0, 0] }, false },                 // self-loop is a cycle
+
+            // --- Duplicate edge (not a tree, usually treated as cycle/multi-edge invalid) ---
+            { 2, new int[][] { [0,1], [0,1] }, false },     // edges=2, n-1=1 -> fails edge count
+            };
+
+            return data;
+        }
+
+
         public static TheoryData<GraphNode, Dictionary<int, List<int>>> TestCloneGraphData()
         {
             var data = new TheoryData<GraphNode, Dictionary<int, List<int>>>
