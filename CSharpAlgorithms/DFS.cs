@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using static CSharpAlgorithms.DFS;
 
@@ -318,6 +319,60 @@ namespace CSharpAlgorithms
                     DFSHelper(n, list);
                 }
             }
+        }
+
+        /// <summary>
+        /// You are given an integer n and a list of undirected edges where each entry in the list is a pair of integers representing an edge between nodes 1 and n. 
+        /// You have to write a function to check whether these edges make up a valid tree.
+        /// </summary>
+        /// <param name="n"></param>
+        /// <param name="egdes"></param>
+        /// <returns></returns>
+        public static bool ValidTree(int n, int[][] egdes)
+        {
+            if (egdes.Length != n - 1) return false;
+
+            var adjList = new List<int>[n];
+
+            for (int i = 0; i < n; i++)
+            {
+                adjList[i] = [];
+            }
+
+            foreach (var edge in egdes)
+            {
+                adjList[edge[0]].Add(edge[1]);
+                adjList[edge[1]].Add(edge[0]);
+            }
+
+            bool[] visited = new bool[n];
+
+            bool HasCycle(int node, int parent)
+            {
+                visited[node] = true;
+
+                foreach (var nei in adjList[node])
+                {
+                    if (!visited[nei])
+                    {
+                        if (HasCycle(nei, node)) return true;
+                    }
+                    else if (nei != parent)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (HasCycle(0, -1)) return false;
+
+            for (int i = 0; i < n; i++)
+            {
+                if (!visited[i]) return false;
+            }
+
+            return true;
         }
     }
 }
