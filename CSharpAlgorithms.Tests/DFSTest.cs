@@ -100,6 +100,86 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, actual);
         }
 
+        [Theory]
+        [MemberData(nameof(FloodFillTestData))]
+        public void TestFloodFill(int[][] image, int sr, int sc, int color, int[][] expected)
+        {
+            // Act
+            var result = FloodFill(image, sc, sr, color);
+
+            // Assert
+            Assert.Equivalent(expected, result);
+        }
+
+        public static TheoryData<int[][], int, int, int, int[][]> FloodFillTestData()
+        {
+            return new TheoryData<int[][], int, int, int, int[][]>
+        {
+            // Basic fill
+            {
+                new int[][]
+                {
+                    [1,1,1],
+                    [1,1,0],
+                    [1,0,1]
+                },
+                1, 1, 2,
+                new int[][]
+                {
+                    [2,2,2],
+                    [2,2,0],
+                    [2,0,1]
+                }
+            },
+
+            // No-op when starting pixel already has target color
+            {
+                new int[][]
+                {
+                    [2,2,2],
+                    [2,2,2]
+                },
+                0, 0, 2,
+                new int[][]
+                {
+                    [2,2,2],
+                    [2,2,2]
+                }
+            },
+
+            // Single cell
+            {
+                new int[][]
+                {
+                    [5]
+                },
+                0, 0, 3,
+                new int[][]
+                {
+                    [3]
+                }
+            },
+
+            // Diagonals should NOT be filled
+            {
+                new int[][]
+                {
+                    [1,0,1],
+                    [0,1,0],
+                    [1,0,1]
+                },
+                1, 1, 2,
+                new int[][]
+                {
+                    [1,0,1],
+                    [0,2,0],
+                    [1,0,1]
+                }
+            }
+        };
+        }
+
+
         public static TheoryData<int, int[][], bool> TestValidTreeData()
          {
             var data = new TheoryData<int, int[][], bool>
@@ -412,11 +492,11 @@ namespace CSharpAlgorithms.Tests
                     new TreeNode(2, new TreeNode(3), null),
                     new TreeNode(2, null, new TreeNode(3)));
 
-            data.Add(dup, 6, new[]
-            {
+            data.Add(dup, 6,
+            [
                 [1, 2, 3],
                 new[] { 1, 2, 3 }
-            });
+            ]);
 
             return data;
         }
