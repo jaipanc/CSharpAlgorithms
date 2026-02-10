@@ -374,5 +374,43 @@ namespace CSharpAlgorithms
 
             return true;
         }
+
+        /// <summary>
+        /// 733. Flood Fill
+        /// You are given an image represented by an m x n grid of integers image, where image[i][j] represents the pixel value of the image. 
+        /// You are also given three integers sr, sc, and color. Your task is to perform a flood fill on the image starting from the pixel image[sr][sc].
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="sc"></param>
+        /// <param name="sr"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        public static int[][] FloodFill(int[][] image, int sc, int sr, int color)
+        {
+            int rows = image.Length;
+            int cols = image[0].Length;
+            int originalColor = image[sr][sc];
+
+            if (originalColor == color)
+            {
+                return image;
+            }
+            FloodFillDFSHelper(image, sr, sc, originalColor);
+            return image;
+
+            void FloodFillDFSHelper(int[][] image, int r, int c, int originalColor)
+            {
+                if (image[r][c] == originalColor)
+                {
+                    image[r][c] = color;
+
+                    if (r >= 1) FloodFillDFSHelper(image, r - 1, c, originalColor);
+                    if (r + 1 < rows) FloodFillDFSHelper(image, r + 1, c, originalColor);
+                    if (c >= 1) FloodFillDFSHelper(image, r, c - 1, originalColor);
+                    if (c + 1 < cols) FloodFillDFSHelper(image, r, c + 1, originalColor);
+                }
+                return;
+            }
+        }
     }
 }
