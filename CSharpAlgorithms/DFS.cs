@@ -412,5 +412,42 @@ namespace CSharpAlgorithms
                 return;
             }
         }
+
+        /// <summary>
+        /// 200. Number of Islands
+        /// Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
+        /// </summary>
+        /// <param name="grids"></param>
+        /// <returns></returns>
+        public static int NumberOfIslands(char[][] grid)
+        {
+            if (grid == null || grid.Length == 0) return 0;
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+            int count = 0;
+
+            void HelperDFS(int r, int c)
+            {
+                grid[r][c] = '0';
+                if (r + 1 < rows && grid[r + 1][c] == '1') HelperDFS(r + 1, c);
+                if (r > 0 && grid[r - 1][c] == '1') HelperDFS(r - 1, c);
+                if (c + 1 < cols && grid[r][c + 1] == '1') HelperDFS(r, c + 1);
+                if (c > 0 && grid[r][c - 1] == '1') HelperDFS(r, c - 1);
+                return;
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (grid[i][j] == '1')
+                    {
+                        count++;
+                        HelperDFS(i, j);
+                    }
+                }
+            }
+            return count;
+        }
     }
 }
