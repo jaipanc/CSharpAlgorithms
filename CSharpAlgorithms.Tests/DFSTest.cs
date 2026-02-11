@@ -111,6 +111,37 @@ namespace CSharpAlgorithms.Tests
             Assert.Equivalent(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(NumberOfIslandsTestData))]
+        public void TestNumberOfIslands(char[][] grid, int expected)
+        {
+            var result = NumberOfIslands(grid);
+            Assert.Equal(expected, result);
+        }
+
+        public static TheoryData<char[][], int> NumberOfIslandsTestData()
+        {
+            return new TheoryData<char[][], int>
+            {
+                {
+                    new char[][]{
+                             ['1','1','1','1','0'],
+                             ['1','1','0','1','0'],
+                             ['1','1','0','0','0'],
+                             ['0','0','0','0','0']
+                            },1
+                },
+                {
+                    new char[][]{
+                             ['1','1','0','0','0'],
+                             ['1','1','0','0','0'],
+                             ['0','0','1','0','0'],
+                             ['0','0','0','1','1']
+                            },3
+                },
+            };
+        }
+
         public static TheoryData<int[][], int, int, int, int[][]> FloodFillTestData()
         {
             return new TheoryData<int[][], int, int, int, int[][]>
