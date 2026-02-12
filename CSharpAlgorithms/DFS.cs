@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.ComponentModel;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using static CSharpAlgorithms.DFS;
@@ -448,6 +450,67 @@ namespace CSharpAlgorithms
                 }
             }
             return count;
+        }
+
+        /// <summary>
+        /// Given an m x n matrix grid containing only characters 'X' and 'O', modify grid to replace all regions of 'O' that are completey surrounded by 'X' with 'X'.
+        //  A region of 'O' is surrounded by 'X' if there is no adjacent path(cells that border each other in the N, W, E, S directions) consisting of only 'O' from anywhere inside that region to the border of the board.
+        /// </summary>
+        /// <param name="board"></param>
+        public static void SurroundedRegions(char[][] board)
+        {
+            if (board == null || board.Length == 0) return;
+            int rows = board.Length;
+            int cols = board[0].Length;
+
+            for (int i = 0; i < rows; i++)
+            {
+                if (board[i][0] == 'O')
+                {
+                    HelperDfs(board, i, 0, rows, cols);
+                }
+                if (board[i][cols - 1] == 'O')
+                {
+                    HelperDfs(board, i, cols - 1, rows, cols);
+                }
+            }
+
+            for (int j = 0; j < cols; j++)
+            {
+                if (board[0][j] == 'O')
+                {
+                    HelperDfs(board, 0, j, rows, cols);
+                }
+                if (board[rows - 1][j] == 'O')
+                {
+                    HelperDfs(board, rows - 1, j, rows, cols);
+                }
+            }
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (board[i][j] == 'O')
+                    {
+                        board[i][j] = 'X';
+                    }
+                    else if (board[i][j] == 'S')
+                    {
+                        board[i][j] = 'O';
+                    }
+                }
+            }
+
+            void HelperDfs(char[][] grid, int r, int c, int rows, int cols)
+            {
+                if (r < 0 || r >= rows || c < 0 || c >= cols || grid[r][c] != 'O') return;
+                grid[r][c] = 'S';
+                HelperDfs(grid, r + 1, c, rows, cols);
+                HelperDfs(grid, r - 1, c, rows, cols);
+                HelperDfs(grid, r, c + 1, rows, cols);
+                HelperDfs(grid, r, c - 1, rows, cols);
+            }
         }
     }
 }
