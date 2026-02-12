@@ -1,11 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using static CSharpAlgorithms.DFS;
-
-namespace CSharpAlgorithms
+﻿namespace CSharpAlgorithms
 {
     public class DFS
     {

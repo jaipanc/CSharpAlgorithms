@@ -1,5 +1,4 @@
 ﻿using static CSharpAlgorithms.DFS;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using TreeNode = CSharpAlgorithms.DFS.Treenode;
 using GraphNode = CSharpAlgorithms.DFS.GraphNode;
 
