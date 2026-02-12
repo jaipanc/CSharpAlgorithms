@@ -119,6 +119,61 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(SurroundedRegionsTestData))]
+        public void TestSurroundedRegions(char[][] board, char[][] expected)
+        {
+            SurroundedRegions(board);
+            Assert.Equivalent(expected, board);
+        }
+
+        public static TheoryData<char[][], char[][]> SurroundedRegionsTestData()
+        {
+            return new TheoryData<char[][], char[][]>
+            {
+                {
+                     new char[][]
+                     {
+                            ['X','X','X','X','O'],
+                            ['X','X','O','X','X'],
+                            ['X','X','O','X','O'],
+                            ['X','O','X','X','X'],
+                            ['X','O','X','X','X']
+                     },
+                     new char[][]
+                     {
+                         ['X','X','X','X','O'],
+                         ['X','X','X','X','X'],
+                         ['X','X','X','X','O'],
+                         ['X','O','X','X','X'],
+                         ['X','O','X','X','X']
+                     }
+                },
+                {
+                    new char[][]
+                    {
+                        ['O','O'],
+                        ['O','X']
+                    },
+                    new char[][]
+                    {
+                        ['O','O'],
+                        ['O','X']
+                    }
+                },
+                  {
+                    new char[][]
+                    {
+                        ['X']
+                    },
+                    new char[][]
+                    {
+                        ['X']
+                    }
+                }
+            };
+        }
+
         public static TheoryData<char[][], int> NumberOfIslandsTestData()
         {
             return new TheoryData<char[][], int>
