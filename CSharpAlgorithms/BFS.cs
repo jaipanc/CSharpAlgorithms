@@ -40,5 +40,36 @@ namespace CSharpAlgorithms
             }
             return result;
         }
+
+        /// <summary>
+        /// 199. Binary Tree Right Side View
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static List<int> RightSideView(TreeNode root)
+        {
+            if (root is null) return [];
+            Queue<TreeNode> queue = [];
+            List<int> nodes = [];
+            queue.Enqueue(root);
+
+            while (queue.Count > 0)
+            {
+                var levelCount = queue.Count;
+
+                for (int i = 0; i < levelCount; i++)
+                {
+                    var node = queue.Dequeue();
+                    if (i == levelCount - 1)
+                    {
+                        nodes.Add(node.val);
+                    }
+
+                    if (node.left != null) queue.Enqueue(node.left);
+                    if (node.right != null) queue.Enqueue(node.right);
+                }
+            }
+            return nodes;
+        }
     }
 }
