@@ -12,6 +12,94 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(FindRightNodeTestCases))]
+        public void RightSideViewTest(TreeNode root, List<int> expected)
+        {
+            var result = BFS.RightSideView(root);
+            Assert.Equal(expected, result);
+        }
+
+        public static TheoryData<TreeNode, List<int>> FindRightNodeTestCases => new()
+        {
+        // Test case 1: Empty tree
+        { null, new List<int>() },
+
+        // Test case 2: Single node
+        { new TreeNode(1), new List<int> { 1 } },
+
+        // Test case 3: Complete binary tree with 3 nodes
+        {
+            new TreeNode(1)
+            {
+                left = new TreeNode(2),
+                right = new TreeNode(3)
+            },
+            new List<int> { 1, 3 }
+        },
+
+        // Test case 4: Incomplete binary tree
+        {
+            new TreeNode(1)
+            {
+                left = new TreeNode(2)
+                {
+                    left = new TreeNode(4)
+                },
+                right = new TreeNode(3)
+            },
+            new List<int> { 1, 3, 4 }
+        },
+
+        // Test case 5: Larger tree
+        {
+            new TreeNode(1)
+            {
+                left = new TreeNode(2)
+                {
+                    left = new TreeNode(4),
+                    right = new TreeNode(5)
+                },
+                right = new TreeNode(3)
+                {
+                    right = new TreeNode(6)
+                }
+            },
+            new List<int> { 1, 3, 6 }
+        },
+
+        // Test case 6: Skewed tree to the left
+        {
+            new TreeNode(1)
+            {
+                left = new TreeNode(2)
+                {
+                    left = new TreeNode(3)
+                    {
+                        left = new TreeNode(4)
+                    }
+                }
+            },
+            new List<int> { 1, 2, 3, 4 }
+        },
+
+        // Test case 7: Skewed tree to the right
+        {
+            new TreeNode(1)
+            {
+                right = new TreeNode(2)
+                {
+                    right = new TreeNode(3)
+                    {
+                        right = new TreeNode(4)
+                    }
+                }
+            },
+            new List<int> { 1, 2, 3, 4 }
+        }
+        };
+
+
         public static TheoryData<TreeNode, List<List<int>>> LevelOrderTestData =>
         new TheoryData<TreeNode, List<List<int>>>
         {
