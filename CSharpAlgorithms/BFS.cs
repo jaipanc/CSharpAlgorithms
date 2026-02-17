@@ -71,5 +71,42 @@ namespace CSharpAlgorithms
             }
             return nodes;
         }
+
+        /// <summary>
+        /// 103. Binary Tree Zigzag Level Order Traversal
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static IList<IList<int>> ZigzagLevelOrder(TreeNode root)
+        {
+            if (root is null) return [];
+
+            List<IList<int>> result = [];
+            Queue<TreeNode> queue = [];
+            queue.Enqueue(root);
+            bool leftToRight = true;
+
+            while (queue.Count > 0)
+            {
+                var levelSize = queue.Count;
+                LinkedList<int> levelList = [];
+
+                for (int i = 0; i < levelSize; i++)
+                {
+                    var node = queue.Dequeue();
+
+                    if (leftToRight) 
+                        levelList.AddLast(node.val);
+                    else 
+                        levelList.AddFirst(node.val);
+
+                    if (node.left != null) queue.Enqueue(node.left);
+                    if (node.right != null) queue.Enqueue(node.right);
+                }
+                result.Add([.. levelList]);
+                leftToRight = !leftToRight;
+            }
+            return result;
+        }
     }
 }
