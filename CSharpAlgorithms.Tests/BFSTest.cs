@@ -20,6 +20,83 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(ZigzagTestData))]
+        public void ZigzagLevelOrderTest(TreeNode root, IList<IList<int>> expected)
+        {
+            var result = BFS.ZigzagLevelOrder(root);
+            Assert.Equal(expected, result);
+        }
+
+        public static TheoryData<TreeNode, IList<IList<int>>> ZigzagTestData =>
+        new()
+        {
+            // Case 1: Example from problem
+            {
+                new TreeNode(3)
+                {
+                    left = new TreeNode(9),
+                    right = new TreeNode(20)
+                    {
+                        left = new TreeNode(15),
+                        right = new TreeNode(7)
+                    }
+                },
+                new List<IList<int>>
+                {
+                    new List<int> { 3 },
+                    new List<int> { 20, 9 },
+                    new List<int> { 15, 7 }
+                }
+            },
+
+            // Case 2: Single node
+            {
+                new TreeNode(1),
+                new List<IList<int>>
+                {
+                    new List<int> { 1 }
+                }
+            },
+
+            // Case 3: Empty tree
+            {
+                null,
+                new List<IList<int>>()
+            },
+
+            // Case 4: Two levels
+            {
+                new TreeNode(1)
+                {
+                    left = new TreeNode(2),
+                    right = new TreeNode(3)
+                },
+                new List<IList<int>>
+                {
+                    new List<int> { 1 },
+                    new List<int> { 3, 2 }
+                }
+            },
+
+            // Case 5: Left skewed
+            {
+                new TreeNode(1)
+                {
+                    left = new TreeNode(2)
+                    {
+                        left = new TreeNode(3)
+                    }
+                },
+                new List<IList<int>>
+                {
+                    new List<int> { 1 },
+                    new List<int> { 2 },
+                    new List<int> { 3 }
+                }
+            }
+        };
+
         public static TheoryData<TreeNode, List<int>> FindRightNodeTestCases => new()
         {
         // Test case 1: Empty tree
