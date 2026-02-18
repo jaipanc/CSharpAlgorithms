@@ -28,6 +28,97 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(WidthOfBinaryTreeTestData))]
+        public void WidthOfBinaryTreeTest(TreeNode root, int expected)
+        {
+            var result = BFS.WidthOfBinaryTree(root);
+            Assert.Equal(expected, result);
+        }
+
+        public static TheoryData<TreeNode, int> WidthOfBinaryTreeTestData =>
+        new()
+        {
+            // 1) Null tree
+            { null, 0 },
+
+            // 2) Single node
+            {
+                new TreeNode(1),
+                1
+            },
+
+            // 3) Full tree
+            //        1
+            //      /   \
+            //     2     3
+            //    / \   / \
+            //   4  5  6  7
+            {
+                new TreeNode(1,
+                    new TreeNode(2,
+                        new TreeNode(4),
+                        new TreeNode(5)),
+                    new TreeNode(3,
+                        new TreeNode(6),
+                        new TreeNode(7))
+                ),
+                4
+            },
+
+            // 4) Sparse tree (classic example)
+            //        1
+            //      /   \
+            //     3     2
+            //    /       \
+            //   5         9
+            //
+            // Width = 4 (positions count includes gaps)
+            {
+                new TreeNode(1,
+                    new TreeNode(3,
+                        new TreeNode(5),
+                        null),
+                    new TreeNode(2,
+                        null,
+                        new TreeNode(9))
+                ),
+                4
+            },
+
+            // 5) Left skewed tree
+            //    1
+            //   /
+            //  2
+            // /
+            //3
+            {
+                new TreeNode(1,
+                    new TreeNode(2,
+                        new TreeNode(3),
+                        null),
+                    null
+                ),
+                1
+            },
+
+            // 6) Right skewed tree
+            // 1
+            //   \
+            //    2
+            //      \
+            //       3
+            {
+                new TreeNode(1,
+                    null,
+                    new TreeNode(2,
+                        null,
+                        new TreeNode(3))
+                ),
+                1
+            }
+        };
+
         public static TheoryData<TreeNode, IList<IList<int>>> ZigzagTestData =>
         new()
         {
