@@ -1,4 +1,6 @@
-﻿using TreeNode = CSharpAlgorithms.DFS.Treenode;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using TreeNode = CSharpAlgorithms.DFS.Treenode;
 
 namespace CSharpAlgorithms
 {
@@ -107,6 +109,41 @@ namespace CSharpAlgorithms
                 leftToRight = !leftToRight;
             }
             return result;
+        }
+
+        /// <summary>
+        /// 662. Maximum Width of Binary Tree
+        /// </summary>
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public static int WidthOfBinaryTree(TreeNode root)
+        {
+            if (root is null) return 0;
+
+            Queue<(TreeNode node, long pos)> queue = [];
+            queue.Enqueue((root, 0));
+            int maxWidth = 0;
+
+            while (queue.Count > 0)
+            {
+                var levelSize = queue.Count;
+                long leftPos = queue.Peek().pos;
+                long rightPos = -1;
+
+                for (int i = 0; i < levelSize; i++)
+                {
+                    var (node, pos) = queue.Dequeue();
+                    if (i == levelSize - 1)
+                    {
+                        rightPos = pos;
+                    }
+
+                    if (node.left != null) queue.Enqueue((node.left, pos * 2));
+                    if (node.right != null) queue.Enqueue((node.right, pos * 2 + 1));
+                }
+                maxWidth = Math.Max(maxWidth, (int)(rightPos - leftPos + 1));
+            }
+            return maxWidth;
         }
     }
 }
