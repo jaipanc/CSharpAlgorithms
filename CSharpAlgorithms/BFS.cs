@@ -145,5 +145,44 @@ namespace CSharpAlgorithms
             }
             return maxWidth;
         }
+
+        /// <summary>
+        /// 1197. Minimum Knight Moves
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static int MinimumKnightMoves(int x, int y)
+        {
+            int[][] directions =
+            [
+                [2,1],[2,-1],[-2,1],[-2,-1],
+                [1,2],[1,-2],[-1,2],[-1,-2]
+            ];
+
+            HashSet<string> visited = ["0,0"];
+            Queue<int[]> queue = [];
+            queue.Enqueue([0, 0, 0]);
+
+            while (queue.Count > 0)
+            {
+                var curr = queue.Dequeue();
+                int cx = curr[0], cy = curr[1], moves = curr[2];
+
+                if (x == cx && y == cy) return moves;
+
+                foreach (var dir in directions)
+                {
+                    int nx = cx + dir[0], ny = cy + dir[1]; string pos = $"{nx},{ny}";
+
+                    if (!visited.Contains(pos))
+                    {
+                        visited.Add(pos);
+                        queue.Enqueue([nx, ny, moves + 1]);
+                    }
+                }
+            }
+            return -1;
+        }
     }
 }
