@@ -36,6 +36,34 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [InlineData(0, 0, 0)]        // Edge case: same position
+        [InlineData(1, 1, 2)]        // Simple case
+        [InlineData(2, 1, 1)]        // One move away
+        [InlineData(2, 2, 4)]        // Diagonal case
+        [InlineData(3, 3, 2)]        // Another diagonal
+        [InlineData(4, 4, 4)]        // Given example
+        [InlineData(5, 5, 4)]        // Larger diagonal
+        [InlineData(1, 2, 1)]        // Standard case
+        [InlineData(2, 3, 3)]        // Standard case
+        [InlineData(3, 2, 3)]        // Standard case
+        [InlineData(0, 1, 3)]        // Near origin
+        [InlineData(1, 0, 3)]        // Near origin
+        [InlineData(6, 6, 4)]        // Larger board
+        [InlineData(7, 7, 6)]        // Larger board
+        [InlineData(8, 8, 6)]        // Even larger
+        [InlineData(-1, -1, 2)]      // Negative coordinates
+        [InlineData(-2, 1, 1)]       // Mixed signs
+        [InlineData(1, -2, 1)]       // Mixed signs
+        [InlineData(-3, -3, 2)]      // Negative diagonal
+        [InlineData(100, 100, 68)]   // Large numbers (if algorithm handles it)
+        [InlineData(50, 50, 34)]     // Medium large
+        public void MinimumKnightMovesTest(int x, int y, int expected)
+        {
+            var result = BFS.MinimumKnightMoves(x, y);
+            Assert.Equal(expected, result);
+        }
+
         public static TheoryData<TreeNode, int> WidthOfBinaryTreeTestData =>
         new()
         {
