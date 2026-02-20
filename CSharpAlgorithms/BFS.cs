@@ -184,5 +184,57 @@ namespace CSharpAlgorithms
             }
             return -1;
         }
+
+        /// <summary>
+        /// 994. Rotting Oranges
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public static int RottingOranges(char[][] grid)
+        {
+            if (grid is null || grid.Length == 0) return -1;
+
+            int rows = grid.Length;
+            int cols = grid[0].Length;
+            Queue<int[]> queue = [];
+            int freshOranges = 0;
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if (grid[i][j] == 'R')
+                        queue.Enqueue([i, j]);
+                    else
+                        freshOranges++;
+                }
+            }
+
+            int[][] directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+            int minutes = 0;
+            while (queue.Count > 0 && freshOranges > 0)
+            {
+                minutes++;
+                int levelSize = queue.Count;
+                for (int i = 0; i < levelSize; i++)
+                {
+                    var pos = queue.Dequeue();
+                    int x = pos[0], y = pos[1];
+                    foreach (var dir in directions)
+                    {
+                        int nx = x + dir[0];
+                        int ny = y + dir[1];
+                        if (nx >= 0 && nx < rows && ny >= 0 && ny < cols && grid[nx][ny] == 'F')
+                        {
+                            grid[nx][ny] = 'R';
+                            freshOranges--;
+                            queue.Enqueue([nx, ny]);
+                        }
+                    }
+                }
+            }
+
+            return freshOranges == 0 ? minutes : -1;
+        }
     }
 }
