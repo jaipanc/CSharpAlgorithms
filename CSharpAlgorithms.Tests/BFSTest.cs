@@ -64,6 +64,125 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expected, result);
         }
 
+        [Theory]
+        [MemberData(nameof(RottingOrangesTestCases))]
+        public void RottingOrangesTest(char[][] grid, int expectedMinutes)
+        {
+            var actualMinutes = BFS.RottingOranges(grid);
+            Assert.Equal(expectedMinutes, actualMinutes);
+        }
+
+        public static TheoryData<char[][], int> RottingOrangesTestCases => new()
+        {
+        // Test case 1: Empty grid
+        {
+            [],
+            -1
+        },
+
+        {
+            [
+            ['R', 'F'],
+            ['F', 'F'],
+            ],
+            2
+        },
+        // Test case 2: All fresh oranges - impossible to rot
+        {
+            [
+                ['F', 'F', 'F'],
+                ['F', 'F', 'F'],
+                ['F', 'F', 'F']
+            ],
+            -1
+        },
+
+        // Test case 3: All rotten oranges
+        {
+            [
+                ['R', 'R', 'R'],
+                ['R', 'R', 'R'],
+                ['R', 'R', 'R']
+            ],
+            0
+        },
+
+        // Test case 4: Mixed grid that can be solved in 4 minutes
+        {
+            [
+                ['F', 'F', 'F', 'R'],
+                ['F', 'F', 'F', 'F'],
+                ['F', 'F', 'F', 'F'],
+                ['R', 'F', 'F', 'F']
+            ],
+            3
+        },
+
+        // Test case 5: Mixed grid with isolated fresh orange
+        {
+            [
+                ['F', 'R', 'F'],
+                ['R', 'F', 'R'],
+                ['F', 'R', 'F']
+            ],
+            1
+        },
+
+        // Test case 6: Single fresh orange surrounded by rotten ones
+        {
+            [
+                ['R', 'F', 'R'],
+                ['F', 'F', 'F'],
+                ['R', 'F', 'R']
+            ],
+            2
+        },
+
+        // Test case 7: No fresh oranges initially
+        {
+            [
+                ['R', 'R'],
+                ['R', 'R']
+            ],
+            0
+        },
+
+        // Test case 8: Linear arrangement
+        {
+            [
+                ['F', 'F', 'F', 'R']
+            ],
+            3
+        },
+
+        // Test case 9: Complex scenario
+        {
+            [
+                ['F', 'R', 'F', 'F'],
+                ['R', 'F', 'R', 'F'],
+                ['F', 'R', 'F', 'R'],
+                ['F', 'F', 'R', 'F']
+            ],
+            2
+        },
+
+        // Test case 10: Single cell - fresh
+        {
+            [
+                ['F']
+            ],
+            -1
+        },
+
+        // Test case 11: Single cell - rotten
+        {
+            [
+                ['R']
+            ],
+            0
+        }
+        };
+
         public static TheoryData<TreeNode, int> WidthOfBinaryTreeTestData =>
         new()
         {
