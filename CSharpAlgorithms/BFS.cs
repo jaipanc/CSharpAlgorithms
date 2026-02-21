@@ -236,5 +236,15 @@ namespace CSharpAlgorithms
 
             return freshOranges == 0 ? minutes : -1;
         }
+
+        /// <summary>
+        /// 542. 01 Matrix using BFS
+        /// </summary>
+        /// <param name="mat"></param>
+        /// <returns></returns>
+        public static int[][] UpdateMatrix(int[][] mat)
+        {
+
+        }
     }
 }
