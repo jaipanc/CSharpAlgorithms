@@ -244,7 +244,58 @@ namespace CSharpAlgorithms
         /// <returns></returns>
         public static int[][] UpdateMatrix(int[][] mat)
         {
+            int rows = mat.Length;
+            int cols = mat[0].Length;
+            var output = new int[rows][];
+            Queue<int[]> queue = new();
 
+            for (int r = 0; r < rows; r++)
+            {
+                output[r] = new int[cols];
+                for (int c = 0; c < cols; c++)
+                {
+                    if (mat[r][c] == 0)
+                    {
+                        queue.Enqueue([r, c]);
+                        output[r][c] = 0;
+                    }
+                    else
+                    {
+                        output[r][c] = -1;
+                    }
+                }
+            }
+
+            int[][] directions = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+
+            int distance = 1;
+
+            while (queue.Count > 0)
+            {
+                int levelSize = queue.Count;
+                for (int i = 0; i < levelSize; i++)
+                {
+                    int[] curr = queue.Dequeue();
+                    int r = curr[0], c = curr[1];
+
+                    foreach (var dir in directions)
+                    {
+                        int nr = r + dir[0];
+                        int nc = c + dir[1];
+
+                        if (nr >= 0 && nr < rows && nc >= 0 && nc < cols)
+                        {
+                            if (output[nr][nc] == -1)
+                            {
+                                output[nr][nc] = distance;
+                                queue.Enqueue([nr, nc]);
+                            }
+                        }
+                    }
+                }
+                distance++;
+            }
+            return output;
         }
     }
 }
