@@ -72,6 +72,77 @@ namespace CSharpAlgorithms.Tests
             Assert.Equal(expectedMinutes, actualMinutes);
         }
 
+        [Theory]
+        [MemberData(nameof(UpdateMatrixTestData))]
+        public void UpdateMatrixTest(int[][] grid, int[][] expected)
+        {
+            var actual = BFS.UpdateMatrix(grid);
+            Assert.Equal(expected, actual);
+        }
+
+        public static TheoryData<int[][], int[][]> UpdateMatrixTestData => new()
+        {
+        {
+        // Test case 1: Simple 3x3 matrix
+        [
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0]
+        ],
+        [
+            [0, 0, 0],
+            [0, 1, 0],
+            [0, 0, 0]
+        ]
+        },
+        {
+        // Test case 2: Matrix with 1s that need distance calculation
+        [
+            [0, 0, 0],
+            [0, 1, 0],
+            [1, 1, 1]
+        ],
+        [
+            [0, 0, 0],
+            [0, 1, 0],
+            [1, 2, 1]
+        ]
+        },
+        {
+        // Test case 3: All zeros
+        [
+            [0, 0],
+            [0, 0]
+        ],
+        [
+            [0, 0],
+            [0, 0]
+        ]
+        },
+        {
+        // Test case 4: Single cell matrix
+        [
+            [0]
+        ],
+        [
+            [0]
+        ]
+        },
+        {
+        // Test case 5: Corner case with maximum distances
+        [
+            [1, 1, 1],
+            [1, 0, 1],
+            [1, 1, 1]
+        ],
+        [
+            [2, 1, 2],
+            [1, 0, 1],
+            [2, 1, 2]
+        ]
+        }
+        };
+
         public static TheoryData<char[][], int> RottingOrangesTestCases => new()
         {
         // Test case 1: Empty grid
@@ -416,7 +487,7 @@ namespace CSharpAlgorithms.Tests
 
 
         public static TheoryData<TreeNode, List<List<int>>> LevelOrderTestData =>
-        new TheoryData<TreeNode, List<List<int>>>
+        new()
         {
             // Test case 1: Empty tree
             {
