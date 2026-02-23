@@ -18,7 +18,7 @@
             Assert.Equivalent(exptected, output);
         }
 
-        public static TheoryData<int[][],int, int[][]> KClosetToOriginTestData()
+        public static TheoryData<int[][], int, int[][]> KClosetToOriginTestData()
         {
             return new TheoryData<int[][], int, int[][]>()
             {

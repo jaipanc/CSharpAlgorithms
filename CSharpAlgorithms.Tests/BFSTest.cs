@@ -143,7 +143,8 @@ namespace CSharpAlgorithms.Tests
         }
         };
 
-        public static TheoryData<char[][], int> RottingOrangesTestCases => new()
+        public static TheoryData<char[][], int> RottingOrangesTestCases =>
+            new()
         {
         // Test case 1: Empty grid
         {

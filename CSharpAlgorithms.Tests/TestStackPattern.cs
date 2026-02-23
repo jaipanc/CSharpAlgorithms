@@ -15,7 +15,7 @@
         [InlineData("3[a2[c]]", "accaccacc")]
         [InlineData("3[a]2[bc]", "aaabcbc")]
         [InlineData("2[abc]3[cd]ef", "abcabccdcdcdef")]
-        public void TestDecodeString(string encoded,string decoded)
+        public void TestDecodeString(string encoded, string decoded)
         {
             var output = StackPattern.DecodeString(encoded);
             Assert.Equal(decoded, output);

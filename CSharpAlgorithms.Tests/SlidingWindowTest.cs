@@ -28,7 +28,7 @@
         }
 
         [Theory]
-        [InlineData(new int[] { 2, 1, 5, 1, 3, 2}, 3, 9)]
+        [InlineData(new int[] { 2, 1, 5, 1, 3, 2 }, 3, 9)]
         public void TestMaxSumSubArray(int[] nums, int k, int expected)
         {
             var output = SlidingWindow.MaxSumSubArray(nums, k);
@@ -52,7 +52,7 @@
         [InlineData(new int[] { 2, 2, 2 }, 2, 4)]
         [InlineData(new int[] { 9, 7, 7, 9, 7, 7, 9 }, 7, 55)]
 
-        public void TestMaxScoreFromGivenCards(int[] cards , int k , int expected)
+        public void TestMaxScoreFromGivenCards(int[] cards, int k, int expected)
         {
             var output = SlidingWindow.MaxScoreFromGivenCards(cards, k);
             Assert.Equal(expected, output);

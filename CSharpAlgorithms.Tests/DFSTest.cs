@@ -266,7 +266,7 @@ namespace CSharpAlgorithms.Tests
 
 
         public static TheoryData<int, int[][], bool> TestValidTreeData()
-         {
+        {
             var data = new TheoryData<int, int[][], bool>
             {
             // --- Basic / Edge cases ---
