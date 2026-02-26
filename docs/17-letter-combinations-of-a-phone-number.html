@@ -1,0 +1,183 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-02-25T22:46:26.3079811"><title>17. Letter Combinations of a Phone Number | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"problem-understanding","level":0,"title":"Problem Understanding","anchor":"#problem-understanding"},{"id":"step-by-step-implementation","level":0,"title":"Step-by-Step Implementation","anchor":"#step-by-step-implementation"},{"id":"complete-solution-with-explanation","level":0,"title":"Complete Solution with Explanation","anchor":"#complete-solution-with-explanation"},{"id":"how-it-works-trace-example","level":0,"title":"How It Works - Trace Example","anchor":"#how-it-works-trace-example"},{"id":"alternative-iterative-approach","level":0,"title":"Alternative Iterative Approach","anchor":"#alternative-iterative-approach"},{"id":"key-points-explained","level":0,"title":"Key Points Explained","anchor":"#key-points-explained"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="17. Letter Combinations of a Phone Number | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/17-letter-combinations-of-a-phone-number.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="17. Letter Combinations of a Phone Number | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/17-letter-combinations-of-a-phone-number.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/17-letter-combinations-of-a-phone-number.html",
+    "name": "17. Letter Combinations of a Phone Number | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="17-Letter-Combinations-of-a-Phone-Number" data-main-title="17. Letter Combinations of a Phone Number" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🔁-Backtracking.md|🔁 Backtracking"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="17-Letter-Combinations-of-a-Phone-Number" id="17-Letter-Combinations-of-a-Phone-Number.md">17. Letter Combinations of a Phone Number</h1><section class="chapter"><h2 id="problem-understanding" data-toc="problem-understanding">Problem Understanding</h2><p id="v2yr5u_9">Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent based on traditional telephone button mappings.</p><p id="v2yr5u_10"><span class="control" id="v2yr5u_12">Example:</span></p><ul class="list _bullet" id="v2yr5u_11"><li class="list__item" id="v2yr5u_13"><p id="v2yr5u_15">Input: &quot;23&quot;</p></li><li class="list__item" id="v2yr5u_14"><p id="v2yr5u_16">Output: [&quot;ad&quot;, &quot;ae&quot;, &quot;af&quot;, &quot;bd&quot;, &quot;be&quot;, &quot;bf&quot;, &quot;cd&quot;, &quot;ce&quot;, &quot;cf&quot;]</p></li></ul></section><section class="chapter"><h2 id="step-by-step-implementation" data-toc="step-by-step-implementation">Step-by-Step Implementation</h2><section class="chapter"><h3 id="step-1-set-up-the-digit-to-letter-mapping" data-toc="step-1-set-up-the-digit-to-letter-mapping">Step 1: Set up the digit-to-letter mapping</h3><div class="code-block" data-lang="csharp">
+using System;
+using System.Collections.Generic;
+
+public class Solution 
+{
+    public IList&lt;string&gt; LetterCombinations(string digits) 
+    {
+        // Handle edge case - empty input
+        if (string.IsNullOrEmpty(digits)) 
+            return new List&lt;string&gt;();
+        
+        // Create mapping for telephone keypad
+        Dictionary&lt;char, string&gt; phoneMap = new Dictionary&lt;char, string&gt;
+        {
+            {'2', &quot;abc&quot;},
+            {'3', &quot;def&quot;},
+            {'4', &quot;ghi&quot;},
+            {'5', &quot;jkl&quot;},
+            {'6', &quot;mno&quot;},
+            {'7', &quot;pqrs&quot;},
+            {'8', &quot;tuv&quot;},
+            {'9', &quot;wxyz&quot;}
+        };
+</div></section><section class="chapter"><h3 id="step-2-use-backtracking-approach" data-toc="step-2-use-backtracking-approach">Step 2: Use backtracking approach</h3><div class="code-block" data-lang="csharp">
+        List&lt;string&gt; result = new List&lt;string&gt;();
+        Backtrack(digits, 0, &quot;&quot;, phoneMap, result);
+        return result;
+    }
+    
+    private void Backtrack(string digits, int index, string currentCombination, 
+                          Dictionary&lt;char, string&gt; phoneMap, List&lt;string&gt; result)
+    {
+        // Base case: if we've processed all digits
+        if (index == digits.Length)
+        {
+            result.Add(currentCombination);
+            return;
+        }
+        
+        // Get the letters corresponding to current digit
+        char digit = digits[index];
+        string letters = phoneMap[digit];
+        
+        // Try each letter for the current digit
+        foreach (char letter in letters)
+        {
+            // Add current letter to combination and move to next digit
+            Backtrack(digits, index + 1, currentCombination + letter, phoneMap, result);
+        }
+    }
+}
+</div></section></section><section class="chapter"><h2 id="complete-solution-with-explanation" data-toc="complete-solution-with-explanation">Complete Solution with Explanation</h2><div class="code-block" data-lang="csharp">
+using System;
+using System.Collections.Generic;
+
+public class Solution 
+{
+    public IList&lt;string&gt; LetterCombinations(string digits) 
+    {
+        // Edge case: empty input returns empty list
+        if (string.IsNullOrEmpty(digits)) 
+            return new List&lt;string&gt;();
+        
+        // Mapping of digits to letters (telephone keypad style)
+        Dictionary&lt;char, string&gt; phoneMap = new Dictionary&lt;char, string&gt;
+        {
+            {'2', &quot;abc&quot;},   // Digit 2 maps to letters a, b, c
+            {'3', &quot;def&quot;},   // Digit 3 maps to letters d, e, f
+            {'4', &quot;ghi&quot;},   // And so on...
+            {'5', &quot;jkl&quot;},
+            {'6', &quot;mno&quot;},
+            {'7', &quot;pqrs&quot;},
+            {'8', &quot;tuv&quot;},
+            {'9', &quot;wxyz&quot;}
+        };
+        
+        List&lt;string&gt; result = new List&lt;string&gt;();
+        
+        // Start the backtracking process
+        Backtrack(digits, 0, &quot;&quot;, phoneMap, result);
+        
+        return result;
+    }
+    
+    private void Backtrack(string digits, int index, string currentCombination, 
+                          Dictionary&lt;char, string&gt; phoneMap, List&lt;string&gt; result)
+    {
+        // Base case: when we've processed all digits
+        // This means we have a complete combination
+        if (index == digits.Length)
+        {
+            result.Add(currentCombination);
+            return;
+        }
+        
+        // Get the current digit we're processing
+        char digit = digits[index];
+        
+        // Get all possible letters for this digit
+        string letters = phoneMap[digit];
+        
+        // Try each letter for the current position
+        foreach (char letter in letters)
+        {
+            // Recursive call:
+            // - Move to next digit (index + 1)
+            // - Add current letter to our combination
+            // - Continue building the combination
+            Backtrack(digits, index + 1, currentCombination + letter, phoneMap, result);
+        }
+    }
+}
+</div></section><section class="chapter"><h2 id="how-it-works-trace-example" data-toc="how-it-works-trace-example">How It Works - Trace Example</h2><p id="v2yr5u_22">Let's trace through <code class="code" id="v2yr5u_24">digits = &quot;23&quot;</code>:</p><div class="code-block" data-lang="none">
+Initial call: Backtrack(&quot;23&quot;, 0, &quot;&quot;, map, result)
+
+Step 1: index=0, digit='2', letters=&quot;abc&quot;
+├── letter='a': Backtrack(&quot;23&quot;, 1, &quot;a&quot;, map, result)
+│   ├── index=1, digit='3', letters=&quot;def&quot;  
+│   ├── letter='d': Backtrack(&quot;23&quot;, 2, &quot;ad&quot;, map, result) → index==2, add &quot;ad&quot;
+│   ├── letter='e': Backtrack(&quot;23&quot;, 2, &quot;ae&quot;, map, result) → index==2, add &quot;ae&quot;  
+│   └── letter='f': Backtrack(&quot;23&quot;, 2, &quot;af&quot;, map, result) → index==2, add &quot;af&quot;
+
+├── letter='b': Backtrack(&quot;23&quot;, 1, &quot;b&quot;, map, result)
+│   ├── letter='d': add &quot;bd&quot;
+│   ├── letter='e': add &quot;be&quot;  
+│   └── letter='f': add &quot;bf&quot;
+
+└── letter='c': Backtrack(&quot;23&quot;, 1, &quot;c&quot;, map, result)
+    ├── letter='d': add &quot;cd&quot;
+    ├── letter='e': add &quot;ce&quot;
+    └── letter='f': add &quot;cf&quot;
+</div></section><section class="chapter"><h2 id="alternative-iterative-approach" data-toc="alternative-iterative-approach">Alternative Iterative Approach</h2><div class="code-block" data-lang="csharp">
+public class Solution 
+{
+    public IList&lt;string&gt; LetterCombinations(string digits) 
+    {
+        if (string.IsNullOrEmpty(digits)) 
+            return new List&lt;string&gt;();
+        
+        Dictionary&lt;char, string&gt; phoneMap = new Dictionary&lt;char, string&gt;
+        {
+            {'2', &quot;abc&quot;}, {'3', &quot;def&quot;}, {'4', &quot;ghi&quot;}, {'5', &quot;jkl&quot;},
+            {'6', &quot;mno&quot;}, {'7', &quot;pqrs&quot;}, {'8', &quot;tuv&quot;}, {'9', &quot;wxyz&quot;}
+        };
+        
+        List&lt;string&gt; result = new List&lt;string&gt; { &quot;&quot; };
+        
+        foreach (char digit in digits)
+        {
+            string letters = phoneMap[digit];
+            List&lt;string&gt; temp = new List&lt;string&gt;();
+            
+            foreach (string combination in result)
+            {
+                foreach (char letter in letters)
+                {
+                    temp.Add(combination + letter);
+                }
+            }
+            
+            result = temp;
+        }
+        
+        return result;
+    }
+}
+</div></section><section class="chapter"><h2 id="key-points-explained" data-toc="key-points-explained">Key Points Explained</h2><ol class="list _decimal" id="v2yr5u_26" type="1"><li class="list__item" id="v2yr5u_28"><p id="v2yr5u_33"><span class="control" id="v2yr5u_34">Base Case</span>: When we've processed all digits (<code class="code" id="v2yr5u_35">index == digits.Length</code>), we have a complete combination</p></li><li class="list__item" id="v2yr5u_29"><p id="v2yr5u_36"><span class="control" id="v2yr5u_37">Recursive Case</span>: For each digit, try every possible letter and recursively process remaining digits</p></li><li class="list__item" id="v2yr5u_30"><p id="v2yr5u_38"><span class="control" id="v2yr5u_39">Backtracking</span>: The recursion naturally handles backtracking by exploring all possibilities</p></li><li class="list__item" id="v2yr5u_31"><p id="v2yr5u_40"><span class="control" id="v2yr5u_41">Time Complexity</span>: O(3<span id="v2yr5u_42"><sup class="superscript">N &times; 4</sup></span>M) where N is digits with 3 letters, M with 4 letters</p></li><li class="list__item" id="v2yr5u_32"><p id="v2yr5u_43"><span class="control" id="v2yr5u_44">Space Complexity</span>: O(3<span id="v2yr5u_45"><sup class="superscript">N &times; 4</sup></span>M) for output + O(N) for recursion stack</p></li></ol><p id="v2yr5u_27">The solution efficiently generates all possible combinations using the fundamental principle of backtracking - explore all choices at each step while maintaining the current state.</p></section><div class="last-modified">26 February 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="backtracking.html" class="navigation-links__prev">🔁 Backtracking</a><a href="️-greedy-algorithms.html" class="navigation-links__next">⚖️ Greedy Algorithms</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
