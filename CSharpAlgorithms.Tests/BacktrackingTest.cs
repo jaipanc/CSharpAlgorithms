@@ -18,6 +18,69 @@ public class BacktrackingTest
         Assert.Equivalent(expected, result);
     }
 
+    [Theory]
+    [MemberData(nameof(SubsetsTestData))]
+    public void TestSubsets(int[] nums, IList<IList<int>> expected)
+    {
+        var result = Backtracking.Subsets(nums);
+        Assert.Equivalent(expected, result, true);
+    }
+
+    public static TheoryData<int[], IList<IList<int>>> SubsetsTestData => new()
+    {
+        // Empty array
+        { Array.Empty<int>(), new List<IList<int>> { new List<int> { } } },
+
+        // Single element
+        { new int[] { 1 }, new List<IList<int>> { new List<int> { }, new List<int> { 1 } } },
+
+        // Two elements
+        { new int[] { 1, 2 }, new List<IList<int>>
+            {
+                new List<int> { },
+                new List<int> { 1 },
+                new List<int> { 2 },
+                new List<int> { 1, 2 }
+            }
+        },
+
+        // Three elements
+        { new int[] { 1, 2, 3 }, new List<IList<int>>
+            {
+                new List<int> { },
+                new List<int> { 1 },
+                new List<int> { 2 },
+                new List<int> { 3 },
+                new List<int> { 1, 2 },
+                new List<int> { 1, 3 },
+                new List<int> { 2, 3 },
+                new List<int> { 1, 2, 3 }
+            }
+        },
+
+        // Negative numbers
+        { new int[] { -1, 2 }, new List<IList<int>>
+            {
+                new List<int> { },
+                new List<int> { -1 },
+                new List<int> { 2 },
+                new List<int> { -1, 2 }
+            }
+        },
+
+        // Duplicate elements
+        { new int[] { 1, 2, 2 }, new List<IList<int>>
+            {
+                new List<int> { },
+                new List<int> { 1 },
+                new List<int> { 2 },
+                new List<int> { 1, 2 },
+                new List<int> { 2, 2 },
+                new List<int> { 1, 2, 2 }
+            }
+        }
+    };
+
     public static TheoryData<string, IList<string>> LetterCombinationsTestCases => new()
     {
         // Test case 1: Empty string
