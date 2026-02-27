@@ -10,6 +10,44 @@ public class BacktrackingTest
         Assert.Equal(exptected, result);
     }
 
+    [Theory]
+    [MemberData(nameof(LetterCombinationsTestCases))]
+    public void TestLetterCombinations(string digits, IList<string> expected)
+    {
+        var result = Backtracking.LetterCombinations(digits);
+        Assert.Equivalent(expected, result);
+    }
+
+    public static TheoryData<string, IList<string>> LetterCombinationsTestCases => new()
+    {
+        // Test case 1: Empty string
+        { "", [] },
+
+        // Test case 2: Single digit
+        { "2", ["a", "b", "c"] },
+
+        // Test case 3: Two digits (example from problem)
+        { "23", ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"] },
+
+        // Test case 4: Three digits
+        { "234", ["adg", "adh", "adi", "aeg", "aeh", "aei", "afg", "afh", "afi",
+                 "bdg", "bdh", "bdi", "beg", "beh", "bei", "bfg", "bfh", "bfi",
+                 "cdg", "cdh", "cdi", "ceg", "ceh", "cei", "cfg", "cfh", "cfi"] },
+
+        // Test case 5: Digit with 4 letters (7)
+        { "7", ["p", "q", "r", "s"] },
+
+        // Test case 6: Multiple digits including 7 and 9
+        { "79", ["pw", "px", "py", "pz", "qw", "qx", "qy", "qz",
+                 "rw", "rx", "ry", "rz", "sw", "sx", "sy", "sz"] },
+
+        // Test case 7: All same digit
+        { "22", ["aa", "ab", "ac", "ba", "bb", "bc", "ca", "cb", "cc"] },
+
+        // Test case 8: Longer combination
+        { "35", ["dj", "dk", "dl", "ej", "ek", "el", "fj", "fk", "fl"] }
+    };
+
     public static TheoryData<char[][], string, bool> WordSearchTestCases()
     {
         var testCases = new TheoryData<char[][], string, bool>
