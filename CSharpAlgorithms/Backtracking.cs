@@ -92,4 +92,32 @@ public class Backtracking
 
         return result;
     }
+
+    /// <summary>
+    /// 78.Subsets - Generates all possible subsets of the specified integer array.
+    /// </summary>
+    /// <remarks>The order of subsets in the returned list is not guaranteed. This method can be used to
+    /// enumerate the power set of the input array.</remarks>
+    /// <param name="nums">An array of integers for which to generate subsets. Cannot be null.</param>
+    /// <returns>A list of lists, where each inner list represents a subset of the input array. The list includes the empty
+    /// subset and all possible combinations of the input elements.</returns>
+    public static IList<IList<int>> Subsets(int[] nums)
+    {
+        IList<IList<int>> result = [];
+        Backtrack(0, []);
+        return result;
+
+        void Backtrack(int index, List<int> curr)
+        {
+            result.Add([.. curr]); // add subset at every step
+
+            for (int i = index; i < nums.Length; i++)
+            {
+                if (i > index && nums[i] == nums[i - 1]) continue; // skip duplicates
+                curr.Add(nums[i]);
+                Backtrack(i + 1, curr);
+                curr.RemoveAt(curr.Count - 1);
+            }
+        }
+    }
 }
