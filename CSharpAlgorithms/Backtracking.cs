@@ -120,4 +120,29 @@ public class Backtracking
             }
         }
     }
+
+    /// <summary>
+    /// 22. Generate Parentheses - Generates all combinations of well-formed parentheses for a given number of pairs.
+    /// </summary>
+    /// <param name="n">The number of pairs of parentheses to generate. Must be greater than or equal to 0.</param>
+    /// <returns>A list of strings, each representing a unique combination of well-formed parentheses. Returns an empty list if n
+    /// is 0.</returns>
+    public static IList<string> GenerateParenthesis(int n)
+    {
+        IList<string> result = [];
+        Backtrack(0,0,"");
+        return result;
+
+        void Backtrack(int open, int close, string currentString)
+        {
+            if(currentString.Length == 2* n)
+            {
+                result.Add(currentString);
+                return;
+            }
+
+            if (open < n) Backtrack(open + 1, close, currentString + "(");
+            if (close < open) Backtrack(open, close + 1, currentString + ")");
+        }
+    }
 }
