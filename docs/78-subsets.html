@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-02-27T20:08:16.7153065"><title>78.Subsets | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"problem-statement","level":0,"title":"Problem Statement","anchor":"#problem-statement"},{"id":"example","level":0,"title":"Example","anchor":"#example"},{"id":"approach-1-backtracking-recursive","level":0,"title":"Approach 1: Backtracking (Recursive)","anchor":"#approach-1-backtracking-recursive"},{"id":"implementation-in-c","level":0,"title":"Implementation in C#","anchor":"#implementation-in-c"},{"id":"execution-trace-for-example-input-1-2-2","level":0,"title":"Execution Trace for Example Input {1,2,2}:","anchor":"#execution-trace-for-example-input-1-2-2"},{"id":"time-and-space-complexity","level":0,"title":"Time and Space Complexity","anchor":"#time-and-space-complexity"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="78.Subsets | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/78-subsets.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="78.Subsets | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/78-subsets.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/78-subsets.html",
+    "name": "78.Subsets | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="78-Subsets" data-main-title="78.Subsets" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🔁-Backtracking.md|🔁 Backtracking"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="78-Subsets" id="78-Subsets.md">78.Subsets</h1><section class="chapter"><h2 id="problem-statement" data-toc="problem-statement">Problem Statement</h2><p id="-eo15dc_9">Given an integer array <code class="code" id="-eo15dc_10">nums</code> of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets.</p></section><section class="chapter"><h2 id="example" data-toc="example">Example</h2><p id="-eo15dc_11"><span class="control" id="-eo15dc_12">Input:</span> <code class="code" id="-eo15dc_13">nums = [1,2,3]</code><br><span class="control" id="-eo15dc_15">Output:</span> <code class="code" id="-eo15dc_16">[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]</code></p></section><section class="chapter"><h2 id="approach-1-backtracking-recursive" data-toc="approach-1-backtracking-recursive">Approach 1: Backtracking (Recursive)</h2><section class="chapter"><h3 id="visual-step-by-step-process" data-toc="visual-step-by-step-process">Visual Step-by-Step Process</h3><p id="-eo15dc_19">Let's trace through <code class="code" id="-eo15dc_21">nums = [1,2,3]</code>:</p><div class="code-block" data-lang="none">
+_
+                    []
+                   /  \
+                [1]    []
+               /  \   /  \
+           [1,2] [1] [2]  []
+           / |   / |  | \  | \
+      [1,2,3][1,2][1,3][1][2,3][2][3][]
+</div></section><section class="chapter"><h3 id="decision-tree-visualization" data-toc="decision-tree-visualization">Decision Tree Visualization:</h3><div class="code-block" data-lang="none">
+Level 0: Start with empty subset []
+         ↓
+Level 1: Include/exclude 1 → [1], []
+         ↓
+Level 2: Include/exclude 2 → [1,2], [1], [2], []
+         ↓
+Level 3: Include/exclude 3 → [1,2,3], [1,2], [1,3], [1], [2,3], [2], [3], []
+</div><p id="-eo15dc_23">Each level represents a decision about whether to include the current element or not.</p></section></section><section class="chapter"><h2 id="implementation-in-c" data-toc="implementation-in-c">Implementation in C#</h2><div class="code-block" data-lang="csharp">
+
+public static IList&lt;IList&lt;int&gt;&gt; Subsets(int[] nums)
+{
+    IList&lt;IList&lt;int&gt;&gt; result = [];
+    Backtrack(0, []);
+    return result;
+
+    void Backtrack(int index, List&lt;int&gt; curr)
+    {
+        result.Add([.. curr]); // add subset at every step
+
+        for (int i = index; i &lt; nums.Length; i++)
+        {
+            if (i &gt; index &amp;&amp; nums[i] == nums[i - 1]) continue; // skip duplicates
+            curr.Add(nums[i]);
+            Backtrack(i + 1, curr);
+            curr.RemoveAt(curr.Count - 1);
+        }
+    }
+}
+</div></section><section class="chapter"><h2 id="execution-trace-for-example-input-1-2-2" data-toc="execution-trace-for-example-input-1-2-2">Execution Trace for Example Input {1,2,2}:</h2><div class="code-block" data-lang="none">
+GenerateSubsets(nums=[1,2,2], index=0, current=[], result=[])
+├── result.Add([]) → result = [[]]
+├── Loop i=0 to 2:
+│   ├── i=0, nums[0]=1:
+│   │   current.Add(1) → current=[1]
+│   │   GenerateSubsets(nums=[1,2,2], index=1, current=[1], result=[[]])
+│   │   ├── result.Add([1]) → result = [[], [1]]
+│   │   ├── Loop i=1 to 2:
+│   │   │   ├── i=1, nums[1]=2:
+│   │   │   │   current.Add(2) → current=[1,2]
+│   │   │   │   GenerateSubsets(nums=[1,2,2], index=2, current=[1,2], result=[[], [1]])
+│   │   │   │   ├── result.Add([1,2]) → result = [[], [1], [1,2]]
+│   │   │   │   ├── Loop i=2 to 2:
+│   │   │   │   │   ├── i=2, nums[2]=2:
+│   │   │   │   │   │   Check: i &gt; index (2 &gt; 2)? No, so nums[2] != nums[1] check skipped
+│   │   │   │   │   │   Wait... let me recalculate!
+│   │   │   │   │   └── Actually: i=2, index=2, so i &gt; index is false
+│   │   │   │   │   │   current.Add(2) → current=[1,2,2]
+│   │   │   │   │   │   GenerateSubsets(nums=[1,2,2], index=3, current=[1,2,2], result=[[], [1], [1,2]])
+│   │   │   │   │   │   ├── result.Add([1,2,2]) → result = [[], [1], [1,2], [1,2,2]]
+│   │   │   │   │   │   ├── Loop i=3 to 2: exit loop
+│   │   │   │   │   │   current.RemoveAt(2) → current=[1,2]
+│   │   │   │   │   └── End loop
+│   │   │   │   current.RemoveAt(1) → current=[1]
+│   │   │   │
+│   │   │   ├── i=2, nums[2]=2:
+│   │   │   │   Check: i &gt; index (2 &gt; 1)? Yes, nums[2] == nums[1] (2 == 2)? Yes
+│   │   │   │   Skip this iteration! (Avoids duplicate)
+│   │   │   └── End loop
+│   │   current.RemoveAt(0) → current=[]
+│   │
+│   ├── i=1, nums[1]=2:
+│   │   current.Add(2) → current=[2]
+│   │   GenerateSubsets(nums=[1,2,2], index=2, current=[2], result=[[], [1], [1,2], [1,2,2]])
+│   │   ├── result.Add([2]) → result = [[], [1], [1,2], [1,2,2], [2]]
+│   │   ├── Loop i=2 to 2:
+│   │   │   ├── i=2, nums[2]=2:
+│   │   │   │   Check: i &gt; index (2 &gt; 2)? No
+│   │   │   │   current.Add(2) → current=[2,2]
+│   │   │   │   GenerateSubsets(nums=[1,2,2], index=3, current=[2,2], result=[..., [2]])
+│   │   │   │   ├── result.Add([2,2]) → result = [[], [1], [1,2], [1,2,2], [2], [2,2]]
+│   │   │   │   ├── Loop i=3 to 2: exit loop
+│   │   │   │   current.RemoveAt(1) → current=[2]
+│   │   │   └── End loop
+│   │   current.RemoveAt(0) → current=[]
+│   │
+│   └── i=2, nums[2]=2:
+│       Check: i &gt; index (2 &gt; 0)? Yes, nums[2] == nums[1] (2 == 2)? Yes
+│       Skip this iteration! (Avoids duplicate)
+│
+└── End loop
+
+</div></section><section class="chapter"><h2 id="time-and-space-complexity" data-toc="time-and-space-complexity">Time and Space Complexity</h2><ul class="list _bullet" id="-eo15dc_26"><li class="list__item" id="-eo15dc_28"><p id="-eo15dc_30"><span class="control" id="-eo15dc_32">Time Complexity:</span> O(2ⁿ &times; n) where n is the length of nums</p><ul class="list _bullet" id="-eo15dc_31"><li class="list__item" id="-eo15dc_33"><p id="-eo15dc_35">There are 2ⁿ subsets to generate</p></li><li class="list__item" id="-eo15dc_34"><p id="-eo15dc_36">Each subset takes O(n) time to copy</p></li></ul></li><li class="list__item" id="-eo15dc_29"><p id="-eo15dc_37"><span class="control" id="-eo15dc_39">Space Complexity:</span> O(2ⁿ &times; n) for storing all subsets</p><ul class="list _bullet" id="-eo15dc_38"><li class="list__item" id="-eo15dc_40"><p id="-eo15dc_41">Recursive approach also uses O(n) space for recursion stack</p></li></ul></li></ul><p id="-eo15dc_27">The backtracking approach is most intuitive and commonly used in interviews!</p></section><div class="last-modified">27 February 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="backtracking.html" class="navigation-links__prev">🔁 Backtracking</a><a href="17-letter-combinations-of-a-phone-number.html" class="navigation-links__next">17. Letter Combinations of a Phone Number</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
