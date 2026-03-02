@@ -1,0 +1,163 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-03-01T20:22:32.7807061"><title>22. Generate Parentheses | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"step-1-understand-the-rule","level":0,"title":"✅ Step 1: Understand the Rule","anchor":"#step-1-understand-the-rule"},{"id":"step-2-visual-example-n-3","level":0,"title":"✅ Step 2: Visual Example (n \u003d 3)","anchor":"#step-2-visual-example-n-3"},{"id":"recursion-tree-visual","level":0,"title":"🌳 Recursion Tree (Visual)","anchor":"#recursion-tree-visual"},{"id":"final-answer-for-n-3","level":0,"title":"🎯 Final Answer for n \u003d 3","anchor":"#final-answer-for-n-3"},{"id":"key-backtracking-logic","level":0,"title":"🧠 Key Backtracking Logic","anchor":"#key-backtracking-logic"},{"id":"c-implementation","level":0,"title":"💻 C# Implementation","anchor":"#c-implementation"},{"id":"complexity","level":0,"title":"⏱ Complexity","anchor":"#complexity"},{"id":"xunit-test-using-theorydata","level":0,"title":"🧪 xUnit Test using TheoryData","anchor":"#xunit-test-using-theorydata"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="22. Generate Parentheses | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/22-generate-parentheses.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="22. Generate Parentheses | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/22-generate-parentheses.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/22-generate-parentheses.html",
+    "name": "22. Generate Parentheses | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="22-Generate-Parentheses" data-main-title="22. Generate Parentheses" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🔁-Backtracking.md|🔁 Backtracking"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="22-Generate-Parentheses" id="22-Generate-Parentheses.md">22. Generate Parentheses</h1><p id="-wfvg3x_3">Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.</p><div class="code-block" data-lang="none">
+Example 1:
+Input: n = 3
+Output: [&quot;((()))&quot;,&quot;(()())&quot;,&quot;(())()&quot;,&quot;()(())&quot;,&quot;()()()&quot;]
+</div><div class="code-block" data-lang="none">
+Example 2:
+Input: n = 1
+Output: [&quot;()&quot;]
+</div><section class="chapter"><h2 id="step-1-understand-the-rule" data-toc="step-1-understand-the-rule">✅ Step 1: Understand the Rule</h2><p id="-wfvg3x_15">A valid parentheses string must:</p><ol class="list _decimal" id="-wfvg3x_16" type="1"><li class="list__item" id="-wfvg3x_18"><p id="-wfvg3x_20">Never have more <code class="code" id="-wfvg3x_21">)</code> than <code class="code" id="-wfvg3x_22">(</code> at any point.</p></li><li class="list__item" id="-wfvg3x_19"><p id="-wfvg3x_23">Have exactly <code class="code" id="-wfvg3x_24">n</code> opening <code class="code" id="-wfvg3x_25">(</code> and <code class="code" id="-wfvg3x_26">n</code> closing <code class="code" id="-wfvg3x_27">)</code>.</p></li></ol></section><section class="chapter"><h2 id="step-2-visual-example-n-3" data-toc="step-2-visual-example-n-3">✅ Step 2: Visual Example (n = 3)</h2><p id="-wfvg3x_28">We need <span class="control" id="-wfvg3x_33">3 open</span> and <span class="control" id="-wfvg3x_34">3 close</span> brackets.</p><p id="-wfvg3x_29">Think of this like building the string step-by-step.</p><p id="-wfvg3x_30">We track:</p><div class="code-block" data-lang="none">
+currentString
+openCount
+closeCount
+</div></section><section class="chapter"><h2 id="recursion-tree-visual" data-toc="recursion-tree-visual">🌳 Recursion Tree (Visual)</h2><p id="-wfvg3x_35">Start:</p><div class="code-block" data-lang="none">
+&quot;&quot;   open=0 close=0
+</div><p id="-wfvg3x_37">We can add <code class="code" id="-wfvg3x_43">(</code> because open &lt; 3.</p><section class="chapter"><h3 id="level-1" data-toc="level-1">Level 1</h3><div class="code-block" data-lang="none">
+&quot;(&quot;   open=1 close=0
+</div></section><section class="chapter"><h3 id="level-2" data-toc="level-2">Level 2</h3><p id="-wfvg3x_46">From <code class="code" id="-wfvg3x_51">&quot;(&quot;</code></p><p id="-wfvg3x_47">We can:</p><ul class="list _bullet" id="-wfvg3x_48"><li class="list__item" id="-wfvg3x_52"><p id="-wfvg3x_54">Add <code class="code" id="-wfvg3x_55">(</code> (since open &lt; 3)</p></li><li class="list__item" id="-wfvg3x_53"><p id="-wfvg3x_56">Add <code class="code" id="-wfvg3x_57">)</code> (since close &lt; open)</p></li></ul><div class="code-block" data-lang="none">
+&quot;((&quot;    open=2 close=0
+&quot;()&quot;    open=1 close=1
+</div></section><section class="chapter"><h3 id="level-3" data-toc="level-3">Level 3</h3><p id="-wfvg3x_58">From <code class="code" id="-wfvg3x_64">&quot;((&quot;</code></p><div class="code-block" data-lang="none">
+&quot;(((&quot;   open=3 close=0
+&quot;(()&quot;   open=2 close=1
+</div><p id="-wfvg3x_60">From <code class="code" id="-wfvg3x_65">&quot;()&quot;</code></p><div class="code-block" data-lang="none">
+&quot;()(&quot;   open=2 close=1
+</div><p id="-wfvg3x_62">(NOT allowed to add <code class="code" id="-wfvg3x_66">)</code> because close would exceed open)</p></section><section class="chapter"><h3 id="continue-expanding" data-toc="continue-expanding">Continue Expanding&hellip;</h3><p id="-wfvg3x_67">Eventually we reach:</p><div class="code-block" data-lang="none">
+((()))
+(()())
+(())()
+()(())
+()()()
+</div></section></section><section class="chapter"><h2 id="final-answer-for-n-3" data-toc="final-answer-for-n-3">🎯 Final Answer for n = 3</h2><div class="code-block" data-lang="none">
+[
+ &quot;((()))&quot;,
+ &quot;(()())&quot;,
+ &quot;(())()&quot;,
+ &quot;()(())&quot;,
+ &quot;()()()&quot;
+]
+</div></section><section class="chapter"><h2 id="key-backtracking-logic" data-toc="key-backtracking-logic">🧠 Key Backtracking Logic</h2><p id="-wfvg3x_72">We follow 2 rules:</p><div class="code-block" data-lang="none">
+if (open &lt; n)       → we can add &quot;(&quot;
+if (close &lt; open)   → we can add &quot;)&quot;
+</div><p id="-wfvg3x_74">When string length == 2 * n &rarr; add to result</p></section><section class="chapter"><h2 id="c-implementation" data-toc="c-implementation">💻 C# Implementation</h2><div class="code-block" data-lang="csharp">
+public static IList&lt;string&gt; GenerateParenthesis(int n)
+{
+    var result = new List&lt;string&gt;();
+    Backtrack(result, &quot;&quot;, 0, 0, n);
+    return result;
+}
+
+private static void Backtrack(
+    List&lt;string&gt; result,
+    string current,
+    int open,
+    int close,
+    int n)
+{
+    // Base case
+    if (current.Length == 2 * n)
+    {
+        result.Add(current);
+        return;
+    }
+
+    // Add &quot;(&quot;
+    if (open &lt; n)
+    {
+        Backtrack(result, current + &quot;(&quot;, open + 1, close, n);
+    }
+
+    // Add &quot;)&quot;
+    if (close &lt; open)
+    {
+        Backtrack(result, current + &quot;)&quot;, open, close + 1, n);
+    }
+}
+</div></section><section class="chapter"><h2 id="complexity" data-toc="complexity">⏱ Complexity</h2><p id="-wfvg3x_78">Time Complexity: <span class="control" id="-wfvg3x_81">O(4ⁿ / &radic;n)</span> (Catalan number growth)</p><p id="-wfvg3x_79">Space Complexity: <span class="control" id="-wfvg3x_82">O(n)</span> recursion depth</p></section><section class="chapter"><h2 id="xunit-test-using-theorydata" data-toc="xunit-test-using-theorydata">🧪 xUnit Test using TheoryData</h2><p id="-wfvg3x_83">We will use <code class="code" id="-wfvg3x_86">Assert.Equivalent</code> to compare collections.</p><div class="code-block" data-lang="csharp">
+using Xunit;
+using System.Collections.Generic;
+
+public class GenerateParenthesesTests
+{
+    public static TheoryData&lt;int, IList&lt;string&gt;&gt; TestData =&gt; new()
+    {
+        {
+            1,
+            new List&lt;string&gt;
+            {
+                &quot;()&quot;
+            }
+        },
+        {
+            2,
+            new List&lt;string&gt;
+            {
+                &quot;(())&quot;,
+                &quot;()()&quot;
+            }
+        },
+        {
+            3,
+            new List&lt;string&gt;
+            {
+                &quot;((()))&quot;,
+                &quot;(()())&quot;,
+                &quot;(())()&quot;,
+                &quot;()(())&quot;,
+                &quot;()()()&quot;
+            }
+        }
+    };
+
+    [Theory]
+    [MemberData(nameof(TestData))]
+    public void GenerateParenthesis_ShouldReturnExpected(int n, IList&lt;string&gt; expected)
+    {
+        var result = GenerateParenthesis(n);
+
+        Assert.Equivalent(expected, result);
+    }
+
+    private static IList&lt;string&gt; GenerateParenthesis(int n)
+    {
+        var result = new List&lt;string&gt;();
+        Backtrack(result, &quot;&quot;, 0, 0, n);
+        return result;
+    }
+
+    private static void Backtrack(
+        List&lt;string&gt; result,
+        string current,
+        int open,
+        int close,
+        int n)
+    {
+        if (current.Length == 2 * n)
+        {
+            result.Add(current);
+            return;
+        }
+
+        if (open &lt; n)
+            Backtrack(result, current + &quot;(&quot;, open + 1, close, n);
+
+        if (close &lt; open)
+            Backtrack(result, current + &quot;)&quot;, open, close + 1, n);
+    }
+}
+</div></section><div class="last-modified">28 February 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="backtracking.html" class="navigation-links__prev">🔁 Backtracking</a><a href="78-subsets.html" class="navigation-links__next">78.Subsets</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
