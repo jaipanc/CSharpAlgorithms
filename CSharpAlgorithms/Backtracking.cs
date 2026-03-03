@@ -145,4 +145,44 @@ public class Backtracking
             if (close < open) Backtrack(open, close + 1, currentString + ")");
         }
     }
+
+    /// <summary>
+    /// 39. Combination Sum
+    /// Finds all unique combinations of candidate numbers that sum to the specified target value. Each candidate number
+    /// may be used an unlimited number of times in a combination.
+    /// </summary>
+    /// <remarks>Combinations are returned without regard to order, and each combination contains numbers in
+    /// non-descending order. Duplicate combinations are not included in the result.</remarks>
+    /// <param name="candidates">An array of positive integers representing the candidate numbers available for forming combinations. Each number
+    /// can be used multiple times.</param>
+    /// <param name="target">The target sum to achieve by combining candidate numbers. Must be a non-negative integer.</param>
+    /// <returns>A list of lists, where each inner list contains a unique combination of candidate numbers that sum to the target
+    /// value. If no combination is possible, returns an empty list.</returns>
+    public static IList<IList<int>> CombinationSum(int[] candidates, int target)
+    {
+        Array.Sort(candidates);
+        IList<IList<int>> result = [];
+        Backtrack(0, [], target);
+        return result;
+
+        void Backtrack(int start, List<int> combo, int remainingTarget)
+        {
+            if(remainingTarget == 0)
+            {
+                result.Add([.. combo]);
+                return;
+            }
+
+            for (int i = start; i < candidates.Length; i++)
+            {
+                var curr = candidates[i];
+                if (curr > remainingTarget) 
+                    break;
+              
+                combo.Add(curr);
+                Backtrack(i, combo, remainingTarget - curr);
+                combo.RemoveAt(combo.Count - 1);
+            }
+        }
+    }
 }
