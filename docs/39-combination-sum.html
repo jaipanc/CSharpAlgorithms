@@ -1,0 +1,150 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-03-02T20:14:59.5848154"><title>39. Combination Sum | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"backtracking-tree-trace","level":0,"title":"🌳 Backtracking Tree Trace","anchor":"#backtracking-tree-trace"},{"id":"example-candidates-2-3-6-7-target-7","level":0,"title":"Example: candidates \u003d [2,3,6,7], target \u003d 7","anchor":"#example-candidates-2-3-6-7-target-7"},{"id":"final-result","level":0,"title":"✅ Final Result","anchor":"#final-result"},{"id":"why-we-pass-startindex","level":0,"title":"🧠 Why We Pass startIndex","anchor":"#why-we-pass-startindex"},{"id":"c-implementation","level":0,"title":"💻 C# Implementation","anchor":"#c-implementation"},{"id":"time-space-complexity","level":0,"title":"⏱ Time \u0026 Space Complexity","anchor":"#time-space-complexity"},{"id":"xunit-test-using-theorydata","level":0,"title":"🧪 xUnit Test Using TheoryData","anchor":"#xunit-test-using-theorydata"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="39. Combination Sum | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/39-combination-sum.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="39. Combination Sum | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/39-combination-sum.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/39-combination-sum.html",
+    "name": "39. Combination Sum | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="39-Combination-Sum" data-main-title="39. Combination Sum" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🔁-Backtracking.md|🔁 Backtracking"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="39-Combination-Sum" id="39-Combination-Sum.md">39. Combination Sum</h1><p id="-9eeipw_3"><span class="control" id="-9eeipw_19">Problem Summary</span></p><p id="-9eeipw_4">Given:</p><ul class="list _bullet" id="-9eeipw_5"><li class="list__item" id="-9eeipw_20"><p id="-9eeipw_22"><code class="code" id="-9eeipw_23">int[] candidates</code> (distinct numbers)</p></li><li class="list__item" id="-9eeipw_21"><p id="-9eeipw_24"><code class="code" id="-9eeipw_25">int target</code></p></li></ul><p id="-9eeipw_6">Return all <span class="control" id="-9eeipw_26">unique combinations</span> where numbers can be chosen <span class="control" id="-9eeipw_27">unlimited times</span> and sum equals <code class="code" id="-9eeipw_28">target</code>.</p><p id="-9eeipw_7">Example:</p><div class="code-block" data-lang="none">
+candidates = [2,3,6,7]
+target = 7
+</div><p id="-9eeipw_9">Expected:</p><div class="code-block" data-lang="none">
+[[2,2,3], [7]]
+</div><section class="chapter"><h2 id="backtracking-tree-trace" data-toc="backtracking-tree-trace">🌳 Backtracking Tree Trace</h2><p id="-9eeipw_29">We build combinations using DFS (backtracking).</p><p id="-9eeipw_30">Rules:</p><ul class="list _bullet" id="-9eeipw_31"><li class="list__item" id="-9eeipw_33"><p id="-9eeipw_37">We can reuse the same number.</p></li><li class="list__item" id="-9eeipw_34"><p id="-9eeipw_38">We move forward in the array (avoid duplicates).</p></li><li class="list__item" id="-9eeipw_35"><p id="-9eeipw_39">Stop when sum &gt; target.</p></li><li class="list__item" id="-9eeipw_36"><p id="-9eeipw_40">If sum == target &rarr; add to result.</p></li></ul></section><section class="chapter"><h2 id="example-candidates-2-3-6-7-target-7" data-toc="example-candidates-2-3-6-7-target-7">Example: candidates = [2,3,6,7], target = 7</h2><p id="-9eeipw_42">Start:</p><div class="code-block" data-lang="none">
+[]
+target = 7
+</div><section class="chapter"><h3 id="step-1-choose-2" data-toc="step-1-choose-2">Step 1 &mdash; Choose 2</h3><div class="code-block" data-lang="none">
+[]
+ └── [2] (remaining 5)
+</div></section><section class="chapter"><h3 id="choose-2-again" data-toc="choose-2-again">Choose 2 again</h3><div class="code-block" data-lang="none">
+[]
+ └── [2]
+      └── [2,2] (remaining 3)
+</div></section><section class="chapter"><h3 id="choose-2-one-more-time" data-toc="choose-2-one-more-time">Choose 2 one more time</h3><div class="code-block" data-lang="none">
+[]
+ └── [2]
+      └── [2,2]
+            └── [2,2,2] (remaining 1)
+</div><p id="-9eeipw_59">1 &lt; 2 &rarr; ❌ STOP (backtrack)</p></section><section class="chapter"><h3 id="from-2-2-try-3" data-toc="from-2-2-try-3">From [2,2], try 3</h3><div class="code-block" data-lang="none">
+[]
+ └── [2]
+      └── [2,2]
+            └── [2,2,3] (remaining 0)
+</div><p id="-9eeipw_63">✅ VALID &rarr; Add to result</p><p id="-9eeipw_64">Backtrack.</p></section><section class="chapter"><h3 id="from-2-2-try-6" data-toc="from-2-2-try-6">From [2,2], try 6</h3><p id="-9eeipw_67">Remaining = 3 - 6 = negative ❌</p></section><section class="chapter"><h3 id="from-2-try-3" data-toc="from-2-try-3">From [2], try 3</h3><div class="code-block" data-lang="none">
+[]
+ └── [2]
+      └── [2,3] (remaining 2)
+</div><p id="-9eeipw_71">Try 3 again:</p><div class="code-block" data-lang="none">
+[2,3,3] → remaining -1 ❌
+</div><p id="-9eeipw_73">Try 6:</p><div class="code-block" data-lang="none">
+[2,3,6] → negative ❌
+</div><p id="-9eeipw_75">Backtrack.</p></section><section class="chapter"><h3 id="from-root-try-3" data-toc="from-root-try-3">From root, try 3</h3><div class="code-block" data-lang="none">
+[]
+ └── [3] (remaining 4)
+</div><p id="-9eeipw_78">Try 3 again:</p><div class="code-block" data-lang="none">
+[3,3] (remaining 1)
+</div><p id="-9eeipw_80">1 &lt; 3 &rarr; ❌</p><p id="-9eeipw_81">Backtrack.</p></section><section class="chapter"><h3 id="from-root-try-6" data-toc="from-root-try-6">From root, try 6</h3><div class="code-block" data-lang="none">
+[6] (remaining 1) ❌
+</div></section><section class="chapter"><h3 id="from-root-try-7" data-toc="from-root-try-7">From root, try 7</h3><div class="code-block" data-lang="none">
+[7] (remaining 0)
+</div><p id="-9eeipw_86">✅ VALID &rarr; Add</p></section></section><section class="chapter"><h2 id="final-result" data-toc="final-result">✅ Final Result</h2><div class="code-block" data-lang="none">
+[[2,2,3], [7]]
+</div></section><section class="chapter"><h2 id="why-we-pass-startindex" data-toc="why-we-pass-startindex">🧠 Why We Pass <code class="code" id="-9eeipw_94">startIndex</code></h2><p id="-9eeipw_91">When we recurse:</p><ul class="list _bullet" id="-9eeipw_92"><li class="list__item" id="-9eeipw_95"><p id="-9eeipw_98">We pass current index <code class="code" id="-9eeipw_99">i</code></p></li><li class="list__item" id="-9eeipw_96"><p id="-9eeipw_100">So we can reuse same number</p></li><li class="list__item" id="-9eeipw_97"><p id="-9eeipw_101">But we never go backwards (avoid duplicates)</p></li></ul></section><section class="chapter"><h2 id="c-implementation" data-toc="c-implementation">💻 C# Implementation</h2><div class="code-block" data-lang="csharp">
+public class Solution
+{
+    public IList&lt;IList&lt;int&gt;&gt; CombinationSum(int[] candidates, int target)
+    {
+        var result = new List&lt;IList&lt;int&gt;&gt;();
+        Backtrack(candidates, target, 0, new List&lt;int&gt;(), result);
+        return result;
+    }
+
+    private void Backtrack(int[] candidates, int remaining, int start, 
+                           List&lt;int&gt; current, 
+                           List&lt;IList&lt;int&gt;&gt; result)
+    {
+        if (remaining == 0)
+        {
+            result.Add(new List&lt;int&gt;(current));
+            return;
+        }
+
+        if (remaining &lt; 0)
+            return;
+
+        for (int i = start; i &lt; candidates.Length; i++)
+        {
+            current.Add(candidates[i]);
+
+            // allow reuse -&gt; pass i (not i+1)
+            Backtrack(candidates, remaining - candidates[i], i, current, result);
+
+            current.RemoveAt(current.Count - 1); // backtrack
+        }
+    }
+}
+</div></section><section class="chapter"><h2 id="time-space-complexity" data-toc="time-space-complexity">⏱ Time &amp; Space Complexity</h2><p id="-9eeipw_104">Time Complexity: Exponential &rarr; O(2^target)</p><p id="-9eeipw_105">Space Complexity: O(target) recursion depth</p></section><section class="chapter"><h2 id="xunit-test-using-theorydata" data-toc="xunit-test-using-theorydata">🧪 xUnit Test Using TheoryData</h2><p id="-9eeipw_107">We use <code class="code" id="-9eeipw_110">Assert.Equivalent</code> because order does not matter.</p><div class="code-block" data-lang="csharp">
+using Xunit;
+using System.Collections.Generic;
+
+public class CombinationSumTests
+{
+    public static TheoryData&lt;int[], int, IList&lt;IList&lt;int&gt;&gt;&gt; TestData =&gt; new()
+    {
+        {
+            new int[] {2,3,6,7},
+            7,
+            new List&lt;IList&lt;int&gt;&gt;
+            {
+                new List&lt;int&gt;{2,2,3},
+                new List&lt;int&gt;{7}
+            }
+        },
+        {
+            new int[] {2,3,5},
+            8,
+            new List&lt;IList&lt;int&gt;&gt;
+            {
+                new List&lt;int&gt;{2,2,2,2},
+                new List&lt;int&gt;{2,3,3},
+                new List&lt;int&gt;{3,5}
+            }
+        },
+        {
+            new int[] {2},
+            1,
+            new List&lt;IList&lt;int&gt;&gt;()
+        },
+        {
+            new int[] {1},
+            2,
+            new List&lt;IList&lt;int&gt;&gt;
+            {
+                new List&lt;int&gt;{1,1}
+            }
+        }
+    };
+
+    [Theory]
+    [MemberData(nameof(TestData))]
+    public void CombinationSum_ShouldReturnExpected(
+        int[] candidates,
+        int target,
+        IList&lt;IList&lt;int&gt;&gt; expected)
+    {
+        var solution = new Solution();
+
+        var result = solution.CombinationSum(candidates, target);
+
+        Assert.Equivalent(expected, result);
+    }
+}
+</div></section><div class="last-modified">03 March 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="backtracking.html" class="navigation-links__prev">🔁 Backtracking</a><a href="22-generate-parentheses.html" class="navigation-links__next">22. Generate Parentheses</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
