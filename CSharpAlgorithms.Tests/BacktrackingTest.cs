@@ -34,6 +34,31 @@ public class BacktrackingTest
         Assert.Equivalent(expeceted, result);
     }
 
+    [Theory]
+    [MemberData(nameof(CombinationSumTestData))]
+    public void TestCombinationSum(int[] canadidates, int target, IList<IList<int>> expected)
+    {
+        var result = Backtracking.CombinationSum(canadidates, target);
+        Assert.Equivalent(expected, result);
+    }
+
+    public static TheoryData<int[], int, IList<IList<int>>> CombinationSumTestData => new()
+    {
+        {
+            [2,3,6,7],7,[[2,2,3],[7]]
+        },
+        {
+            [2,3,5],8,[[2,2,2,2],[2,3,3],[3,5]]
+        },
+        {
+            [2],1,[]
+        },
+        {
+            [1],2,[[1,1]]
+        }
+    };
+
+
     public static TheoryData<int, IList<string>> GenerateParenthesisTestData => new()
     {
         {
