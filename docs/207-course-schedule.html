@@ -1,0 +1,137 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#57B747"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2026-03-10T22:41:09.8709962"><title>207. Course Schedule | DSA using C#.NET</title><script type="application/json" id="virtual-toc-data">[{"id":"1-problem-intuition","level":0,"title":"1. Problem Intuition","anchor":"#1-problem-intuition"},{"id":"2-why-topological-sort-works","level":0,"title":"2. Why Topological Sort Works","anchor":"#2-why-topological-sort-works"},{"id":"3-graph-representation","level":0,"title":"3. Graph Representation","anchor":"#3-graph-representation"},{"id":"4-key-concept-in-degree","level":0,"title":"4. Key Concept: In-Degree","anchor":"#4-key-concept-in-degree"},{"id":"5-algorithm-kahn-s-algorithm","level":0,"title":"5. Algorithm (Kahn\u0027s Algorithm)","anchor":"#5-algorithm-kahn-s-algorithm"},{"id":"6-step-by-step-visual-example","level":0,"title":"6. Step-by-Step Visual Example","anchor":"#6-step-by-step-visual-example"},{"id":"7-c-implementation","level":0,"title":"7. C# Implementation","anchor":"#7-c-implementation"},{"id":"8-complexity","level":0,"title":"8. Complexity","anchor":"#8-complexity"},{"id":"9-how-interviewers-extend-this-problem","level":0,"title":"9. How Interviewers Extend This Problem","anchor":"#9-how-interviewers-extend-this-problem"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="https://www.python.org/static/apple-touch-icon-144x144-precomposed.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="207. Course Schedule | DSA using C#.NET"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DSA using C#.NET Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/207-course-schedule.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="207. Course Schedule | DSA using C#.NET"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/207-course-schedule.html#webpage",
+    "url": "writerside-documentation/https://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/207-course-schedule.html",
+    "name": "207. Course Schedule | DSA using C#.NET",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/#website",
+    "url": "writerside-documentationhttps://github.com/jaipanc/CSharpAlgorithms/tree/master/docs/",
+    "name": "DSA using C#.NET Help"
+}</script><!-- End Schema.org --></head><body data-id="207-Course-Schedule" data-main-title="207. Course Schedule" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="🧭-Graphs.md|🧭 Graphs"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DSA using C#.NET  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="207-Course-Schedule" id="207-Course-Schedule.md">207. Course Schedule</h1><section class="chapter"><h2 id="1-problem-intuition" data-toc="1-problem-intuition">1. Problem Intuition</h2><p id="z2afqks_12">You are given:</p><ul class="list _bullet" id="z2afqks_13"><li class="list__item" id="z2afqks_27"><p id="z2afqks_29"><code class="code" id="z2afqks_30">numCourses</code></p></li><li class="list__item" id="z2afqks_28"><p id="z2afqks_31"><code class="code" id="z2afqks_32">prerequisites</code></p></li></ul><p id="z2afqks_14">Example:</p><div class="code-block" data-lang="none">
+numCourses = 4
+prerequisites = [[1,0],[2,1],[3,2]]
+</div><p id="z2afqks_16">Meaning:</p><div class="code-block" data-lang="none">
+To take course 1 → first take course 0
+To take course 2 → first take course 1
+To take course 3 → first take course 2
+</div><p id="z2afqks_18">Graph representation:</p><div class="code-block" data-lang="none">
+0 → 1 → 2 → 3
+</div><p id="z2afqks_20">You need to determine:</p><p id="z2afqks_21">👉 <span class="control" id="z2afqks_33">Can you finish all courses?</span></p><p id="z2afqks_22">The only situation where you <span class="control" id="z2afqks_34">cannot</span> finish is if there is a <span class="control" id="z2afqks_35">cycle</span>.</p><p id="z2afqks_23">Example of cycle:</p><div class="code-block" data-lang="none">
+0 → 1
+↑   ↓
+3 ← 2
+</div><p id="z2afqks_25">If a cycle exists, courses depend on each other forever.</p></section><section class="chapter"><h2 id="2-why-topological-sort-works" data-toc="2-why-topological-sort-works">2. Why Topological Sort Works</h2><p id="z2afqks_36"><span class="control" id="z2afqks_42">Topological Sort works only on Directed Acyclic Graphs (DAG).</span></p><p id="z2afqks_37">If we can <span class="control" id="z2afqks_43">topologically sort all nodes</span>, then:</p><div class="code-block" data-lang="none">
+No cycle exists → all courses can be finished
+</div><p id="z2afqks_39">If we <span class="control" id="z2afqks_44">cannot process all nodes</span>, then:</p><div class="code-block" data-lang="none">
+Cycle exists → cannot finish
+</div></section><section class="chapter"><h2 id="3-graph-representation" data-toc="3-graph-representation">3. Graph Representation</h2><p id="z2afqks_45">For prerequisites:</p><div class="code-block" data-lang="none">
+[course, prerequisite]
+</div><p id="z2afqks_47">We build:</p><div class="code-block" data-lang="none">
+prerequisite → course
+</div><p id="z2afqks_49">Example:</p><div class="code-block" data-lang="none">
+[1,0]
+</div><p id="z2afqks_51">Graph:</p><div class="code-block" data-lang="none">
+0 → 1
+</div></section><section class="chapter"><h2 id="4-key-concept-in-degree" data-toc="4-key-concept-in-degree">4. Key Concept: In-Degree</h2><p id="z2afqks_54"><span class="control" id="z2afqks_60">In-degree = number of incoming edges</span></p><p id="z2afqks_55">Example graph:</p><div class="code-block" data-lang="none">
+0 → 1 → 2
+     ↓
+     3
+</div><div class="table-wrapper"><table class="wide" id="z2afqks_57"><thead><tr class="ijRowHead" id="z2afqks_61"><th id="z2afqks_66"><p>Course</p></th><th id="z2afqks_67"><p>In-degree</p></th></tr></thead><tbody><tr id="z2afqks_62"><td id="z2afqks_68"><p>0</p></td><td id="z2afqks_69"><p>0</p></td></tr><tr id="z2afqks_63"><td id="z2afqks_70"><p>1</p></td><td id="z2afqks_71"><p>1</p></td></tr><tr id="z2afqks_64"><td id="z2afqks_72"><p>2</p></td><td id="z2afqks_73"><p>1</p></td></tr><tr id="z2afqks_65"><td id="z2afqks_74"><p>3</p></td><td id="z2afqks_75"><p>1</p></td></tr></tbody></table></div><p id="z2afqks_58">Nodes with <span class="control" id="z2afqks_76">in-degree 0</span> can be taken immediately.</p></section><section class="chapter"><h2 id="5-algorithm-kahn-s-algorithm" data-toc="5-algorithm-kahn-s-algorithm">5. Algorithm (Kahn's Algorithm)</h2><p id="z2afqks_77">Steps:</p><ol class="list _decimal" id="z2afqks_78" type="1"><li class="list__item" id="z2afqks_85"><p id="z2afqks_92">Build adjacency list</p></li><li class="list__item" id="z2afqks_86"><p id="z2afqks_93">Compute in-degrees</p></li><li class="list__item" id="z2afqks_87"><p id="z2afqks_94">Add nodes with <span class="control" id="z2afqks_95">in-degree = 0</span> into queue</p></li><li class="list__item" id="z2afqks_88"><p id="z2afqks_96">Process queue</p></li><li class="list__item" id="z2afqks_89"><p id="z2afqks_97">Reduce neighbors' in-degree</p></li><li class="list__item" id="z2afqks_90"><p id="z2afqks_98">Add new <code class="code" id="z2afqks_99">0</code> in-degree nodes to queue</p></li><li class="list__item" id="z2afqks_91"><p id="z2afqks_100">Count processed nodes</p></li></ol><p id="z2afqks_79">If:</p><div class="code-block" data-lang="none">
+processed == numCourses
+</div><p id="z2afqks_81">&rarr; return <span class="control" id="z2afqks_101">true</span></p><p id="z2afqks_82">Otherwise:</p><div class="code-block" data-lang="none">
+cycle exists
+</div></section><section class="chapter"><h2 id="6-step-by-step-visual-example" data-toc="6-step-by-step-visual-example">6. Step-by-Step Visual Example</h2><p id="z2afqks_102">Example:</p><div class="code-block" data-lang="none">
+numCourses = 4
+prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+</div><p id="z2afqks_104">Graph:</p><div class="code-block" data-lang="none">
+     0
+    / \
+   v   v
+   1   2
+    \ /
+     v
+     3
+</div><section class="chapter"><h3 id="step-1-in-degree" data-toc="step-1-in-degree">Step 1 &mdash; In-degree</h3><div class="table-wrapper"><table class="wide" id="z2afqks_112"><thead><tr class="ijRowHead" id="z2afqks_116"><th id="z2afqks_121"><p>Course</p></th><th id="z2afqks_122"><p>In-degree</p></th></tr></thead><tbody><tr id="z2afqks_117"><td id="z2afqks_123"><p>0</p></td><td id="z2afqks_124"><p>0</p></td></tr><tr id="z2afqks_118"><td id="z2afqks_125"><p>1</p></td><td id="z2afqks_126"><p>1</p></td></tr><tr id="z2afqks_119"><td id="z2afqks_127"><p>2</p></td><td id="z2afqks_128"><p>1</p></td></tr><tr id="z2afqks_120"><td id="z2afqks_129"><p>3</p></td><td id="z2afqks_130"><p>2</p></td></tr></tbody></table></div><p id="z2afqks_113">Queue:</p><div class="code-block" data-lang="none">
+[0]
+</div></section><section class="chapter"><h3 id="step-2-remove-0" data-toc="step-2-remove-0">Step 2 &mdash; Remove 0</h3><div class="code-block" data-lang="none">
+Take course 0
+</div><p id="z2afqks_132">Update neighbors:</p><div class="code-block" data-lang="none">
+1 → indegree 0
+2 → indegree 0
+</div><p id="z2afqks_134">Queue:</p><div class="code-block" data-lang="none">
+[1,2]
+</div><p id="z2afqks_136">Processed:</p><div class="code-block" data-lang="none">
+0
+</div></section><section class="chapter"><h3 id="step-3-remove-1" data-toc="step-3-remove-1">Step 3 &mdash; Remove 1</h3><p id="z2afqks_139">Update:</p><div class="code-block" data-lang="none">
+3 → indegree becomes 1
+</div><p id="z2afqks_141">Queue:</p><div class="code-block" data-lang="none">
+[2]
+</div><p id="z2afqks_143">Processed:</p><div class="code-block" data-lang="none">
+0,1
+</div></section><section class="chapter"><h3 id="step-4-remove-2" data-toc="step-4-remove-2">Step 4 &mdash; Remove 2</h3><p id="z2afqks_146">Update:</p><div class="code-block" data-lang="none">
+3 → indegree becomes 0
+</div><p id="z2afqks_148">Queue:</p><div class="code-block" data-lang="none">
+[3]
+</div><p id="z2afqks_150">Processed:</p><div class="code-block" data-lang="none">
+0,1,2
+</div></section><section class="chapter"><h3 id="step-5-remove-3" data-toc="step-5-remove-3">Step 5 &mdash; Remove 3</h3><p id="z2afqks_153">Queue:</p><div class="code-block" data-lang="none">
+[]
+</div><p id="z2afqks_155">Processed:</p><div class="code-block" data-lang="none">
+0,1,2,3
+</div><p id="z2afqks_157">Since:</p><div class="code-block" data-lang="none">
+processed = numCourses
+</div><p id="z2afqks_159">✅ <span class="control" id="z2afqks_161">Return TRUE</span></p></section></section><section class="chapter"><h2 id="7-c-implementation" data-toc="7-c-implementation">7. C# Implementation</h2><div class="code-block" data-lang="csharp">
+public bool CanFinish(int numCourses, int[][] prerequisites)
+{
+    List&lt;int&gt;[] graph = new List&lt;int&gt;[numCourses];
+    int[] indegree = new int[numCourses];
+
+    for (int i = 0; i &lt; numCourses; i++)
+        graph[i] = new List&lt;int&gt;();
+
+    foreach (var p in prerequisites)
+    {
+        int course = p[0];
+        int prereq = p[1];
+
+        graph[prereq].Add(course);
+        indegree[course]++;
+    }
+
+    Queue&lt;int&gt; queue = new Queue&lt;int&gt;();
+
+    for (int i = 0; i &lt; numCourses; i++)
+    {
+        if (indegree[i] == 0)
+            queue.Enqueue(i);
+    }
+
+    int completed = 0;
+
+    while (queue.Count &gt; 0)
+    {
+        int course = queue.Dequeue();
+        completed++;
+
+        foreach (var next in graph[course])
+        {
+            indegree[next]--;
+
+            if (indegree[next] == 0)
+                queue.Enqueue(next);
+        }
+    }
+
+    return completed == numCourses;
+}
+</div></section><section class="chapter"><h2 id="8-complexity" data-toc="8-complexity">8. Complexity</h2><section class="chapter"><h3 id="time-complexity" data-toc="time-complexity">Time Complexity</h3><div class="code-block" data-lang="none">
+O(V + E)
+</div><ul class="list _bullet" id="z2afqks_167"><li class="list__item" id="z2afqks_170"><p id="z2afqks_172"><code class="code" id="z2afqks_173">V = numCourses</code></p></li><li class="list__item" id="z2afqks_171"><p id="z2afqks_174"><code class="code" id="z2afqks_175">E = prerequisites</code></p></li></ul><p id="z2afqks_168">Because we visit every node and edge once.</p></section><section class="chapter"><h3 id="space-complexity" data-toc="space-complexity">Space Complexity</h3><div class="code-block" data-lang="none">
+O(V + E)
+</div><ul class="list _bullet" id="z2afqks_177"><li class="list__item" id="z2afqks_179"><p id="z2afqks_182">adjacency list</p></li><li class="list__item" id="z2afqks_180"><p id="z2afqks_183">indegree array</p></li><li class="list__item" id="z2afqks_181"><p id="z2afqks_184">queue</p></li></ul></section></section><section class="chapter"><h2 id="9-how-interviewers-extend-this-problem" data-toc="9-how-interviewers-extend-this-problem">9. How Interviewers Extend This Problem</h2><p id="z2afqks_185">This problem leads to several related problems:</p><div class="table-wrapper"><table class="wide" id="z2afqks_186"><thead><tr class="ijRowHead" id="z2afqks_189"><th id="z2afqks_193"><p>Problem</p></th><th id="z2afqks_194"><p>Idea</p></th></tr></thead><tbody><tr id="z2afqks_190"><td id="z2afqks_195"><p>Course Schedule II</p></td><td id="z2afqks_196"><p>Return the actual order</p></td></tr><tr id="z2afqks_191"><td id="z2afqks_197"><p>Parallel Courses</p></td><td id="z2afqks_198"><p>Minimum semesters</p></td></tr><tr id="z2afqks_192"><td id="z2afqks_199"><p>Alien Dictionary</p></td><td id="z2afqks_200"><p>Order characters</p></td></tr></tbody></table></div><p id="z2afqks_187">All use <span class="control" id="z2afqks_201">Topological Sort</span>.</p></section><div class="last-modified">11 March 2026</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="graphs.html" class="navigation-links__prev">🧭 Graphs</a><a href="backtracking.html" class="navigation-links__next">🔁 Backtracking</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.25.3-b857/app.js"></script></body></html>
