@@ -1,4 +1,6 @@
-﻿namespace CSharpAlgorithms;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace CSharpAlgorithms;
 
 public class GreedyAlgorithm
 {
@@ -30,5 +32,28 @@ public class GreedyAlgorithm
             j++;
         }
         return count;
+    }
+
+    /// <summary>
+    /// 121. Best Time to Buy and Sell Stock
+    /// Calculates the maximum profit that can be achieved from a single buy and sell operation on a sequence of stock prices.
+    /// </summary>
+    /// <remarks>The method assumes that only one buy and one sell operation are allowed, and the buy must
+    /// occur before the sell. If prices decrease or remain constant, the result will be 0.</remarks>
+    /// <param name="prices">An array of integers representing the stock price on each day. The array must not be null.</param>
+    /// <returns>The maximum profit that can be achieved. Returns 0 if no profit is possible or if the array is empty.</returns>
+    public static int BuySellStock(int[] prices)
+    {
+        if (prices.Length == 0) return 0;
+
+        int minPrice = prices[0];
+        int maxProfit = 0;
+
+        for (int i = 0; i < prices.Length; i++)
+        {
+            minPrice = Math.Min(minPrice, prices[i]);
+            maxProfit = Math.Max(maxProfit, prices[i] - minPrice);
+        }
+        return maxProfit; 
     }
 }

@@ -13,6 +13,29 @@ public class GreedyAlgorithmTest
         Assert.Equal(expected, result);
     }
 
+    [Theory]
+    [MemberData(nameof(BuySellStockTestData))]
+    public void BuySellStockTest(int[] prices, int expectedProfit)
+    {
+        // Act
+        int result = GreedyAlgorithm.BuySellStock(prices);
+
+        // Assert
+        Assert.Equal(expectedProfit, result);
+    }
+
+    public static TheoryData<int[], int> BuySellStockTestData => new()
+    {
+        { [], 0 },                                    // Empty array
+        { [7, 1, 5, 3, 6, 4], 5 },                   // Buy at 1, sell at 6
+        { [7, 6, 4, 3, 1], 0 },                      // Decreasing prices, no profit
+        { [1, 2, 3, 4, 5], 4 },                      // Increasing prices, buy at 1, sell at 5
+        { [2, 4, 1, 7, 3], 6 },                      // Buy at 1, sell at 7
+        { [5], 0 },                                   // Single element
+        { [1, 1, 1, 1], 0 },                         // All same prices
+        { [3, 2, 6, 5, 0, 3], 4 }                    // Buy at 2, sell at 6
+    };
+
     public static TheoryData<int[], int[], int> AssignCookiesTestData()
     {
         return new()
