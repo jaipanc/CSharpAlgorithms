@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace CSharpAlgorithms;
+﻿namespace CSharpAlgorithms;
 
 public class GreedyAlgorithm
 {
