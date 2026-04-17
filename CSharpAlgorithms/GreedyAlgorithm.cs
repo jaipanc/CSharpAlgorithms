@@ -54,4 +54,45 @@ public class GreedyAlgorithm
         }
         return maxProfit; 
     }
+
+    /// <summary>
+    /// 134. Gas Station - Determines the starting gas station index from which a vehicle can complete a full circuit around a circular
+    /// route, given the amount of gas at each station and the cost to travel to the next station.
+    /// </summary>
+    /// <remarks>If there are multiple valid starting stations, the method returns the smallest index. Both
+    /// input arrays must have the same length.</remarks>
+    /// <param name="gas">An array where each element represents the amount of gas available at the corresponding station. The length of
+    /// the array must match the length of the cost array.</param>
+    /// <param name="cost">An array where each element represents the cost of gas required to travel from the corresponding station to the
+    /// next station. The length of the array must match the length of the gas array.</param>
+    /// <returns>The index of the starting gas station if the circuit can be completed; otherwise, -1 if it is not possible to
+    /// complete the circuit.</returns>
+    public static int CanCompleteCircle(int[] gas, int[] cost)
+    {
+        int totalGas = 0, totalCost = 0;
+        for (int i = 0; i < gas.Length; i++)
+        {
+            totalGas += gas[i];
+            totalCost += cost[i];
+        }
+
+        if (totalCost > totalGas) return -1;
+
+        int start = 0, fuel = 0;
+        for (int i = 0; i < gas.Length; i++)
+        {
+            if (fuel + gas[i] - cost[i] < 0)
+            {
+                // can't reach to next station
+                // reset the start point from next station
+                start = i + 1;
+                fuel = 0;
+            }
+            else
+            {
+                fuel += gas[i] - cost[i];
+            }
+        }
+        return start;
+    }
 }
