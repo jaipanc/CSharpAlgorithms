@@ -24,6 +24,42 @@ public class GreedyAlgorithmTest
         Assert.Equal(expectedProfit, result);
     }
 
+    [Theory]
+    [MemberData(nameof(CanCompleteCircleTestData))]
+    public void CanCompleteCircleTest(int[] gas, int[] cost, int expected)
+    {
+        // Act
+        var result = GreedyAlgorithm.CanCompleteCircle(gas, cost);
+
+        // Assert
+        Assert.Equal(expected, result);
+    }
+
+    // MemberData source
+    public static TheoryData<int[], int[], int> CanCompleteCircleTestData()
+    {
+        return new()
+        {
+            // Basic valid case
+            { [ 1, 2, 3, 4, 5 ], [ 3, 4, 5, 1, 2 ], 3 },
+
+            // Not possible
+            { [ 2, 3, 4 ], [ 3, 4, 3 ], -1 },
+
+            // Single station - valid
+            { [ 5 ], [ 4 ], 0 },
+
+            // Single station - not valid
+            { [ 3 ], [ 4 ], -1 },
+
+            // All equal
+            { [ 2, 2, 2 ], [ 2, 2, 2 ], 0 },
+
+            // Edge: start shifts multiple times
+            { [5, 1, 2, 3, 4 ], [ 4, 4, 1, 5, 1 ], 4 }
+        };
+    }
+
     public static TheoryData<int[], int> BuySellStockTestData => new()
     {
         { [], 0 },                                    // Empty array
