@@ -95,4 +95,22 @@ public class GreedyAlgorithm
         }
         return start;
     }
+
+    /// <summary>
+    /// 55. Jump Game - Determines whether it is possible to reach the last index of the array by jumping according to the values in the
+    /// array.
+    /// </summary>
+    /// <param name="nums">An array of non-negative integers where each element represents the maximum jump length from that position.
+    /// Cannot be null.</param>
+    /// <returns>true if the last index can be reached from the first index; otherwise, false.</returns>
+    public static bool CanJump(int[] nums)
+    {
+        int maxReach = 0;
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (i > maxReach) return false;
+            maxReach = Math.Max(maxReach, i + nums[i]);
+        }
+        return true;
+    } 
 }
