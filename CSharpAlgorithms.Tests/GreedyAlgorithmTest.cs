@@ -35,6 +35,14 @@ public class GreedyAlgorithmTest
         Assert.Equal(expected, result);
     }
 
+    [Theory]
+    [MemberData(nameof(CanJumpTestData))]
+    public void CanJumpTest(int[] nums, bool expected)
+    {
+        var result = GreedyAlgorithm.CanJump(nums);
+        Assert.Equal(expected, result);
+    }
+
     // MemberData source
     public static TheoryData<int[], int[], int> CanCompleteCircleTestData()
     {
@@ -59,6 +67,38 @@ public class GreedyAlgorithmTest
             { [5, 1, 2, 3, 4 ], [ 4, 4, 1, 5, 1 ], 4 }
         };
     }
+
+    // MemberData source for CanJump tests
+    public static TheoryData<int[], bool> CanJumpTestData()
+    {
+        return new()
+        {
+            // Typical reachable case
+            { [2, 3, 1, 1, 4], true },
+
+            // Stuck at zero before end
+            { [3, 2, 1, 0, 4], false },
+
+            // Empty array (no indices to fail) - method returns true
+            { [], true },
+
+            // Single element zero - already at last index
+            { [0], true },
+
+            // Can't move from start
+            { [0, 2], false },
+
+            // Can jump through zeros
+            { [2, 0, 0], true },
+
+            // Fails later when encountering unavoidable gap
+            { [1, 0, 1, 0], false },
+
+            // Simple increasing jumps
+            { [1, 2, 3], true }
+        };
+    }
+
 
     public static TheoryData<int[], int> BuySellStockTestData => new()
     {
