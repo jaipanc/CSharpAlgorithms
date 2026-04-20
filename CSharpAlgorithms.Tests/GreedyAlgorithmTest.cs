@@ -137,6 +137,37 @@ public class GreedyAlgorithmTest
         };
     }
 
+    [Theory]
+    [MemberData(nameof(UniquePathsTestData))]
+    public void UniquePathsTest(int m, int n, int expected)
+    {
+        var result = GreedyAlgorithm.UniquePaths(m, n);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<int, int, int> UniquePathsTestData()
+    {
+        return new()
+        {
+            // Minimal grids
+            { 1, 1, 1 },
+            { 1, 5, 1 },
+            { 5, 1, 1 },
+
+            // Small grids
+            { 2, 2, 2 },
+            { 3, 3, 6 },
+            { 3, 2, 3 },
+
+            // Known combinatorial values
+            { 3, 7, 28 },
+            { 7, 3, 28 },
+
+            // Larger but reasonable
+            { 5, 5, 70 }
+        };
+    }
+
 
     public static TheoryData<int[], int> BuySellStockTestData => new()
     {
