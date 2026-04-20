@@ -99,6 +99,44 @@ public class GreedyAlgorithmTest
         };
     }
 
+    [Theory]
+    [MemberData(nameof(LengthOfLISTestData))]
+    public void LengthOfLISTest(int[] nums, int expected)
+    {
+        var result = GreedyAlgorithm.LengthOfLIS(nums);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<int[], int> LengthOfLISTestData()
+    {
+        return new()
+        {
+            // Empty input
+            { [], 0 },
+
+            // Single element
+            { [1], 1 },
+
+            // Strictly increasing
+            { [1, 2, 3, 4, 5], 5 },
+
+            // All equal
+            { [7, 7, 7, 7], 1 },
+
+            // Typical mixed example
+            { [10, 9, 2, 5, 3, 7, 101, 18], 4 },
+
+            // Another mixed case
+            { [0, 1, 0, 3, 2, 3], 4 },
+
+            // Decreasing sequence
+            { [5, 4, 3, 2, 1], 1 },
+
+            // Complex case
+            { [4, 10, 4, 3, 8, 9], 3 }
+        };
+    }
+
 
     public static TheoryData<int[], int> BuySellStockTestData => new()
     {
