@@ -112,5 +112,40 @@ public class GreedyAlgorithm
             maxReach = Math.Max(maxReach, i + nums[i]);
         }
         return true;
-    } 
+    }
+
+    /// <summary>
+    /// 300. Longest Increasing Subsequence - Calculates the length of the longest strictly increasing subsequence in the specified array of integers.
+    /// </summary>
+    /// <param name="nums">An array of integers to search for the longest increasing subsequence. Cannot be null.</param>
+    /// <returns>The length of the longest strictly increasing subsequence found in the input array. Returns 0 if the array is
+    /// empty.</returns>
+    public static int LengthOfLIS(int[] nums)
+    {
+        if (nums == null || nums.Length == 0) return 0;
+        int n = nums.Length;
+        int[] dp = new int[n];
+        Array.Fill(dp, 1);
+
+        for (int i = 1; i < nums.Length; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (nums[i] > nums[j])
+                {
+                    dp[i] = Math.Max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        int result = 0;
+        for (int i = 0; i < dp.Length; i++)
+        {
+            if (dp[i] > result)
+            {
+                result = dp[i];
+            }
+        }
+        return result;
+    }
 }
