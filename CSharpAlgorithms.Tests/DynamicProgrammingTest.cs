@@ -59,4 +59,47 @@ public class DynamicProgrammingTest
             { "110", 1 }        // "11" + "0"
         };
     }
+
+    [Theory]
+    [MemberData(nameof(MaximalSquareTestData))]
+    public void MaximalSquareTest(char[][] matrix, int expected)
+    {
+        var result = DynamicProgramming.MaximalSquare(matrix);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<char[][], int> MaximalSquareTestData()
+    {
+        return new()
+        {
+            { null!, 0 }, // null matrix
+            { Array.Empty<char[]>(), 0 }, // empty matrix (no rows)
+            { new char[][] { [] }, 0 }, // one row, zero cols
+
+            // single cell
+            { new char[][] { ['0'] }, 0 },
+            { new char[][] { ['1'] }, 1 },
+
+            // simple 2x2
+            { new char[][] { ['1','1'], ['1','1'] }, 4 },
+
+            // rectangular with full ones (3x5) -> max square side = 3 -> area = 9
+            { new char[][] { ['1','1','1','1','1'], ['1','1','1','1','1'], ['1','1','1','1','1'] }, 9 },
+
+            // LeetCode example -> maximal square area = 4
+            {
+                new char[][]
+                {
+                    ['1','0','1','0','0'],
+                    ['1','0','1','1','1'],
+                    ['1','1','1','1','1'],
+                    ['1','0','0','1','0']
+                },
+                4
+            },
+
+            // no ones
+            { new char[][] { ['0','0','0'], ['0','0','0'] }, 0 }
+        };
+    }
 }
