@@ -33,4 +33,30 @@ public class DynamicProgrammingTest
         var result = DynamicProgramming.CountBits(n);
         Assert.Equal(expected, result);
     }
+
+    [Theory]
+    [MemberData(nameof(NumDecodingsTestData))]
+    public void NumDecodingsTest(string s, int expected)
+    {
+        var result = DynamicProgramming.NumDecodings(s);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<string, int> NumDecodingsTestData()
+    {
+        return new()
+        {
+            { null!, 0 },         // null input
+            { "", 0 },          // empty string
+            { "0", 0 },         // single zero invalid
+            { "1", 1 },
+            { "12", 2 },        // "AB" or "L"
+            { "226", 3 },       // "BZ","VF","BBF"
+            { "10", 1 },        // only "J"
+            { "100", 0 },       // invalid trailing zero
+            { "101", 1 },       // "10" + "1"
+            { "27", 1 },        // 27 can't pair -> only separate
+            { "110", 1 }        // "11" + "0"
+        };
+    }
 }
