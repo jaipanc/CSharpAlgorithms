@@ -42,4 +42,37 @@ public class DynamicProgramming
         }
         return dp;
     }
+
+    /// <summary>
+    /// 91. Decode Ways - Calculates the total number of ways to decode a string of digits according to the mapping 'A' = 1, 'B' = 2, ...,
+    /// 'Z' = 26.
+    /// </summary>
+    /// <remarks>The input string must not contain invalid digit sequences (such as leading zeros or digits
+    /// that do not map to any letter).</remarks>
+    /// <param name="s">The string of digits to decode. Each character must be a digit between '0' and '9'.</param>
+    /// <returns>The number of possible decodings for the input string. Returns 0 if the string cannot be decoded.</returns>
+    public static int NumDecodings(string s)
+    {
+        if (string.IsNullOrEmpty(s) || s[0] == '0') return 0;
+        int n = s.Length;
+        var dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+
+        for (int i = 2; i <= n; i++)
+        {
+            int digit = s[i - 1] - '0';
+            if (digit != 0)
+            {
+                dp[i] += dp[i - 1];
+            }
+
+            digit = int.Parse(s.Substring(i - 2, 2));
+            if (digit >= 10 && digit <= 26)
+            {
+                dp[i] += dp[i - 2];
+            }
+        }
+        return dp[n];
+    }
 }
