@@ -75,4 +75,38 @@ public class DynamicProgramming
         }
         return dp[n];
     }
+
+    /// <summary>
+    /// 221. Maximal Square
+    /// Calculates the area of the largest square containing only '1's in the specified 2D binary matrix.
+    /// </summary>
+    /// <param name="matrix">A two-dimensional jagged array of characters representing the binary matrix. Each element must be either '0' or
+    /// '1'.</param>
+    /// <returns>The area of the largest square containing only '1's. Returns 0 if no such square exists or if the matrix is
+    /// empty.</returns>
+    public static int MaximalSquare(char[][] matrix)
+    {
+        if (matrix == null || matrix.Length == 0) return 0;
+
+        int r = matrix.Length;
+        int c = matrix[0].Length;
+        var dp = new int[r + 1, c + 1];
+        int maxSide = 0;
+
+        for (int i = 1; i <= r; i++)
+        {
+            for (int j = 1; j <= c; j++)
+            {
+                if (matrix[i-1][j-1] == '1')
+                {
+                    int top = dp[i - 1, j];
+                    int diag = dp[i - 1, j - 1];
+                    int left = dp[i, j - 1];
+                    dp[i, j] = Math.Min(Math.Min(top,left), diag) + 1;
+                    maxSide = Math.Max(maxSide, dp[i, j]);
+                }
+            }
+        }
+        return maxSide * maxSide;
+    }
 }
