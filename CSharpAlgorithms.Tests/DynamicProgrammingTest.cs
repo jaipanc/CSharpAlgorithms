@@ -104,6 +104,28 @@ public class DynamicProgrammingTest
     }
 
     [Theory]
+    [MemberData(nameof(WordBreakTestData))]
+    public void WordBreakTest(string s, IList<string> wordDict, bool expected)
+    {
+        var result = DynamicProgramming.WordBreak(s, wordDict);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<string, IList<string>, bool> WordBreakTestData()
+    {
+        return new()
+        {
+            { "leetcode", new List<string>{ "leet", "code" }, true },
+            { "applepenapple", new List<string>{ "apple", "pen" }, true },
+            { "catsandog", new List<string>{ "cats", "dog", "sand", "and", "cat" }, false },
+            { "", new List<string>{ }, true },
+            { "a", new List<string>{ "b" }, false },
+            { "cars", new List<string>{ "car", "ca", "rs" }, true },
+            { "aaaaaaa", new List<string>{ "aaaa", "aaa" }, true }
+        };
+    }
+
+    [Theory]
     [MemberData(nameof(LengthOfLISTestData))]
     public void LengthOfLISTest(int[] nums, int expected)
     {
