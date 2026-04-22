@@ -166,16 +166,44 @@ public class DynamicProgramming
         {
             for (int j = 1; j <= c; j++)
             {
-                if (matrix[i-1][j-1] == '1')
+                if (matrix[i - 1][j - 1] == '1')
                 {
                     int top = dp[i - 1, j];
                     int diag = dp[i - 1, j - 1];
                     int left = dp[i, j - 1];
-                    dp[i, j] = Math.Min(Math.Min(top,left), diag) + 1;
+                    dp[i, j] = Math.Min(Math.Min(top, left), diag) + 1;
                     maxSide = Math.Max(maxSide, dp[i, j]);
                 }
             }
         }
         return maxSide * maxSide;
+    }
+
+    /// <summary>
+    /// 139. Word Break
+    /// Determines whether the input string can be segmented into a sequence of one or more dictionary words.
+    /// </summary>
+    /// <param name="s">The string to be segmented. Cannot be null.</param>
+    /// <param name="wordDict">A list of words representing the dictionary. Each word is used as a valid segment. Cannot be null.</param>
+    /// <returns>true if the string can be segmented into one or more dictionary words; otherwise, false.</returns>
+    public static bool WordBreak(string s, IList<string> wordDict)
+    {
+        var wordSet = new HashSet<string>(wordDict);
+        var dp = new bool[s.Length + 1];
+        dp[0] = true;
+
+        for (int i = 1; i <= s.Length; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                var str = s.Substring(j, i - j);
+                if (dp[j] && wordSet.Contains(str))
+                {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[s.Length];
     }
 }
