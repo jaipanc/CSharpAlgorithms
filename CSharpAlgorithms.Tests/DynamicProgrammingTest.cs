@@ -102,4 +102,73 @@ public class DynamicProgrammingTest
             { new char[][] { ['0','0','0'], ['0','0','0'] }, 0 }
         };
     }
+
+    [Theory]
+    [MemberData(nameof(LengthOfLISTestData))]
+    public void LengthOfLISTest(int[] nums, int expected)
+    {
+        var result = DynamicProgramming.LengthOfLIS(nums);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<int[], int> LengthOfLISTestData()
+    {
+        return new()
+        {
+            // Empty input
+            { [], 0 },
+
+            // Single element
+            { [1], 1 },
+
+            // Strictly increasing
+            { [1, 2, 3, 4, 5], 5 },
+
+            // All equal
+            { [7, 7, 7, 7], 1 },
+
+            // Typical mixed example
+            { [10, 9, 2, 5, 3, 7, 101, 18], 4 },
+
+            // Another mixed case
+            { [0, 1, 0, 3, 2, 3], 4 },
+
+            // Decreasing sequence
+            { [5, 4, 3, 2, 1], 1 },
+
+            // Complex case
+            { [4, 10, 4, 3, 8, 9], 3 }
+        };
+    }
+
+    [Theory]
+    [MemberData(nameof(UniquePathsTestData))]
+    public void UniquePathsTest(int m, int n, int expected)
+    {
+        var result = DynamicProgramming.UniquePaths(m, n);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<int, int, int> UniquePathsTestData()
+    {
+        return new()
+        {
+            // Minimal grids
+            { 1, 1, 1 },
+            { 1, 5, 1 },
+            { 5, 1, 1 },
+
+            // Small grids
+            { 2, 2, 2 },
+            { 3, 3, 6 },
+            { 3, 2, 3 },
+
+            // Known combinatorial values
+            { 3, 7, 28 },
+            { 7, 3, 28 },
+
+            // Larger but reasonable
+            { 5, 5, 70 }
+        };
+    }
 }
