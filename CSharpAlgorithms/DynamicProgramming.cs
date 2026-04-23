@@ -206,4 +206,53 @@ public class DynamicProgramming
         }
         return dp[s.Length];
     }
+
+    /// <summary>
+    /// 1235. Maximum Profit in Job Scheduling
+    /// Finds the maximum total profit achievable by scheduling non-overlapping jobs, given their start times, end
+    /// times, and individual profits.
+    /// </summary>
+    /// <remarks>Each job is defined by its start time, end time, and profit at the same index in the
+    /// respective arrays. Jobs are considered non-overlapping if the start time of one job is not less than the end
+    /// time of another selected job. All input arrays must be of equal length.</remarks>
+    /// <param name="startTime">An array of integers representing the start times of each job. Each element corresponds to a job and must have
+    /// the same index as its end time and profit.</param>
+    /// <param name="endTime">An array of integers representing the end times of each job. Each element corresponds to a job and must have the
+    /// same index as its start time and profit.</param>
+    /// <param name="profit">An array of integers representing the profit associated with each job. Each element corresponds to a job and
+    /// must have the same index as its start and end times.</param>
+    /// <returns>The maximum total profit that can be obtained by selecting a subset of non-overlapping jobs.</returns>
+    public int jobScheduling(int[] startTime, int[] endTime, int[] profit)
+    {
+        int n = startTime.Length;
+        var jobs = new int[n][];
+        for (int i = 0; i < n; i++)
+        {
+            jobs[i] = [startTime[i], endTime[i], profit[i]];
+        }
+        Array.Sort(jobs, (a, b) => a[1].CompareTo(b[1]));
+        var dp = new int[n + 1];
+
+        for (int i = 1; i <= n; i++)
+        {
+            int start = jobs[i - 1][0], currentProfit = jobs[i - 1][2];
+            // find the jobs which can be completed before current job
+            int numJobs = BiSectRight(jobs, start, i - 1);
+            dp[i] = Math.Max(dp[i - 1], dp[numJobs] + currentProfit);
+        }
+        return dp[n];
+
+        int BiSectRight(int[][] jbs, int t, int e)
+        {
+            //binary search operation to find the results
+            int left = 0, right = e + 1;
+            while (left < right)
+            {
+                int mid = (left + right) / 2;
+                if (jobs[mid][1] <= t) left += 1;
+                else right = mid;
+            }
+            return left;
+        }
+    }
 }
