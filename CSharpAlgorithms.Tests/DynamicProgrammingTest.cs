@@ -126,6 +126,36 @@ public class DynamicProgrammingTest
     }
 
     [Theory]
+    [MemberData(nameof(JobSchedulingTestData))]
+    public void JobSchedulingTest(int[] startTime, int[] endTime, int[] profit, int expected)
+    {
+        var solver = new DynamicProgramming();
+        var result = solver.jobScheduling(startTime, endTime, profit);
+        Assert.Equal(expected, result);
+    }
+
+    public static TheoryData<int[], int[], int[], int> JobSchedulingTestData()
+    {
+        return new()
+        {
+            // LeetCode example
+            { [1,2,3,3], [3,4,5,6], [50,10,40,70], 120 },
+
+            // Single job
+            { [1], [2], [5], 5 },
+
+            // Empty inputs
+            { Array.Empty<int>(), Array.Empty<int>(), Array.Empty<int>(), 0 },
+
+            // All jobs overlap, pick max single
+            { [1,1,1], [2,2,2], [10,20,30], 30 },
+
+            // Chained jobs where equality of times is allowed (start == end)
+            { [1,3,2], [3,4,5], [5,15,10], 20 }
+        };
+    }
+
+    [Theory]
     [MemberData(nameof(LengthOfLISTestData))]
     public void LengthOfLISTest(int[] nums, int expected)
     {
