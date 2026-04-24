@@ -45,5 +45,17 @@
             var result = StackPattern.DailyTemperatures(temperatures);
             Assert.Equal(output, result);
         }
+
+        [Theory]
+        [InlineData("(()", 2)]
+        [InlineData(")()())", 4)]
+        [InlineData("", 0)]
+        [InlineData("()(()", 2)]
+        [InlineData("()(())", 6)]
+        public void TestLongestValidParentheses(string s, int expected)
+        {
+            var result = StackPattern.LongestValidParentheses(s);
+            Assert.Equal(expected, result);
+        }
     }
 }
