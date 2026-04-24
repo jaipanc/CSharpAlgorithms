@@ -129,5 +129,40 @@
             }
             return result;
         }
+
+        /// <summary>
+        /// 32. Longest Valid Parentheses
+        /// Finds the length of the longest substring of well-formed parentheses in the specified string.
+        /// </summary>
+        /// <remarks>A valid substring consists of properly matched opening and closing parentheses. This
+        /// method ignores any characters other than '(' and ')'.</remarks>
+        /// <param name="s">The input string to evaluate for valid parentheses substrings. May be empty but cannot be null.</param>
+        /// <returns>The length of the longest contiguous substring containing valid, well-formed parentheses. Returns 0 if no
+        /// such substring exists.</returns>
+        public static int LongestValidParentheses(string s)
+        {
+            int maxLength = 0;
+            var stack = new Stack<int>();
+            stack.Push(-1);
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                var ch = s[i];
+                if (ch == '(')
+                {
+                    stack.Push(i);
+                }
+                else
+                {
+                    stack.Pop();
+                    if(stack.Count == 0)
+                    {
+                        stack.Push(i);
+                    }
+                    maxLength = Math.Max(maxLength, i - stack.Peek());
+                }
+            }
+            return maxLength;
+        }
     }
 }
