@@ -57,5 +57,21 @@
             var result = StackPattern.LongestValidParentheses(s);
             Assert.Equal(expected, result);
         }
+
+        [Theory]
+        [InlineData(new int[] { 2, 1, 5, 6, 2, 3 }, 10)]
+        [InlineData(new int[] { }, 0)]
+        [InlineData(new int[] { 2, 0, 2 }, 2)]
+        [InlineData(new int[] { 0, 2, 0 }, 2)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 9)]
+        [InlineData(new int[] { 3, 2, 5, 6, 1, 3 }, 10)]
+        [InlineData(new int[] { 5 }, 0)]
+        [InlineData(new int[] { 1, 1 }, 1)]
+        [InlineData(new int[] { 5, 4, 3, 2, 1 }, 9)]
+        public void TestLargestRectangleArea(int[] heights, int expected)
+        {
+            var result = StackPattern.LargestRectangleArea(heights);
+            Assert.Equal(expected, result);
+        }
     }
 }
