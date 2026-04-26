@@ -164,5 +164,47 @@
             }
             return maxLength;
         }
+
+        /// <summary>
+        /// 84. Largest Rectangle in Histogram
+        /// Calculates the area of the largest rectangle that can be formed within a histogram represented by the
+        /// specified bar heights.
+        /// </summary>
+        /// <param name="heights">An array of non-negative integers representing the heights of the histogram's bars. Each element corresponds
+        /// to the height of a bar at that position. Cannot be null.</param>
+        /// <returns>The area of the largest rectangle that can be formed within the histogram. Returns 0 if the array is empty.</returns>
+        public static int LargestRectangleArea(int[] heights)
+        {
+            int maxArea = 0;
+            var stack = new Stack<int>();
+            int i = 0;
+
+            while (i < heights.Length)
+            {
+                if(stack.Count == 0 || heights[i] >= heights[stack.Peek()])
+                {
+                    stack.Push(i);
+                    i++;
+                }
+                else
+                {
+                    int top = stack.Pop();
+                    int right = i - 1;
+                    int left = stack.Count == 0 ? -1 : stack.Peek();
+                    int area = heights[top] * (right - left);
+                    maxArea = Math.Max(maxArea, area);
+                }
+            }
+
+            while (stack.Count > 0)
+            {
+                int top = stack.Pop();
+                int right = i - 1;
+                int left = stack.Count == 0 ? i : stack.Peek();
+                int area = heights[top] * (right - left);
+                maxArea = Math.Max(maxArea, area);
+            }
+            return maxArea;
+        }
     }
 }
