@@ -59,5 +59,38 @@
             }
             return left;
         }
+
+        /// <summary>
+        /// 33. Search in Rotated Sorted Array
+        /// Searches for a specified target value in a rotated sorted array and returns its index if found.
+        /// </summary>
+        /// <remarks>The input array must not contain duplicate elements. The method performs the search
+        /// in O(log n) time complexity.</remarks>
+        /// <param name="nums">An array of integers that has been sorted in ascending order and then rotated at an unknown pivot.</param>
+        /// <param name="target">The value to search for within the array.</param>
+        /// <returns>The zero-based index of the target value if found; otherwise, -1.</returns>
+        public int SearchRotatedArray(int[] nums, int target)
+        {
+            int left = 0, right = nums.Length - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] == target) return mid;
+
+                //left half is sorted
+                if (nums[left] <= nums[mid])
+                {
+                    if (target >= nums[left] && target < nums[mid]) right = mid - 1;
+                    else left = mid + 1;
+                }
+                else
+                {
+                    //right half id sorted
+                    if (target > mid && target <= nums[right]) left = mid + 1;
+                    else right = mid - 1;
+                }
+            }
+            return -1;
+        }
     }
 }
