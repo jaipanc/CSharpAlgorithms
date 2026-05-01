@@ -59,5 +59,31 @@
             var output = binarySearch.SearchRotatedArray(nums, target);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        // Basic cases
+        [InlineData(new int[] { 1, 1, 1, 1 }, 4, 1)]
+        [InlineData(new int[] { 312884132 }, 968709470, 1)]
+        // Multiple piles, sufficient time
+        [InlineData(new int[] { 1, 1, 1, 1 }, 8, 1)]
+        [InlineData(new int[] { 312884132 }, 968709469, 1)]
+        // Large numbers
+        [InlineData(new int[] { 4, 3, 8, 2 }, 5, 4)]
+        [InlineData(new int[] { 7, 11 }, 9, 3)]
+        // Single pile
+        [InlineData(new int[] { 10 }, 1, 10)]
+        [InlineData(new int[] { 100 }, 10, 10)]
+        [InlineData(new int[] { 100 }, 100, 1)]
+        // Multiple piles with varying sizes
+        [InlineData(new int[] { 1, 1, 1, 1 }, 4, 1)]
+        [InlineData(new int[] { 1, 10, 1, 10, 1, 10, 1, 10, 1, 10 }, 50, 2)]
+        // Tight time constraint
+        [InlineData(new int[] { 1, 1, 1, 1 }, 4, 1)]
+        [InlineData(new int[] { 100, 100, 100, 100 }, 4, 100)]
+        public void TestMinEatingSpeed(int[] piles, int h, int expected)
+        {
+            var output = BinarySearch.MinEatingSpeed(piles, h);
+            Assert.Equal(expected, output);
+        }
     }
 }
