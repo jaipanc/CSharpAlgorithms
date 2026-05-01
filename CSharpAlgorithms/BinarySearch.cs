@@ -92,5 +92,37 @@
             }
             return -1;
         }
+
+        /// <summary>
+        /// 875. Koko Eating Bananas
+        /// Determines the minimum integer eating speed required to finish all banana piles within a given number of
+        /// hours.
+        /// </summary>
+        /// <remarks>If it is not possible to finish all piles within the given hours, the method returns
+        /// the smallest speed that allows completion. The method assumes that eating speed and pile sizes are positive
+        /// integers.</remarks>
+        /// <param name="piles">An array of integers representing the number of bananas in each pile. Each element must be a non-negative
+        /// integer.</param>
+        /// <param name="h">The maximum number of hours allowed to finish eating all the piles. Must be a positive integer.</param>
+        /// <returns>The minimum integer value representing the eating speed (bananas per hour) needed to finish all piles within
+        /// the specified number of hours.</returns>
+        public static int MinEatingSpeed(int[] piles, int h)
+        {
+            int left = 1, right = piles.Max();
+
+            while (left < right)
+            {
+                int mid = left + (right - left) / 2;
+                long hours = 0;
+                foreach (var p in piles)
+                {
+                    hours += (p + mid - 1) / mid; // Math Ceiling Formula
+                }
+
+                if (hours > h) left = mid + 1;
+                else right = mid;
+            }
+            return left;
+        }
     }
 }
