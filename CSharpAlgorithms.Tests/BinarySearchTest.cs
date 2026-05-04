@@ -85,5 +85,44 @@
             var output = BinarySearch.MinEatingSpeed(piles, h);
             Assert.Equal(expected, output);
         }
+
+        public static TheoryData<int[][], int, int> KthSmallestTestData()
+        {
+            return new TheoryData<int[][], int, int>
+            {
+                // Basic 2x2 matrix tests
+                { new int[][] { [1, 2], [1, 3] }, 1, 1 },
+                { new int[][] { [1, 2], [1, 3] }, 2, 1 },
+                { new int[][] { [1, 2], [1, 3] }, 3, 2 },
+                { new int[][] { [1, 2], [1, 3] }, 4, 3 },
+
+                // 3x3 matrix tests
+                { new int[][] { [1, 2, 4], [3, 5, 8], [6, 9, 11] }, 1, 1 },
+                { new int[][] { [1, 2, 4], [3, 5, 8], [6, 9, 11] }, 5, 5 },
+                { new int[][] { [1, 2, 4], [3, 5, 8], [6, 9, 11] }, 9, 11 },
+
+                // Matrix with duplicate values
+                { new int[][] { [1, 1], [1, 2] }, 1, 1 },
+                { new int[][] { [1, 1], [1, 2] }, 2, 1 },
+                { new int[][] { [1, 1], [1, 2] }, 3, 1 },
+                { new int[][] { [1, 1], [1, 2] }, 4, 2 },
+
+                // Single element matrix
+                { new int[][] { [5] }, 1, 5 },
+
+                // Larger 3x3 matrix
+                { new int[][] { [1, 3, 5], [2, 4, 6], [7, 8, 9] }, 1, 1 },
+                { new int[][] { [1, 3, 5], [2, 4, 6], [7, 8, 9] }, 5, 5 },
+                { new int[][] { [1, 3, 5], [2, 4, 6], [7, 8, 9] }, 9, 9 },
+            };
+        }
+
+        [Theory]
+        [MemberData(nameof(KthSmallestTestData))]
+        public void TestKthSmallest(int[][] matrix, int k, int expected)
+        {
+            var output = BinarySearch.KthSmallest(matrix, k);
+            Assert.Equal(expected, output);
+        }
     }
 }
