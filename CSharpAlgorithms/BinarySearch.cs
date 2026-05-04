@@ -124,5 +124,54 @@
             }
             return left;
         }
+
+        /// <summary>
+        /// 378. Kth Smallest Element in a Sorted Matrix 
+        /// Finds the k-th smallest element in a sorted 2D matrix.
+        /// </summary>
+        /// <remarks>The matrix must be non-empty and sorted as specified for correct results. If multiple
+        /// elements have the same value, each occurrence is counted separately when determining the k-th smallest
+        /// element.</remarks>
+        /// <param name="matrix">A two-dimensional array where each row and each column is sorted in ascending order. Cannot be null.</param>
+        /// <param name="k">The 1-based index of the smallest element to find. Must be greater than 0 and less than or equal to the
+        /// total number of elements in the matrix.</param>
+        /// <returns>The value of the k-th smallest element in the matrix.</returns>
+        public static int KthSmallest(int[][] matrix, int k)
+        {
+            int n = matrix.Length;
+            int low = matrix[0][0];
+            int high = matrix[n - 1][n - 1];
+
+            while (low < high)
+            {
+                int mid = low + (high - low) / 2;  // to prevent int overflow
+                int count = CountLessThanK(matrix, mid);
+                if (count < k) low = mid + 1;
+                else high = mid;
+            }
+            return low;
+
+            int CountLessThanK(int[][] matrix, int target)
+            {
+                int n = matrix.Length;
+                int row = n - 1; // bottom left corner
+                int col = 0;
+                int count = 0;
+
+                while (row >= 0 && col < n)
+                {
+                    if (matrix[row][col] <= target)
+                    {
+                        count += row + 1; // everything in this column will be less than target
+                        col++; // move right
+                    }
+                    else
+                    {
+                        row--; // move up
+                    }
+                }
+                return count;
+            }
+        }
     }
 }
