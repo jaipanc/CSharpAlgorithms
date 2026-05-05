@@ -124,5 +124,32 @@
             var output = BinarySearch.KthSmallest(matrix, k);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        // Basic cases with single day
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 1, 15)]
+        [InlineData(new int[] { 5 }, 1, 5)]
+        // Basic cases with multiple days
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 5, 5)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5 }, 3, 6)]
+        // Each package per day
+        [InlineData(new int[] { 10, 20, 30 }, 3, 30)]
+        // All packages can be shipped in one day
+        [InlineData(new int[] { 1, 1, 1, 1 }, 1, 4)]
+        // Multiple equal weights
+        [InlineData(new int[] { 5, 5, 5, 5 }, 2, 10)]
+        [InlineData(new int[] { 5, 5, 5, 5 }, 5, 5)]
+        // Realistic scenario with varying weights
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 5, 15)]
+        [InlineData(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, 1, 55)]
+        // Large capacity needed
+        [InlineData(new int[] { 100, 100, 100 }, 2, 200)]
+        // Single package with multiple days
+        [InlineData(new int[] { 50 }, 5, 50)]
+        public void TestShipWithinDays(int[] weights, int days, int expected)
+        {
+            var output = BinarySearch.ShipWithinDays(weights, days);
+            Assert.Equal(expected, output);
+        }
     }
 }
