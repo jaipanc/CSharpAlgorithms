@@ -212,7 +212,7 @@ namespace CSharpAlgorithms
 
                 foreach (var w in weights)
                 {
-                    if(w + currentLoad > capacity)
+                    if (w + currentLoad > capacity)
                     {
                         daysNeeded++;
                         currentLoad = 0; // reset the current load to prepare next ship
@@ -220,6 +220,41 @@ namespace CSharpAlgorithms
                     currentLoad += w;
                 }
                 return daysNeeded <= days;
+            }
+        }
+
+        /// <summary>
+        /// 1283. Find the Smallest Divisor Given a Threshold
+        /// Finds the smallest positive integer divisor such that the sum of each element in the array divided by this
+        /// divisor does not exceed the specified threshold.
+        /// </summary>
+        /// <param name="nums">An array of positive integers to be divided. Each element represents a value to be considered in the
+        /// calculation.</param>
+        /// <param name="threshold">The maximum allowed sum after dividing each element in the array by the divisor and summing the results.
+        /// Must be a positive integer.</param>
+        /// <returns>The smallest positive integer divisor for which the sum of the division results does not exceed the
+        /// threshold.</returns>
+        public int SmallestDivisor(int[] nums, int threshold)
+        {
+            int low = 1, high = nums.Max();
+
+            while (low < high)
+            {
+                int mid = low + (high - low) / 2;
+                int currentSum = CurrentSum(nums,threshold,mid);
+                if (currentSum <= threshold) high = mid;
+                else low = mid + 1;
+            }
+            return low;
+
+            int CurrentSum(int[] nums, int thresold, int divisor)
+            {
+                int sum = 0;
+                foreach (var n in nums)
+                {
+                    sum += (n + divisor - 1) / divisor;
+                }
+                return sum;
             }
         }
     }
