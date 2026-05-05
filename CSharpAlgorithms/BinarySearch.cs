@@ -1,4 +1,6 @@
-﻿namespace CSharpAlgorithms
+﻿using System.Security.Principal;
+
+namespace CSharpAlgorithms
 {
     public class BinarySearch
     {
@@ -171,6 +173,53 @@
                     }
                 }
                 return count;
+            }
+        }
+
+        /// <summary>
+        /// 1011. Capacity To Ship Packages Within D Days
+        /// Calculates the minimum required ship capacity to deliver all packages within the specified number of days.
+        /// </summary>
+        /// <remarks>The order of packages in the weights array must be preserved when determining
+        /// shipments. Each day's shipment must consist of consecutive packages from the array.</remarks>
+        /// <param name="weights">An array of integers representing the weights of the packages to be shipped. Each element must be a positive
+        /// integer.</param>
+        /// <param name="days">The maximum number of days within which all packages must be delivered. Must be a positive integer.</param>
+        /// <returns>The minimum ship capacity needed to deliver all packages within the given number of days.</returns>
+        public static int ShipWithinDays(int[] weights, int days)
+        {
+            int low = weights.Max();
+            int high = 0;
+
+            foreach (int w in weights)
+            {
+                high += w;
+            }
+
+            while (low < high)
+            {
+                int mid = low + (high - low) / 2;
+                bool canShip = CanShip(weights, days, mid);
+                if (canShip) high = mid;
+                else low = mid + 1;
+            }
+            return low;
+
+            bool CanShip(int[] weights, int days, int capacity)
+            {
+                int daysNeeded = 1; // start from day 1 , that's minimum 
+                int currentLoad = 0;
+
+                foreach (var w in weights)
+                {
+                    if(w + currentLoad > capacity)
+                    {
+                        daysNeeded++;
+                        currentLoad = 0; // reset the current load to prepare next ship
+                    }
+                    currentLoad += w;
+                }
+                return daysNeeded <= days;
             }
         }
     }
