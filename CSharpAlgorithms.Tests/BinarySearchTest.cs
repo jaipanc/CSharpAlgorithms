@@ -151,5 +151,17 @@
             var output = BinarySearch.ShipWithinDays(weights, days);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        [InlineData(new int[] { 1, 2, 5, 9 }, 6, 5)]
+        [InlineData(new int[] { 44, 22, 33, 11, 1 }, 5, 44)]
+        [InlineData(new int[] { 2, 3, 5, 7, 11 }, 11, 3)]
+        [InlineData(new int[] { 19 }, 5, 4)]
+        public void TestSmallestDivisor(int[] nums, int threshold, int expected)
+        {
+            var binarySearch = new BinarySearch();
+            var output = binarySearch.SmallestDivisor(nums, threshold);
+            Assert.Equal(expected, output);
+        }
     }
 }
