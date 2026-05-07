@@ -257,5 +257,59 @@ namespace CSharpAlgorithms
                 return sum;
             }
         }
+
+        /// <summary>
+        /// Calculates the minimum box capacity required to pack all items into a limited number of boxes, given item
+        /// quantities and weights, without exceeding the maximum weight per box.
+        /// </summary>
+        /// <remarks>The method ensures that the total weight in each box does not exceed maxWeightPerBox
+        /// and that the total number of boxes used does not exceed maxBoxes. The returned capacity is the smallest
+        /// possible value that satisfies these constraints.</remarks>
+        /// <param name="quantities">An array of integers representing the quantity of each item to be packed. Each element corresponds to the
+        /// number of items of a specific type. Must not be null and must have the same length as the weights array.</param>
+        /// <param name="weights">An array of integers representing the weight of each item type. Each element specifies the weight for the
+        /// corresponding item in the quantities array. Must not be null and must have the same length as the quantities
+        /// array.</param>
+        /// <param name="maxBoxes">The maximum number of boxes available for packing. Must be a positive integer.</param>
+        /// <param name="maxWeightPerBox">The maximum allowable weight for each box. Must be a positive integer.</param>
+        /// <returns>The minimum box capacity required to pack all items within the specified constraints. Returns -1 if it is
+        /// not possible to pack all items under the given conditions.</returns>
+        public int MinCapacity(int[] quantities, int[] weights, int maxBoxes, int maxWeightPerBox)
+        {
+            int low = 1;
+            int high = quantities.Max();
+
+            while (low < high)
+            {
+                int mid = low + (high - low) / 2;
+                if (CanShip(quantities, weights, maxBoxes, maxWeightPerBox, mid)) high = mid;
+                else low = mid + 1;
+            }
+            return low;
+
+            bool CanShip(int[] quantities, int[] weights, int maxBoxes, int maxWeightPerBox, int capacity)
+            {
+                int totalBoxes = 0;
+
+                for (int i = 0; i < quantities.Length; i++)
+                {
+                    // Max items allowed based on weight limits
+                    int weightLimit = maxWeightPerBox / weights[i];
+
+                    // Actual items allowed is items based on capacity or weight whichever comes first
+                    int actualItems = Math.Min(capacity, weightLimit);
+
+                    if (actualItems == 0) return false;
+
+                    // Math Ceiling
+                    int boxesNeeded = (quantities[i] + actualItems - 1) / actualItems;
+
+                    totalBoxes += boxesNeeded;
+
+                    if (totalBoxes > maxBoxes) return false;
+                }
+                return true;
+            }
+        }
     }
 }
