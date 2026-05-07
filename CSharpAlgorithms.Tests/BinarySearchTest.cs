@@ -163,5 +163,30 @@
             var output = binarySearch.SmallestDivisor(nums, threshold);
             Assert.Equal(expected, output);
         }
+
+        [Theory]
+        // Basic cases: single item
+        [InlineData(new int[] { 1 }, new int[] { 10 }, 1, 10, 1)]
+        [InlineData(new int[] { 1 }, new int[] { 10 }, 2, 10, 1)]
+        // Two items, each type can fit in one box
+        [InlineData(new int[] { 1, 1 }, new int[] { 10, 20 }, 2, 30, 1)]
+        // Two items, need more capacity per box
+        [InlineData(new int[] { 2, 2 }, new int[] { 10, 10 }, 2, 20, 2)]
+        // Multiple items with high weight
+        [InlineData(new int[] { 1, 1 }, new int[] { 25, 25 }, 2, 50, 1)]
+        // Single item with weight constraint
+        [InlineData(new int[] { 5 }, new int[] { 10 }, 1, 50, 5)]
+        // Multiple items with varying quantities
+        [InlineData(new int[] { 5, 10 }, new int[] { 1, 2 }, 2, 20, 10)]
+        // Edge case: capacity equals max weight per box
+        [InlineData(new int[] { 10 }, new int[] { 1 }, 1, 10, 10)]
+        // Multiple items with weight constraints
+        [InlineData(new int[] { 3, 3 }, new int[] { 5, 5 }, 2, 15, 3)]
+        public void TestMinCapacity(int[] quantities, int[] weights, int maxBoxes, int maxWeightPerBox, int expected)
+        {
+            var binarySearch = new BinarySearch();
+            var output = binarySearch.MinCapacity(quantities, weights, maxBoxes, maxWeightPerBox);
+            Assert.Equal(expected, output);
+        }
     }
 }
